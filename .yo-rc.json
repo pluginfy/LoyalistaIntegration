@@ -1,0 +1,14 @@
+{
+  "@plentymarkets/generator-plugin": {
+    "promptValues": {
+      "type": "general"
+    },
+    "answers": {
+      "name": "LoyalistaIntegration",
+      "author": "pluginfy",
+      "type": "general",
+      "description": "Allows you to easily integrate your Plentymarkets Shop with Loyalista.",
+      "version": "1.0.0"
+    }
+  }
+}
