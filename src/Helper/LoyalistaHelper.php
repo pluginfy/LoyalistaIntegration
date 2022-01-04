@@ -83,11 +83,6 @@ class LoyalistaHelper
         $fields = array(
             'shop_id' => $this->configHelper->getShopId(),
             'interface_password' => $this->configHelper->getShopSecret(),
-            'mode' => $this->configHelper->getMode(),
-            'product_reviews' => $this->configHelper->getProductReviews(),
-            'plugin_name' => self::PLUGIN_NAME,
-            'product_identifier' => $this->configHelper->getProductIdentifier(),
-            'exclude_products' => $this->configHelper->getExcludeProducts(),
         );
         $order['senderName'] = $this->getWebStoreName($plentyId);
         $order['senderEmail'] = '';
