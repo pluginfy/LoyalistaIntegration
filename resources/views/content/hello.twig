@@ -10,9 +10,32 @@
     </head>
 
     <body>
+
+    <div>
+        <h1>curl response</h1>
+        response: {{ curl_response }}
+    </div>
+
         <!-- To Do list -->
         <div class="list">
-            <h1 class="header">Hello</h1>
+            {{ a_user }}
+
+            {% for user in users %}
+                * {{ user.email }}<br>
+            {% else %}
+                No users have been found.
+            {% endfor %}
         </div>
+
+
+        <p>{{ packagistResult.total }} Results</p>
+        <ul>
+            {% for packagistItem in packagistResult.results %}
+                <li>{{ packagistItem.name }} : {{ packagistItem.repository }}</li>
+            {% else %}
+                <li>No entries</li>
+            {% endfor %}
+        </ul>
+
     </body>
 </html>

@@ -31,6 +31,7 @@
         "Pluginfy"
     ],
     "serviceProvider"   :   "LoyalistaIntegration\\Providers\\LoyalistaIntegrationServiceProvider",
+    "runOnBuild":["LoyalistaIntegration\\Migrations\\CreateToDoTable"],
     "dataProviders": [
         {
             "key": "LoyalistaIntegration\\Containers\\LoyalistaIntegrationCutomerPoints",
@@ -38,5 +39,8 @@
             "description": "Loyalista Customer Points/Rewards Widget",
             "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
         }
-    ]
+    ],
+    "dependencies" : {
+        "guzzlehttp/guzzle": "6.3.*"
+}
 }

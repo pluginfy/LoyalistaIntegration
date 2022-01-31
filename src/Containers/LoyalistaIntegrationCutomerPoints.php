@@ -3,13 +3,25 @@
 namespace LoyalistaIntegration\Containers;
 
 use Plenty\Plugin\Templates\Twig;
-use LoyalistaIntegration\Helper\ConfigHelper;
+
+
+use Plenty\Modules\Authorization\Services\AuthHelper;
+use Plenty\Modules\Webshop\Contracts\ContactRepositoryContract;
+
+use LoyalistaIntegration\Core\Api\Services\ApiTokenService;
+use LoyalistaIntegration\Helpers\ConfigHelper;
+
+use LoyalistaIntegration\Services\API\LoyalistaApiService;
+
+
 
 /**
  * Ekomi Feedback Reviews Container.
  */
 class LoyalistaIntegrationCutomerPoints
 {
+
+
     /**
      * Renders HTML content for newly created tab on the product page.
      *
@@ -20,10 +32,32 @@ class LoyalistaIntegrationCutomerPoints
      */
     public function call(Twig $twig, $arg)
     {
-        $configHelper = pluginApp(ConfigHelper::class);
-        $data = array(
-            'customerId' => 111,
+        $customer_points = NULL;
+
+        // Get Logged in user
+        $authHelper = pluginApp(AuthHelper::class);
+        $authUserRepo = pluginApp(ContactRepositoryContract::class);
+        $auth_user = null;
+        $loggedin_user_id = null;
+        $loggedin_user_id = $authHelper->processUnguarded(
+            function () use ($authUserRepo, $loggedin_user_id) {
+                return $authUserRepo->getContactId();
+            }
         );
+
+        if ($loggedin_user_id){
+            $api = pluginApp(LoyalistaApiService::class);
+
+            $response  = json_decode($api->getCustomerTotalPoints($loggedin_user_id) , true);
+
+            if (isset($response['success']) && $response['success'] == true){
+                $customer_points = $response['data']['total_points'];
+            }
+        }
+
+        $data = array(
+            'total_points' => $customer_points,
+         );
 
         return $twig->render('LoyalistaIntegration::content.pointsWidget', $data);
     }

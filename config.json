@@ -1,29 +1,47 @@
 {
   "formatVersion": 1,
   "menu": {
-    "Config.ConfigurationTab": {
+    "Connection" : {
       "label": "Config.ConfigurationTab",
+      "fullWidth": true,
       "formFields": {
         "is_active": {
           "type": "checkBox",
           "required": false,
           "label": "Config.isActiveLabel",
           "options": {
+            "tooltip": "Config.isActiveLabelTooltip",
             "defaultValue": false
           }
         },
         "shop_id": {
-          "type": "inputText",
+          "type": "inputNumber",
           "required": false,
           "label": "Config.shopIdLabel",
           "options": {
             "defaultValue": ""
           }
         },
-        "shop_secret": {
+        "vendor_id": {
+          "type": "inputText",
+          "required": true,
+          "label": "Config.vendorIdLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "vendor_hash": {
           "type": "inputText",
           "required": false,
-          "label": "Config.shopSecretLabel",
+          "label": "Config.vendorHashLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "api_access_token": {
+          "type": "inputText",
+          "required": false,
+          "label": "Config.apiAccessToken",
           "options": {
             "defaultValue": ""
           }
@@ -35,378 +53,101 @@
           "options": {
             "defaultValue": false
           }
-        },
-        "order_status": {
-          "type": "multiCheckBox",
+        }
+      }
+    },
+    "Content" : {
+      "label": "Config.ContentTab",
+      "fullWidth": true,
+      "formFields" :{
+        "partial_redemption_checkout_text_the_points": {
+          "type": "inputTextArea",
           "required": false,
-          "label": "Config.orderStatusLabel",
+          "label": "Config.label_partial_redemption_checkout_text_the_points",
           "options": {
-            "defaultValue": "7.00",
-            "checkBoxValues": [
-              {
-                "value": "1",
-                "caption": "Config.orderStatusPossibleValue1"
-              },
-              {
-                "value": "1.3",
-                "caption": "Config.orderStatusPossibleValue13"
-              },
-              {
-                "value": "1.5",
-                "caption": "Config.orderStatusPossibleValue15"
-              },
-              {
-                "value": "1.7",
-                "caption": "Config.orderStatusPossibleValue17"
-              },
-              {
-                "value": "1.9",
-                "caption": "Config.orderStatusPossibleValue19"
-              },
-              {
-                "value": "3",
-                "caption": "Config.orderStatusPossibleValue3"
-              },
-              {
-                "value": "3.2",
-                "caption": "Config.orderStatusPossibleValue32"
-              },
-              {
-                "value": "3.3",
-                "caption": "Config.orderStatusPossibleValue33"
-              },
-              {
-                "value": "3.5",
-                "caption": "Config.orderStatusPossibleValue35"
-              },
-              {
-                "value": "3.51",
-                "caption": "Config.orderStatusPossibleValue351"
-              },
-              {
-                "value": "4",
-                "caption": "Config.orderStatusPossibleValue4"
-              },
-              {
-                "value": "4.01",
-                "caption": "Config.orderStatusPossibleValue401"
-              },
-              {
-                "value": "4.1",
-                "caption": "Config.orderStatusPossibleValue41"
-              },
-              {
-                "value": "4.2",
-                "caption": "Config.orderStatusPossibleValue42"
-              },
-              {
-                "value": "4.21",
-                "caption": "Config.orderStatusPossibleValue421"
-              },
-              {
-                "value": "4.22",
-                "caption": "Config.orderStatusPossibleValue422"
-              },
-              {
-                "value": "4.23",
-                "caption": "Config.orderStatusPossibleValue423"
-              },
-              {
-                "value": "4.3",
-                "caption": "Config.orderStatusPossibleValue43"
-              },
-              {
-                "value": "4.5",
-                "caption": "Config.orderStatusPossibleValue45"
-              },
-              {
-                "value": "5.0",
-                "caption": "Config.orderStatusPossibleValue5"
-              },
-              {
-                "value": "5.1",
-                "caption": "Config.orderStatusPossibleValue51"
-              },
-              {
-                "value": "5.2",
-                "caption": "Config.orderStatusPossibleValue52"
-              },
-              {
-                "value": "5.3",
-                "caption": "Config.orderStatusPossibleValue53"
-              },
-              {
-                "value": "5.4",
-                "caption": "Config.orderStatusPossibleValue54"
-              },
-              {
-                "value": "5.5",
-                "caption": "Config.orderStatusPossibleValue55"
-              },
-              {
-                "value": "5.6",
-                "caption": "Config.orderStatusPossibleValue56"
-              },
-              {
-                "value": "5.7",
-                "caption": "Config.orderStatusPossibleValue57"
-              },
-              {
-                "value": "5.8",
-                "caption": "Config.orderStatusPossibleValue58"
-              },
-              {
-                "value": "5.9",
-                "caption": "Config.orderStatusPossibleValue59"
-              },
-              {
-                "value": "6.0",
-                "caption": "Config.orderStatusPossibleValue6"
-              },
-              {
-                "value": "6.1",
-                "caption": "Config.orderStatusPossibleValue61"
-              },
-              {
-                "value": "6.2",
-                "caption": "Config.orderStatusPossibleValue62"
-              },
-              {
-                "value": "6.21",
-                "caption": "Config.orderStatusPossibleValue621"
-              },
-              {
-                "value": "6.3",
-                "caption": "Config.orderStatusPossibleValue63"
-              },
-              {
-                "value": "6.31",
-                "caption": "Config.orderStatusPossibleValue631"
-              },
-              {
-                "value": "6.4",
-                "caption": "Config.orderStatusPossibleValue64"
-              },
-              {
-                "value": "6.5",
-                "caption": "Config.orderStatusPossibleValue65"
-              },
-              {
-                "value": "6.51",
-                "caption": "Config.orderStatusPossibleValue651"
-              },
-              {
-                "value": "6.52",
-                "caption": "Config.orderStatusPossibleValue652"
-              },
-              {
-                "value": "6.53",
-                "caption": "Config.orderStatusPossibleValue653"
-              },
-              {
-                "value": "6.7",
-                "caption": "Config.orderStatusPossibleValue67"
-              },
-              {
-                "value": "6.8",
-                "caption": "Config.orderStatusPossibleValue68"
-              },
-              {
-                "value": "6.9",
-                "caption": "Config.orderStatusPossibleValue69"
-              },
-              {
-                "value": "7.00",
-                "caption": "Config.orderStatusPossibleValue7"
-              },
-              {
-                "value": "7.01",
-                "caption": "Config.orderStatusPossibleValue701"
-              },
-              {
-                "value": "7.02",
-                "caption": "Config.orderStatusPossibleValue702"
-              },
-              {
-                "value": "7.03",
-                "caption": "Config.orderStatusPossibleValue703"
-              },
-              {
-                "value": "7.04",
-                "caption": "Config.orderStatusPossibleValue704"
-              },
-              {
-                "value": "7.05",
-                "caption": "Config.orderStatusPossibleValue705"
-              },
-              {
-                "value": "7.06",
-                "caption": "Config.orderStatusPossibleValue706"
-              },
-              {
-                "value": "7.08",
-                "caption": "Config.orderStatusPossibleValue708"
-              },
-              {
-                "value": "7.09",
-                "caption": "Config.orderStatusPossibleValue709"
-              },
-              {
-                "value": "7.1",
-                "caption": "Config.orderStatusPossibleValue71"
-              },
-              {
-                "value": "7.2",
-                "caption": "Config.orderStatusPossibleValue72"
-              },
-              {
-                "value": "7.3",
-                "caption": "Config.orderStatusPossibleValue73"
-              },
-              {
-                "value": "7.5",
-                "caption": "Config.orderStatusPossibleValue75"
-              },
-              {
-                "value": "7.6",
-                "caption": "Config.orderStatusPossibleValue76"
-              },
-              {
-                "value": "7.7",
-                "caption": "Config.orderStatusPossibleValue77"
-              },
-              {
-                "value": "7.8",
-                "caption": "Config.orderStatusPossibleValue78"
-              },
-              {
-                "value": "7.9",
-                "caption": "Config.orderStatusPossibleValue79"
-              },
-              {
-                "value": "8",
-                "caption": "Config.orderStatusPossibleValue8"
-              },
-              {
-                "value": "8.1",
-                "caption": "Config.orderStatusPossibleValue81"
-              },
-              {
-                "value": "8.2",
-                "caption": "Config.orderStatusPossibleValue82"
-              },
-              {
-                "value": "8.3",
-                "caption": "Config.orderStatusPossibleValue83"
-              },
-              {
-                "value": "8.7",
-                "caption": "Config.orderStatusPossibleValue87"
-              },
-              {
-                "value": "9",
-                "caption": "Config.orderStatusPossibleValue9"
-              },
-              {
-                "value": "9.1",
-                "caption": "Config.orderStatusPossibleValue91"
-              },
-              {
-                "value": "9.2",
-                "caption": "Config.orderStatusPossibleValue92"
-              },
-              {
-                "value": "9.21",
-                "caption": "Config.orderStatusPossibleValue921"
-              },
-              {
-                "value": "9.3",
-                "caption": "Config.orderStatusPossibleValue93"
-              },
-              {
-                "value": "9.4",
-                "caption": "Config.orderStatusPossibleValue94"
-              },
-              {
-                "value": "9.5",
-                "caption": "Config.orderStatusPossibleValue95"
-              },
-              {
-                "value": "9.55",
-                "caption": "Config.orderStatusPossibleValue955"
-              },
-              {
-                "value": "9.56",
-                "caption": "Config.orderStatusPossibleValue956"
-              },
-              {
-                "value": "9.6",
-                "caption": "Config.orderStatusPossibleValue96"
-              },
-              {
-                "value": "10",
-                "caption": "Config.orderStatusPossibleValue100"
-              },
-              {
-                "value": "11",
-                "caption": "Config.orderStatusPossibleValue110"
-              },
-              {
-                "value": "11.1",
-                "caption": "Config.orderStatusPossibleValue111"
-              },
-              {
-                "value": "11.2",
-                "caption": "Config.orderStatusPossibleValue112"
-              },
-              {
-                "value": "11.4",
-                "caption": "Config.orderStatusPossibleValue114"
-              },
-              {
-                "value": "11.5",
-                "caption": "Config.orderStatusPossibleValue115"
-              },
-              {
-                "value": "11.6",
-                "caption": "Config.orderStatusPossibleValue116"
-              },
-              {
-                "value": "12",
-                "caption": "Config.orderStatusPossibleValue120"
-              },
-              {
-                "value": "13",
-                "caption": "Config.orderStatusPossibleValue130"
-              },
-              {
-                "value": "14",
-                "caption": "Config.orderStatusPossibleValue140"
-              },
-              {
-                "value": "15",
-                "caption": "Config.orderStatusPossibleValue150"
-              },
-              {
-                "value": "16",
-                "caption": "Config.orderStatusPossibleValue160"
-              },
-              {
-                "value": "16.1",
-                "caption": "Config.orderStatusPossibleValue1601"
-              },
-              {
-                "value": "16.2",
-                "caption": "Config.orderStatusPossibleValue1602"
-              },
-              {
-                "value": "18",
-                "caption": "Config.orderStatusPossibleValue180"
-              }
-            ]
+            "defaultValue": "Menge an [points_label] zum einlösen eingeben:"
+          }
+        },
+        "checkout_text_unregistered_user": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_checkout_text_unregistered_user",
+          "options": {
+            "defaultValue": "Ich möchte an dem Treueprogramm teilnehmen und in Zukunft von tollen Rabatten und Aktionen profitieren. Ich starte direkt mit [points_for_signup] [points_label] und erhalte zusätzlich [number_of_points_shopping_cart] [points_label] für meinen ersten Einkauf. Meine Teilnahme an dem Programm kann ich jederzeit kündigen."
+          }
+        },
+        "checkout_text_for_registered_user": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_checkout_text_for_registered_user",
+          "options": {
+            "defaultValue": "Sie haben aktuell [account_balance] [points_label] und Sie erhalten [number_of_points_shopping_cart] [points_label] für den aktuellen Einkauf."
+          }
+        },
+        "checkout_text_for_no_redeem_the_points": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_checkout_text_for_no_redeem_the_points",
+          "options": {
+            "defaultValue": "Weiter sammeln und keine Punkte einlösen."
+          }
+        },
+        "checkout_text_for_full_redeeming_points": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_checkout_text_for_full_redeeming_points",
+          "options": {
+            "defaultValue": "Löse [account_balance] [points_label] ein und spare [value_of_account_balance]."
+          }
+        },
+        "my_account_text_for_unregistered_user": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_my_account_text_for_unregistered_user",
+          "options": {
+            "defaultValue": "Ich möchte an dem Treueprogramm teilnehmen und in Zukunft von tollen Rabatten und Aktionen profitieren. Meine Teilnahme an dem Programm kann ich jederzeit widerrufen."
+          }
+        },
+        "my_account_text_for_exiting_the_participation": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_my_account_text_for_exiting_the_participation",
+          "options": {
+            "defaultValue": "Ich möchte meine Teilnahme an dem Bonus Programm beenden. Mir ist bewusst, dass damit alle meine gesammelten [points_label] im Wert von [value_of_account_balance] unwiderruflich gelöscht werden."
+          }
+        },
+        "text_for_unregistered_users_for_product_and_shopping_cart": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_text_for_unregistered_users_for_product_and_shopping_cart",
+          "options": {
+            "defaultValue": "Nehmen Sie jetzt an unserem Treueprogramm teil und sammeln Sie direkt [points_for_signup] [points_label] und erhalten Sie zusätzlich [number_of_points] [points_label] für Ihren aktuellen Warenkorb."
+          }
+        },
+        "text_for_registered_users_for_the_product_page": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_text_for_registered_users_for_the_product_page",
+          "options": {
+            "defaultValue": "Erhalten Sie [points_for_product] [points_label] auf dieses Produkt."
+          }
+        },
+        "text_for_registered_users_for_extra_points_for_the_product_page": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_text_for_registered_users_for_extra_points_for_the_product_page",
+          "options": {
+            "defaultValue": "Erhalten Sie [number_of_extra_points] [points_label] auf dieses Produkt."
           }
         }
       }
+    },
+    "Setting" : {
+      "label": "Config.SettingTab",
+      "fullWidth": true
+    },
+    "Action" : {
+      "label": "Config.ActionTab"
     }
   }
 }
