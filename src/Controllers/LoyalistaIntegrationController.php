@@ -20,27 +20,18 @@ class LoyalistaIntegrationController extends Controller
      */
     public function getHelloWorldPage(Twig $twig, LibraryCallContract $libCall, Request $request  )
     {
-        $packagistResult =
-            $libCall->call(
-                'LoyalistaIntegration::guzzle_connector',
-                ['packagist_query' => $request->get('search')]
-            );
-
-        $curl_response = $libCall->call(             'LoyalistaIntegration::curl_test', []);
+        $packagistResult = [];
 
         $api = pluginApp(LoyalistaApiService::class);
-     ;
-
-        //$curl_response1 = $api->verifyUserToken();
 
         $curl_response1 = $api->createOrder();
-        $curl_response2 = $api->verifyUserToken();
+        $curl_response2 = $api->verifyApiToken();
 
         $data = array(
             'users' => 1,
-            'a_user' => $curl_response2,
-            'packagistResult' => $packagistResult,
-            'curl_response' => $curl_response1
+            'a_user' => 0,
+            'packagistResult' => [],
+            'curl_response' => ''
 
         );
 

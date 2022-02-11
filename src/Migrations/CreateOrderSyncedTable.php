@@ -1,16 +1,19 @@
 <?php
+
 namespace LoyalistaIntegration\Migrations;
 
-use LoyalistaIntegration\Models\ToDo;
+use LoyalistaIntegration\Models\OrderSynced;
 use Plenty\Modules\Plugin\DataBase\Contracts\Migrate;
 
-class CreateToDoTable
+
+class CreateOrderSyncedTable
 {
     /**
      * @param Migrate $migrate
      */
     public function run(Migrate $migrate)
     {
-        $migrate->createTable(ToDo::class);
+        $migrate->createTable(OrderSynced::class);
     }
+
 }

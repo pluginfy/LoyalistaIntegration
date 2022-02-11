@@ -6,20 +6,32 @@ use Plenty\Plugin\Http\Request;
 use Plenty\Plugin\Templates\Twig;
 use LoyalistaIntegration\Contracts\ToDoRepositoryContract;
 
+use LoyalistaIntegration\Contracts\OrderSyncedRepositoryContract;
+
+
+use Plenty\Plugin\Log\Reportable;
+
+use Plenty\Plugin\Log\Loggable;
+
 /**
  * Class ContentController
- * @package ToDoList\Controllers
+ *
  */
 class ContentController extends Controller
 {
+    use Loggable;
+    use Reportable;
+
     /**
      * @param Twig                   $twig
      * @param ToDoRepositoryContract $toDoRepo
      * @return string
      */
-    public function showToDo(Twig $twig, ToDoRepositoryContract $toDoRepo): string
+    public function showToDo(Twig $twig, ToDoRepositoryContract $toDoRepo, OrderSyncedRepositoryContract $osr): string
     {
-        $toDoList = $toDoRepo->getToDoList();
+       $toDoList = $toDoRepo->getToDoList();
+       $a = $osr->getOrderSyncedList();
+
         $templateData = array("tasks" => $toDoList);
         return $twig->render('LoyalistaIntegration::content.todo', $templateData);
     }
@@ -32,8 +44,19 @@ class ContentController extends Controller
     public function createToDo(Request $request, ToDoRepositoryContract $toDoRepo): string
     {
 
-        //$newToDo = $toDoRepo->createTask($request->all());
-        return json_encode('asdfasdfasdf');
+        $newToDo = $toDoRepo->createTask($request->all());
+        $additionalInfo = ['toDoId' => $newToDo->id , 'desc' => $newToDo->taskDescription];
+        $this->getLogger('ContentController_createToDo')
+           ->setReferenceType('toDoId') // optional
+           ->setReferenceValue($newToDo->id ) // optional
+            ->info(
+                'LoyalistaIntegration::Migration.createToDoInformation',
+                [
+                    'additionalInfo' => $additionalInfo,
+                    'method' => __METHOD__
+                ]
+       );
+        return json_encode($newToDo);
     }
 
     /**
@@ -44,6 +67,18 @@ class ContentController extends Controller
     public function updateToDo(int $id, ToDoRepositoryContract $toDoRepo): string
     {
         $updateToDo = $toDoRepo->updateTask($id);
+
+        $this->getLogger('ContentController_updateToDo')
+            ->setReferenceType('toDoId') // optional
+            ->setReferenceValue($updateToDo->id ) // optional
+            ->info(
+                'LoyalistaIntegration::Migration.updateToDoInformation',
+                [
+                    'additionalInfo' => [],
+                    'method' => __METHOD__
+                ]
+            );
+
         return json_encode($updateToDo);
     }
 

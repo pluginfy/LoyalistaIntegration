@@ -5,9 +5,18 @@ namespace LoyalistaIntegration\Services\API;
 use LoyalistaIntegration\Core\Api\BaseApiService;
 use LoyalistaIntegration\Helpers\ConfigHelper;
 use Plenty\Log\Contracts\LoggerContract;
+use Plenty\Modules\Account\Contact\Contracts\ContactRepositoryContract;
+use Plenty\Plugin\Log\Loggable;
+
+use LoyalistaIntegration\Contracts\OrderSyncedRepositoryContract;
+use Plenty\Plugin\Log\Reportable;
 
 class LoyalistaApiService extends BaseApiService
 {
+    use Loggable;
+    use Reportable;
+
+
 
 
     public function __construct(ConfigHelper $configHelper, LoggerContract $loggerContract)
@@ -16,7 +25,7 @@ class LoyalistaApiService extends BaseApiService
     }
 
 
-    public function verifyUserToken()
+    public function verifyApiToken()
     {
         $requestURL = ConfigHelper::BASE_URL .'/api/validate_user_token';
 
@@ -92,63 +101,113 @@ class LoyalistaApiService extends BaseApiService
 
     }
 
-    public function createOrder($order = [])
+    public function createOrder($order = NULL)
     {
+        try {
+            // https://developers.plentymarkets.com/en-gb/developers/main/rest-api-guides/order-data.html
+            if ($order)
+            {
 
-        //Todo get order from plenty market db while cron.
-        $order = array(
-            'customer' => array(
-                'reference_id'=> '105',
-                'name' => 'Toheed Ahamad',
-                'email' => 'jack_man@yahoo.com'
-            ),
-            'reference_id'=> 4,
-            'item_line_total'=> 300,
-            'grand_total' => 300,
-            'order_details' => array (
-                array(
-                   'item_reference_id' => 1,
-                   'item_qty' => 1,
-                   'item_name' => '',
-                   'item_description' => '',
-                   'item_price' => 50.00,
-               ),
-                array(
-                    'item_reference_id' => 2,
-                    'item_name' => '',
-                    'item_description' => '',
-                    'item_qty' => 1,
+                // Insert Into OrderSyncedDataTable in any case.
+                $OrderSyncedRepo = pluginApp(OrderSyncedRepositoryContract::class);
+                $OrderSynced = $OrderSyncedRepo->createOrderSync(['orderId' => $order->id, 'isSynced' => false]);
 
-                    'item_price' => 100.00,
-                ),
-                array(
-                    'item_reference_id' => 3,
-                    'item_name' => '',
-                    'item_description' => '',
-                    'item_qty' => 1,
-                    'item_price' => 150.00,
-                )
+                // Get customer/contact
+                $customer_id = NULL;
+                foreach ($order->relations as $o_relation_item) {
 
-            )
-        );
+                    if ($o_relation_item->referenceType == "contact"){
+                        $customer_id = $o_relation_item->referenceId;
+                        break;
+                    }
+                }
+
+                $contactRepo = pluginApp(ContactRepositoryContract::class);
+                $contact = $contactRepo->findContactById($customer_id);
+
+                $customer = array(
+                                    'OrderSyncedID' => $OrderSynced->id,
+                                    'reference_id'=> $contact->id,
+                                    'name' => $contact->fullName,
+                                    'email' => $contact->email );
 
 
+                $out['customer'] = $customer;
+                $out['reference_id'] = $order->id;
+                $amounts = $order->amounts;
 
-        $requestURL = ConfigHelper::BASE_URL .'/api/add_order';
+                $amount = $amounts[0];
 
-        $requestType = static::REQUEST_METHOD_POST;
+                $out['item_line_total'] = $amount->netTotal;
+                $out['grand_total'] = $amount->invoiceTotal;
 
-        $vendor_id = $this->configHelper->getVendorID();
-        $vendorSecret = $this->configHelper->getVendorSecret();
+                // Tax on Products
+               $vats = $amount->vats;
+               $vat = $vats[0];
+              // $out['tax_percentage'] = $vat->vatRate;
 
-        $headers = array(
-            'Authorization: ' . 'Bearer ' .$vendorSecret,
-        );
+               $items = [] ;
 
-        $resp = $this->doCurl($requestURL ,$requestType , $headers, $order);
+                foreach ($order->orderItems as $o_item) {
 
-        return $resp;
+                   $temp_itm =  array(
+                        'item_reference_id' => $o_item->id,
+                        'item_name' => $o_item->orderItemName,
+                        'item_description' => '',
+                        'item_extra_info' => '',
+                        'item_qty' => $o_item->quantity,
+                        'item_type' => $o_item->typeId,
+                    );
 
+
+                   $item_amounts = $o_item->amounts;
+                   $item_amount = $item_amounts[0];
+                   $temp_itm['item_price'] = $item_amount->priceNet;
+                   $items[] = $temp_itm;
+                }
+
+                $out['order_details'] = $items;
+
+                $requestURL = ConfigHelper::BASE_URL .'/api/add_order';
+                $requestType = static::REQUEST_METHOD_POST;
+                $vendor_id = $this->configHelper->getVendorID();
+                $vendorSecret = $this->configHelper->getVendorSecret();
+
+                $headers = array(
+                    'Authorization: ' . 'Bearer ' .$vendorSecret,
+                );
+
+
+                $verified =  $this->verifyApiToken();
+
+
+                $resp = $this->doCurl($requestURL ,$requestType , $headers, $out);
+
+                $data = ['verified' => $verified['success'] , 'order_original' => $order , 'out' => $out, 'api_response' => $resp , 'type' => is_object($resp)];
+
+                // Log Entry
+                $this->getLogger('sendingOrderToLoyalista')->error('get_customer', ['data'=> $data]);
+
+            }else{
+                $this->getLogger('sendOrderToLoyalista')->error('only fail', ['contact'=> NULL]);
+            }
+        }
+
+        catch (\Exception $e)
+        {
+            $this->getLogger('sendOrderToLoyalista')
+                ->error('Error while get order', ['message'=> $e->getMessage() ]);
+
+            // TODO add to external log api service
+
+        }
+        finally {
+            // TODO count to external apli log service
+
+
+        }
+
+        return true;
     }
 
     public function redeemPoints()

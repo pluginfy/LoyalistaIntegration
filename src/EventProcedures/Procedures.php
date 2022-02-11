@@ -2,10 +2,17 @@
 namespace LoyalistaIntegration\EventProcedures;
 
 use Plenty\Modules\EventProcedures\Events\EventProceduresTriggered;
-use Plenty\Modules\Order\Contracts\OrderRepositoryContract;
+use Plenty\Plugin\Log\Loggable;
+use Plenty\Plugin\Log\Reportable;
+use LoyalistaIntegration\Services\API\LoyalistaApiService;
+
+
+
 
 class Procedures
 {
+    use Loggable;
+    use Reportable;
 
     // Event Handler
     // https://developers.plentymarkets.com/en-gb/developers/main/how-to-event-procedures.html
@@ -20,57 +27,31 @@ class Procedures
      */
     public function setStatus(EventProceduresTriggered $event)
     {
-        $order = $event->getOrder();
-        $orderRepository = pluginApp(OrderRepositoryContract::class);
-        $orderRepository->updateOrder(['statusId' => 3], $order->id);
-    }
-
-
-    public function pushOrder(EventProceduresTriggered $event){
-        $order_id = -1;
         try {
-            /** @var Order $order */
-            $order = $event->getOrder();
             // https://developers.plentymarkets.com/en-gb/developers/main/rest-api-guides/order-data.html
+            $order = $event->getOrder();
             if ($order)
             {
-                $order_id = $order->id;
-            }
-
-            // TODO LOG INFO runOrderStatusChangeEvent
-
-            if ( true ) {
-
-                // we believe the ASN was already sent - another will NOT be sent.
-                // // TODO LOG INFO already sent Sent
-                // $externalLogs->addInfoLog("ASN already sent for order with ID " . $order->id . " so another will NOT be sent.");
-            }
-            else
-             {
-
-                 // TODO LOG INFO
-
-
-                 //saveorder($order);
-
-
-                 // TODO LOGE IFNOT finishedShipmentNotification
-
+                $api = pluginApp(LoyalistaApiService::class);
+                $api->createOrder($order);
             }
         }
-
         catch (\Exception $e)
         {
-            // TODO add to external log service
+            $this->getLogger('SetStatus')
+                ->error('Error while get order', ['message'=> $e->getMessage() ]);
+
+            // TODO add to external log api service
 
         }
         finally {
+            // TODO count to external apli log service
 
-            // TODO count to external log service
-
-            // TODO send external log to concern
 
         }
 
     }
+
+
+
 }

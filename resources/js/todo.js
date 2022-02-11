@@ -6,7 +6,7 @@ $('#addTask').click(function(){
     };
     $.ajax({
         type: "POST",
-        url: "/myposturl",
+        url: "/todo/",
         data: data,
         success: function(data)
         {
@@ -31,7 +31,7 @@ $(document).on('click', 'button.done-button', function(e) {
     var id = button.id;
     $.ajax({
         type: "PUT",
-        url: "/todo/" + id,
+        url: "/todo/" + id  +'/',
         success: function(data)
         {
             var data = jQuery.parseJSON( data );
@@ -58,7 +58,7 @@ $(document).on('click', 'button.delete-button', function(e) {
     var id = button.id;
     $.ajax({
         type: "DELETE",
-        url: "/todo/" + id,
+        url: "/todo/" + id +'/',
         success: function(data)
         {
             $("#" + id).parent().remove();
