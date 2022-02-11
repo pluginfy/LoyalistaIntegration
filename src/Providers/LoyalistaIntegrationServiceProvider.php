@@ -44,19 +44,12 @@ class LoyalistaIntegrationServiceProvider extends ServiceProvider
         $register = $eventProceduresService->registerProcedure(
             'setStatus',
             ProcedureEntry::EVENT_TYPE_ORDER,
-            ['de' => 'Setze Status auf 3', 'en' => 'Set status to 3'],
-            Procedures::class . '@setStatus'
+            [
+                'de' => 'Bestelling exporteren',
+                'en' => 'Export Order'
+            ],
+            Procedures::class . '@exportOrder'
         );
-
-            // Register reference types for logs.
-        try
-        {
-            $referenceContainer->add([ 'toDoId' => 'toDoId' ]);
-        }
-        catch(ReferenceTypeException $ex)
-        {
-
-        }
     }
 }
 
