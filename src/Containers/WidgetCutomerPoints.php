@@ -18,7 +18,7 @@ use LoyalistaIntegration\Services\API\LoyalistaApiService;
 /**
  * Ekomi Feedback Reviews Container.
  */
-class LoyalistaIntegrationCutomerPoints
+class WidgetCutomerPoints
 {
 
 
@@ -48,7 +48,7 @@ class LoyalistaIntegrationCutomerPoints
         if ($loggedin_user_id){
             $api = pluginApp(LoyalistaApiService::class);
 
-            $response  = json_decode($api->getCustomerTotalPoints($loggedin_user_id) , true);
+            $response  = $api->getCustomerTotalPoints($loggedin_user_id);
 
             if (isset($response['success']) && $response['success'] == true){
                 $customer_points = $response['data']['total_points'];

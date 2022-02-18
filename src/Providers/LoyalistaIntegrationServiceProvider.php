@@ -42,11 +42,11 @@ class LoyalistaIntegrationServiceProvider extends ServiceProvider
     public function boot(ReferenceContainer $referenceContainer, EventProceduresService $eventProceduresService)
     {
         $register = $eventProceduresService->registerProcedure(
-            'setStatus',
+            'exportOrder',
             ProcedureEntry::EVENT_TYPE_ORDER,
             [
-                'de' => 'Bestelling exporteren',
-                'en' => 'Export Order'
+                'de' => 'Bestelling exporteren loyalista',
+                'en' => 'Export Order Loyalista'
             ],
             Procedures::class . '@exportOrder'
         );

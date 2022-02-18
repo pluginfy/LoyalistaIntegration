@@ -20,7 +20,7 @@ class Procedures
         try {
             // https://developers.plentymarkets.com/en-gb/developers/main/rest-api-guides/order-data.html
             $order = $event->getOrder();
-            if ($order)
+            if ($order && $order->typeId == 1)
             {
                 $api = pluginApp(LoyalistaApiService::class);
                 $api->createOrder($order);

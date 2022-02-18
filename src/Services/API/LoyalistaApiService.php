@@ -16,9 +16,6 @@ class LoyalistaApiService extends BaseApiService
     use Loggable;
     use Reportable;
 
-
-
-
     public function __construct(ConfigHelper $configHelper, LoggerContract $loggerContract)
     {
         parent::__construct($configHelper, $loggerContract);
@@ -39,18 +36,17 @@ class LoyalistaApiService extends BaseApiService
             'access_token' => $vendorSecret
         ];
 
-        $resp = $this->doCurl($requestURL ,$requestType , [], $data);
+        $response = $this->doCurl($requestURL ,$requestType , [], $data);
 
-        return $resp;
+        return $response;
     }
-
 
     public function getCustomerPoints($loggedin_customer_id)
     {
         //Todo
 
 
-        
+
     }
 
     public function getCustomerTotalPoints($customer_id)
@@ -69,35 +65,9 @@ class LoyalistaApiService extends BaseApiService
             'Authorization: ' . 'Bearer ' .$vendorSecret,
         );
 
-        $resp = $this->doCurl($requestURL ,$requestType , $headers, $data);
+        $response = $this->doCurl($requestURL ,$requestType , $headers, $data);
 
-        return $resp;
-
-    }
-
-    public function createCustomer($customer = '')
-    {
-        //Todo get customer from plenty market from db crone.
-        $customer = array(
-            'reference_id'=> '105',
-            'name' => 'Jack Ahamad',
-            'email' => 'jack_man@yahoo.com'
-        );
-
-        $requestURL = ConfigHelper::BASE_URL .'/api/add_customer';
-
-        $requestType = static::REQUEST_METHOD_POST;
-
-        $vendor_id = $this->configHelper->getVendorID();
-        $vendorSecret = $this->configHelper->getVendorSecret();
-
-        $headers = array(
-            'Authorization: ' . 'Bearer ' .$vendorSecret,
-        );
-
-        $resp = $this->doCurl($requestURL ,$requestType , $headers, $customer);
-
-        return $resp;
+        return $response;
 
     }
 
@@ -105,125 +75,155 @@ class LoyalistaApiService extends BaseApiService
     {
         try {
             // https://developers.plentymarkets.com/en-gb/developers/main/rest-api-guides/order-data.html
+
+            $tokenVerified =  $this->verifyApiToken();
+
             if ($order)
             {
-
                 // Insert Into OrderSyncedDataTable in any case.
                 $OrderSyncedRepo = pluginApp(OrderSyncedRepositoryContract::class);
-                $OrderSynced = $OrderSyncedRepo->createOrderSync(['orderId' => $order->id, 'isSynced' => false]);
+                $OrderSynced = $OrderSyncedRepo->createOrderSync(['orderId' => $order->id]);
 
-                // Get customer/contact
-                $customer_id = NULL;
-                foreach ($order->relations as $o_relation_item) {
+                if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
+                    // token good
 
-                    if ($o_relation_item->referenceType == "contact"){
-                        $customer_id = $o_relation_item->referenceId;
-                        break;
+                    // Get customer/contact
+                    $customer_id = NULL;
+                    foreach ($order->relations as $o_relation_item) {
+
+                        if ($o_relation_item->referenceType == "contact"){
+                            $customer_id = $o_relation_item->referenceId;
+                            break;
+                        }
                     }
-                }
 
-                $contactRepo = pluginApp(ContactRepositoryContract::class);
-                $contact = $contactRepo->findContactById($customer_id);
+                    $contactRepo = pluginApp(ContactRepositoryContract::class);
+                    $contact = $contactRepo->findContactById($customer_id);
 
-                $customer = array(
-                                    'OrderSyncedID' => $OrderSynced->id,
-                                    'reference_id'=> $contact->id,
-                                    'name' => $contact->fullName,
-                                    'email' => $contact->email );
+                    $customer = array(
+                        'OrderSyncedID' => $OrderSynced->id,
+                        'reference_id'=> $contact->id,
+                        'name' => $contact->fullName,
+                        'email' => $contact->email );
 
 
-                $out['customer'] = $customer;
-                $out['reference_id'] = $order->id;
-                $amounts = $order->amounts;
+                    $out['customer'] = $customer;
 
-                $amount = $amounts[0];
+                    $out['reference_id'] = $order->id;
 
-                $out['item_line_total'] = $amount->netTotal;
-                $out['grand_total'] = $amount->invoiceTotal;
 
-                // Tax on Products
-               $vats = $amount->vats;
-               $vat = $vats[0];
-              // $out['tax_percentage'] = $vat->vatRate;
+                    $amounts = $order->amounts;
 
-               $items = [] ;
+                    $amount = $amounts[0];
 
-                foreach ($order->orderItems as $o_item) {
+                    $out['shipping_costs_gross'] = $amount->shippingCostsGross;
+                    $out['shipping_costs_net'] =  $amount->shippingCostsNet;
 
-                   $temp_itm =  array(
-                        'item_reference_id' => $o_item->id,
-                        'item_name' => $o_item->orderItemName,
-                        'item_description' => '',
-                        'item_extra_info' => '',
-                        'item_qty' => $o_item->quantity,
-                        'item_type' => $o_item->typeId,
+                    $out['currency'] =     $amount->currency;
+                    $out['exchange_rate'] = $amount->exchangeRate;
+
+                    $out['gross_total'] = $amount->netTotal;
+                    $out['grand_total'] = $amount->invoiceTotal;
+
+
+                    // Tax on Products
+                    $vats = $amount->vats;
+                    $vat = $vats[0];
+
+                    $out['tax_type'] = 'VAT';
+                    $out['tax_amount'] = $vat->value;
+                    $out['tax_percentage'] = $vat->vatRate;
+
+
+                    $out['item_line_total_gross'] = 0.00;
+                    $out['item_line_total_net'] = 0.00;
+
+
+                    $items = [] ;
+
+                    foreach ($order->orderItems as $o_item) {
+
+                        if($o_item->typeId != 1){
+                            continue;
+                        }
+
+                        $temp_itm =  array(
+                            'item_reference_id' => $o_item->id,
+                            'item_name' => $o_item->orderItemName,
+                            'item_description' => '',
+                            'item_extra_info' => '',
+                            'item_qty' => $o_item->quantity,
+                            'item_type' => $o_item->typeId,
+                        );
+
+
+
+                        $item_amounts = $o_item->amounts;
+                        $item_amount = $item_amounts[0];
+
+                        $temp_itm['item_gross_price'] = ($item_amount->priceGross);
+                        $temp_itm['item_net_price'] = ($item_amount->priceNet);
+                        $temp_itm['item_tax_amount'] = ($item_amount->priceGross - $item_amount->priceNet);
+
+                        $temp_itm['tax_type'] = 'VAT';
+                        $temp_itm['currency'] = $item_amount->currency;
+                        $temp_itm['exchange_rate'] = $item_amount->exchangeRate;
+
+
+                        $items[] = $temp_itm;
+
+                        $out['item_line_total_gross'] = $out['item_line_total_gross'] + ($item_amount->priceGross * $o_item->quantity);
+                        $out['item_line_total_net'] = $out['item_line_total_net'] + ($item_amount->priceNet * $o_item->quantity);
+
+                    }
+
+                    $out['order_details'] = $items;
+
+                    $requestURL = ConfigHelper::BASE_URL .'/api/add_order';
+                    $requestType = static::REQUEST_METHOD_POST;
+                    $vendor_id = $this->configHelper->getVendorID();
+                    $vendorSecret = $this->configHelper->getVendorSecret();
+
+                    $headers = array(
+                        'Authorization: ' . 'Bearer ' .$vendorSecret,
                     );
 
+                    $responses = $this->doCurl($requestURL ,$requestType , $headers, $out);
 
-                   $item_amounts = $o_item->amounts;
-                   $item_amount = $item_amounts[0];
-                   $temp_itm['item_price'] = $item_amount->priceNet;
-                   $items[] = $temp_itm;
+                    $data = ['order_original' => $order , 'out' => $out, 'api_response' => $responses];
+                    $data['preSynced'] = $OrderSynced;
+
+                    if (is_array($responses) && $responses['success'] == true ){
+
+                        // Update Sync
+                        $MarkedOrderSynced = $OrderSyncedRepo->markSyncedOrder($OrderSynced->id);
+
+                        $data['postSynced'] = $MarkedOrderSynced;
+                        // Report save case
+                        $this->getLogger('sendingOrderToLoyalista')->error('Export Order Pass', ['data'=> $data]);
+
+
+                    }else{
+                        $this->getLogger('sendingOrderToLoyalista')->error('Export Order Failededd', ['data'=> $data]);
+                    }
+                }else{
+                    $this->getLogger('sendOrderToLoyalista')->error('Api Token Not verified' , ['data' => ['error' => $tokenVerified]]);
                 }
-
-                $out['order_details'] = $items;
-
-                $requestURL = ConfigHelper::BASE_URL .'/api/add_order';
-                $requestType = static::REQUEST_METHOD_POST;
-                $vendor_id = $this->configHelper->getVendorID();
-                $vendorSecret = $this->configHelper->getVendorSecret();
-
-                $headers = array(
-                    'Authorization: ' . 'Bearer ' .$vendorSecret,
-                );
-
-
-                $verified =  $this->verifyApiToken();
-
-
-                $resp = $this->doCurl($requestURL ,$requestType , $headers, $out);
-
-                $data = ['verified' => $verified['success'] , 'order_original' => $order , 'out' => $out, 'api_response' => $resp , 'type' => is_object($resp)];
-
-                // Log Entry
-                $this->getLogger('sendingOrderToLoyalista')->error('get_customer', ['data'=> $data]);
-
             }else{
-                $this->getLogger('sendOrderToLoyalista')->error('only fail', ['contact'=> NULL]);
+                $this->getLogger('sendOrderToLoyalista')->error('Order not get');
             }
         }
-
         catch (\Exception $e)
         {
             $this->getLogger('sendOrderToLoyalista')
-                ->error('Error while get order', ['message'=> $e->getMessage() ]);
+                ->error('Exception Error while get order', ['message'=> $e->getMessage() ]);
 
             // TODO add to external log api service
-
         }
         finally {
             // TODO count to external apli log service
 
 
         }
-
-        return true;
     }
-
-    public function redeemPoints()
-    {
-        
-    }
-
-    public function exportCustomers()
-    {
-
-
-    }
-
-    
-
-
-
-
 }

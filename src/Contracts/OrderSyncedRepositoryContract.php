@@ -18,10 +18,14 @@ interface OrderSyncedRepositoryContract
      */
     public function createOrderSync(array $data): OrderSynced;
 
+
     /**
      * Get Record List
      * @return array
      */
+    public function markSyncedOrder($id): OrderSynced;
+
+
     public function getOrderSyncedList(): array;
 
 

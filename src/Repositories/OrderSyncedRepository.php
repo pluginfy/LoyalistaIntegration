@@ -18,12 +18,26 @@ class OrderSyncedRepository implements OrderSyncedRepositoryContract
         $database = pluginApp(DataBase::class);
         $orderSynced = pluginApp(OrderSynced::class);
         $orderSynced->orderId = $data['orderId'];
-        $orderSynced->isSynced  = $data['isSynced'];
+        $orderSynced->isSynced  = false;
         $database->save($orderSynced);
 
         return $orderSynced;
 
     }
+
+
+
+    public function markSyncedOrder($id): OrderSynced
+    {
+        $database = pluginApp(DataBase::class);
+
+        $orderSynced = $database->query(OrderSynced::class)->where('id', '=', $id)->get();
+        $orderSynced = $orderSynced[0];
+        $orderSynced->isSynced = true;
+        $database->save($orderSynced);
+        return $orderSynced;
+    }
+
 
     public function getOrderSyncedList(): array
     {

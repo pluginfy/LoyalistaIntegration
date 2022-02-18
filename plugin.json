@@ -14,8 +14,8 @@
         "en": "Allows you to easily integrate your Plentymarkets Shop with Loyalista."
     },
     "categories": ["3527"],
-    "author"            :   "pluginfy",
-    "authorIcon"        :   "icon_pluginfy_xs.png",
+    "author"    :   "pluginfy",
+    "authorIcon" :   "icon_pluginfy_xs.png",
     "email": "support@pluginfy.com",
     "phone": "+92 3004801494",
     "keywords": [
@@ -28,7 +28,7 @@
         "discounts",
         "Pluginfy"
     ],
-    "serviceProvider"   :   "LoyalistaIntegration\\Providers\\LoyalistaIntegrationServiceProvider",
+    "serviceProvider"  :  "LoyalistaIntegration\\Providers\\LoyalistaIntegrationServiceProvider",
     "runOnBuild":[
         "LoyalistaIntegration\\Migrations\\CreateToDoTable" ,
         "LoyalistaIntegration\\Migrations\\CreateOrderSyncedTable"
