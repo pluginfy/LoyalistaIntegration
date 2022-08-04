@@ -35,13 +35,40 @@
     ],
     "dataProviders": [
         {
-            "key": "LoyalistaIntegration\\Containers\\LoyalistaIntegrationCutomerPoints",
+            "key": "LoyalistaIntegration\\Containers\\CutomerPoints",
             "name": "Customer Points/Rewards Widget",
             "description": "Loyalista Customer Points/Rewards Widget",
             "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
+        },
+        {
+            "key": "LoyalistaIntegration\\Containers\\CheckoutWidget",
+            "name": "Checkout Widget newly Build",
+            "description": "Show loyalista data on my checkout page",
+            "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
+        },
+        {
+            "key": "LoyalistaIntegration\\Containers\\ProductWidget",
+            "name": "Product Widget",
+            "description": "Show loyalista data on my single product page",
+            "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
+        },
+        {
+            "key": "LoyalistaIntegration\\Containers\\CartProductWidget",
+            "name": "Cart Product Widget",
+            "description": "Show loyalista data on my shopping cart page",
+            "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
+        },
+        {
+            "key": "LoyalistaIntegration\\Containers\\MyAccountWidget",
+            "name": "My Account Widget",
+            "description": "Show loyalista data on my account page",
+            "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
+        },
+        {
+            "key": "LoyalistaIntegration\\Containers\\MyAccountMergeWidget",
+            "name": "Account Merge Request Widget",
+            "description": "Merge account option",
+            "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
         }
-    ],
-    "dependencies" : {
-        "guzzlehttp/guzzle": "6.3.*"
-}
+    ]
 }

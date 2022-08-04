@@ -31,9 +31,14 @@ class BaseApiService
 
     public function doCurl($requestUrl, $requestType, $httpHeader = array(), $postFields = '')
     {
+
+        $vendorSecret = $this->configHelper->getVendorSecret();
+
+
         $headers = array(
             "Content-Type: application/json",
             "Accept: application/json",
+            'Authorization: ' . 'Bearer ' .$vendorSecret,
         );
 
         if (!empty($httpHeader)) {

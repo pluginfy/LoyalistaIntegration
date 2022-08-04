@@ -17,10 +17,9 @@ class LoyalistaIntegrationRouteServiceProvider extends RouteServiceProvider
      */
     public function map(Router $router)
     {
-        $router->get('hello-world','LoyalistaIntegration\Controllers\LoyalistaIntegrationController@getHelloWorldPage');
-        $router->post('/todo', 'LoyalistaIntegration\Controllers\ContentController@createToDo');
-        $router->get('/todo', 'LoyalistaIntegration\Controllers\ContentController@showToDo');
-        $router->put('/todo/{id}', 'LoyalistaIntegration\Controllers\ContentController@updateToDo')->where('id', '\d+');
-        $router->delete('/todo/{id}', 'LoyalistaIntegration\Controllers\ContentController@deleteToDo')->where('id', '\d+');
+        $router->get('/account/register/customer/', 'LoyalistaIntegration\Controllers\CustomerController@registerCustomer');
+        $router->get('/account/unregister/customer/', 'LoyalistaIntegration\Controllers\CustomerController@unRegisterCustomer');
+        $router->post('/account/merge/customer/', 'LoyalistaIntegration\Controllers\CustomerController@mergeCustomer');
+        $router->get('/user/total/basket/', 'LoyalistaIntegration\Controllers\BasketController@getBasketValue');
     }
 }

@@ -11,6 +11,9 @@ use Plenty\Plugin\Log\Loggable;
 use LoyalistaIntegration\Contracts\OrderSyncedRepositoryContract;
 use Plenty\Plugin\Log\Reportable;
 
+use Plenty\Modules\Account\Address\Contracts\AddressRepositoryContract;
+
+
 class LoyalistaApiService extends BaseApiService
 {
     use Loggable;
@@ -71,16 +74,25 @@ class LoyalistaApiService extends BaseApiService
 
     }
 
+
+    /**
+     * Add Newly created order to loyalista
+     * @param null $order
+     *
+     */
     public function createOrder($order = NULL)
     {
         try {
-            // https://developers.plentymarkets.com/en-gb/developers/main/rest-api-guides/order-data.html
 
+            // https://developers.plentymarkets.com/en-gb/developers/main/rest-api-guides/order-data.html
             $tokenVerified =  $this->verifyApiToken();
 
             if ($order)
             {
-                // Insert Into OrderSyncedDataTable in any case.
+                // Plenty ID or Intance
+                $shop_reference = $order->plentyId;
+
+                // Insert Into OrderSyncedDataTable in any case token verified or not.
                 $OrderSyncedRepo = pluginApp(OrderSyncedRepositoryContract::class);
                 $OrderSynced = $OrderSyncedRepo->createOrderSync(['orderId' => $order->id]);
 
@@ -103,6 +115,7 @@ class LoyalistaApiService extends BaseApiService
                     $customer = array(
                         'OrderSyncedID' => $OrderSynced->id,
                         'reference_id'=> $contact->id,
+                        'shop_reference' => $shop_reference,
                         'name' => $contact->fullName,
                         'email' => $contact->email );
 
@@ -110,7 +123,8 @@ class LoyalistaApiService extends BaseApiService
                     $out['customer'] = $customer;
 
                     $out['reference_id'] = $order->id;
-
+                    $out['shop_reference'] = $shop_reference;
+                    //$out['platform_id'] = 1;
 
                     $amounts = $order->amounts;
 
@@ -126,6 +140,7 @@ class LoyalistaApiService extends BaseApiService
                     $out['grand_total'] = $amount->invoiceTotal;
 
 
+
                     // Tax on Products
                     $vats = $amount->vats;
                     $vat = $vats[0];
@@ -139,8 +154,81 @@ class LoyalistaApiService extends BaseApiService
                     $out['item_line_total_net'] = 0.00;
 
 
-                    $items = [] ;
 
+                    // Address information
+
+                    $addressRelations = $order->addressRelations;
+
+                    $address_repo = pluginApp(AddressRepositoryContract::class);
+
+                    $billing_address = null ;
+                    $shipping_address = null;
+
+                    foreach ($addressRelations as $address) {
+
+                        $temp_address = $address_repo->findAddressById($address->addressId, ['options' , 'country']);
+
+                        if ($address->typeId == 1){
+
+                            $billing_address['company_title'] = $temp_address->name1;
+                            $billing_address['fname'] = $temp_address->name2;
+                            $billing_address['lname'] = $temp_address->name3;
+                            $billing_address['address_line1'] = $temp_address->address1;
+                            $billing_address['address_line2'] = $temp_address->address2;
+                            $billing_address['address_line3'] = $temp_address->address3;
+                            $billing_address['town_city'] = $temp_address->town;
+                            $billing_address['zip_postal_code'] = $temp_address->postalCode;
+                            $billing_address['country'] = $temp_address->country->name;
+
+                            if (isset($temp_address->options)){
+
+                                foreach ($temp_address->options as $address_option) {
+
+                                    switch($address_option->typeId){
+                                        case 5:
+                                            $billing_address['email'] = $address_option->value;
+                                            break;
+                                        case 6:
+                                            $billing_address['phone_number'] = $address_option->value;
+                                            break;
+                                    }
+                                }
+                            }
+
+                        }else if($address->typeId == 2){
+
+                            $shipping_address['company_title'] = $temp_address->name1;
+                            $shipping_address['fname'] = $temp_address->name2;
+                            $shipping_address['lname'] = $temp_address->name3;
+                            $shipping_address['address_line1'] = $temp_address->address1;
+                            $shipping_address['address_line2'] = $temp_address->address2;
+                            $shipping_address['address_line3'] = $temp_address->address3;
+                            $shipping_address['town_city'] = $temp_address->town;
+                            $shipping_address['zip_postal_code'] = $temp_address->postalCode;
+                            $shipping_address['country'] = $temp_address->country->name;
+
+                            if (isset($temp_address->options)){
+
+                                foreach ($temp_address->options as $address_option) {
+
+                                    switch($address_option->typeId){
+                                        case 5:
+                                            $shipping_address['email'] = $address_option->value;
+                                            break;
+                                        case 6:
+                                            $shipping_address['phone_number'] = $address_option->value;
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    $out['billing_address'] = $billing_address ;
+                    $out['shipping_address'] = $shipping_address;
+                    // Address information
+
+                    $items = [] ;
                     foreach ($order->orderItems as $o_item) {
 
                         if($o_item->typeId != 1){
@@ -202,9 +290,8 @@ class LoyalistaApiService extends BaseApiService
                         // Report save case
                         $this->getLogger('sendingOrderToLoyalista')->error('Export Order Pass', ['data'=> $data]);
 
-
                     }else{
-                        $this->getLogger('sendingOrderToLoyalista')->error('Export Order Failededd', ['data'=> $data]);
+                        $this->getLogger('sendingOrderToLoyalista')->error('Export Order Failed', ['data'=> $data]);
                     }
                 }else{
                     $this->getLogger('sendOrderToLoyalista')->error('Api Token Not verified' , ['data' => ['error' => $tokenVerified]]);
@@ -218,12 +305,209 @@ class LoyalistaApiService extends BaseApiService
             $this->getLogger('sendOrderToLoyalista')
                 ->error('Exception Error while get order', ['message'=> $e->getMessage() ]);
 
-            // TODO add to external log api service
         }
         finally {
-            // TODO count to external apli log service
 
 
         }
     }
+
+    public function getCheckoutWidgetData(){
+
+        $tokenVerified =  $this->verifyApiToken();
+
+        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
+
+        }
+
+        $requestURL = ConfigHelper::BASE_URL .'/api/verify_customer';
+        $requestType = static::REQUEST_METHOD_POST;
+        $vendor_id = $this->configHelper->getVendorID();
+        $vendorSecret = $this->configHelper->getVendorSecret();
+
+        $headers = array(
+            'Authorization: ' . 'Bearer ' .$vendorSecret,
+        );
+
+        $responses = $this->doCurl($requestURL ,$requestType , $headers, []);
+
+    }
+
+
+    public function getMyAccountWidgetData($loggedin_customer_id){
+
+        $requestURL = ConfigHelper::BASE_URL .'/api/get_user_account_data';
+
+
+        $requestType = static::REQUEST_METHOD_GET;
+
+        $shopReference = $this->configHelper->getShopID();
+
+        $data = [
+            'shop_reference' => $shopReference,
+            'reference_id' => $loggedin_customer_id,
+        ];
+
+        $tokenVerified =  $this->verifyApiToken();
+
+        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
+
+            $response = $this->doCurl($requestURL ,$requestType , [], $data);
+
+
+
+
+            return $response;
+
+        }else{
+            $this->getLogger('Token Verification Failed')->error('Loyalista Token Expire or invalid');
+        }
+    }
+
+
+    public function getMyMergeAccountWidgetData($loggedin_customer_id){
+
+        $requestURL = ConfigHelper::BASE_URL .'/api/get_user_merge_account_data';
+
+        $requestType = static::REQUEST_METHOD_GET;
+
+        $shopReference = $this->configHelper->getShopID();
+
+        $data = [
+            'shop_reference' => $shopReference,
+            'reference_id' => $loggedin_customer_id,
+        ];
+
+        $tokenVerified =  $this->verifyApiToken();
+
+        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
+
+            $response = $this->doCurl($requestURL ,$requestType , [], $data);
+
+
+
+
+            return $response;
+
+        }else{
+            $this->getLogger('Token Verification Failed')->error('Loyalista Token Expire or invalid');
+        }
+    }
+
+
+    public function getCartWidgetData($loggedin_customer_id){
+
+
+        $requestURL = ConfigHelper::BASE_URL .'/api/get_user_cart_data';
+
+        $requestType = static::REQUEST_METHOD_GET;
+
+        $shopReference = $this->configHelper->getShopID();
+
+        $data = [
+            'shop_reference' => $shopReference,
+            'reference_id' => $loggedin_customer_id,
+        ];
+
+        $tokenVerified =  $this->verifyApiToken();
+
+        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
+            $response = $this->doCurl($requestURL ,$requestType , [], $data);
+            return $response;
+        }else{
+            $this->getLogger('Token Verification Failed')->error('Loyalista Token Expire or invalid');
+        }
+    }
+
+
+
+    public function getCartCheckoutWidgetData($loggedin_customer_id){
+
+
+        $requestURL = ConfigHelper::BASE_URL .'/api/get_user_checkout_cart_data';
+
+        $requestType = static::REQUEST_METHOD_GET;
+
+        $shopReference = $this->configHelper->getShopID();
+
+        $data = [
+            'shop_reference' => $shopReference,
+            'reference_id' => $loggedin_customer_id,
+        ];
+
+        $tokenVerified =  $this->verifyApiToken();
+
+        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
+            $response = $this->doCurl($requestURL ,$requestType , [], $data);
+
+            $this->getLogger('response')->error('Checkout Widget', ['res'=> $response ]);
+
+            return $response;
+        }else{
+            $this->getLogger('Token Verification Failed')->error('Loyalista Token Expire or invalid');
+        }
+    }
+
+
+
+
+
+    /**
+     * Login Customer.
+     * @param $data
+     * @return mixed|string
+     */
+    public function registerCustomer($data)
+    {
+        $requestURL = ConfigHelper::BASE_URL .'/api/add_customer';
+        $requestType = static::REQUEST_METHOD_POST;
+        $tokenVerified =  $this->verifyApiToken();
+        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
+            $response = $this->doCurl($requestURL ,$requestType , [], $data);
+            return $response;
+        }
+        else{
+            $this->getLogger('Api Token')->error('Unverified Token Used');
+        }
+    }
+
+    public function unRegisterCustomer($data)
+    {
+        $requestURL = ConfigHelper::BASE_URL .'/api/remove_customer';
+        $requestType = static::REQUEST_METHOD_POST;
+        $tokenVerified =  $this->verifyApiToken();
+        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
+            $response = $this->doCurl($requestURL ,$requestType , [], $data);
+            return $response;
+        }
+        else{
+            $this->getLogger('Api Token')->error('Unverified Token Used');
+        }
+    }
+
+
+    public function mergeCustomr($data)
+    {
+        $requestURL = ConfigHelper::BASE_URL .'/api/merge_customer_request';
+        $requestType = static::REQUEST_METHOD_POST;
+        $tokenVerified =  $this->verifyApiToken();
+        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
+            $response = $this->doCurl($requestURL ,$requestType , [], $data);
+            return $response;
+        }
+        else{
+            $this->getLogger('Api Token')->error('Unverified Token Used');
+        }
+    }
+
+
+
+
+    public function test($data)
+    {
+        $this->getLogger('dump')->error('Dump', ['data'=> $data]);
+
+    }
+
+
 }

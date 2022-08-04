@@ -71,6 +71,12 @@ class ConfigHelper extends AbstractConfigHelper
     }
 
 
+    public function getVar($var){
+
+        return $this->config->get(self::PLUGIN_NAME   .'.'  .$var);
+    }
+
+
 
 
 

@@ -60,86 +60,274 @@
       "label": "Config.ContentTab",
       "fullWidth": true,
       "formFields" :{
-        "partial_redemption_checkout_text_the_points": {
+        "account_points_label_text_de": {
           "type": "inputTextArea",
-          "required": false,
-          "label": "Config.label_partial_redemption_checkout_text_the_points",
+          "required": true,
+          "label": "Config.label_points_label_text_de",
           "options": {
-            "defaultValue": "Menge an [points_label] zum einlösen eingeben:"
+            "defaultValue": "point label"
           }
         },
-        "checkout_text_unregistered_user": {
+        "account_points_label_text_en": {
+          "type": "inputTextArea",
+          "required": true,
+          "label": "Config.label_points_label_text_en",
+          "options": {
+            "defaultValue": "point label"
+          }
+        },
+
+
+        "checkout_text_unregistered_user_de": {
           "type": "inputTextArea",
           "required": false,
-          "label": "Config.label_checkout_text_unregistered_user",
+          "label": "Config.label_checkout_text_unregistered_user_de",
           "options": {
             "defaultValue": "Ich möchte an dem Treueprogramm teilnehmen und in Zukunft von tollen Rabatten und Aktionen profitieren. Ich starte direkt mit [points_for_signup] [points_label] und erhalte zusätzlich [number_of_points_shopping_cart] [points_label] für meinen ersten Einkauf. Meine Teilnahme an dem Programm kann ich jederzeit kündigen."
           }
         },
-        "checkout_text_for_registered_user": {
+        "checkout_text_unregistered_user_en": {
           "type": "inputTextArea",
           "required": false,
-          "label": "Config.label_checkout_text_for_registered_user",
+          "label": "Config.label_checkout_text_unregistered_user_en",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+
+        "checkout_text_for_registered_user_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_checkout_text_for_registered_user_de",
           "options": {
             "defaultValue": "Sie haben aktuell [account_balance] [points_label] und Sie erhalten [number_of_points_shopping_cart] [points_label] für den aktuellen Einkauf."
           }
         },
-        "checkout_text_for_no_redeem_the_points": {
+        "checkout_text_for_registered_user_en": {
           "type": "inputTextArea",
           "required": false,
-          "label": "Config.label_checkout_text_for_no_redeem_the_points",
+          "label": "Config.label_checkout_text_for_registered_user_en",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+
+        "checkout_text_for_no_redeem_the_points_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_checkout_text_for_no_redeem_the_points_de",
           "options": {
             "defaultValue": "Weiter sammeln und keine Punkte einlösen."
           }
         },
-        "checkout_text_for_full_redeeming_points": {
+        "checkout_text_for_no_redeem_the_points_en": {
           "type": "inputTextArea",
           "required": false,
-          "label": "Config.label_checkout_text_for_full_redeeming_points",
+          "label": "Config.label_checkout_text_for_no_redeem_the_points_en",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+
+        "checkout_text_for_full_redeeming_points_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_checkout_text_for_full_redeeming_points_de",
           "options": {
             "defaultValue": "Löse [account_balance] [points_label] ein und spare [value_of_account_balance]."
           }
         },
-        "my_account_text_for_unregistered_user": {
+        "checkout_text_for_full_redeeming_points_en": {
           "type": "inputTextArea",
           "required": false,
-          "label": "Config.label_my_account_text_for_unregistered_user",
+          "label": "Config.label_checkout_text_for_full_redeeming_points_en",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+
+        "checkout_text_partial_redemption_points_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_checkout_text_partial_redemption_points_de",
+          "options": {
+            "defaultValue": "Menge an [points_label] zum einlösen eingeben:"
+          }
+        },
+        "checkout_text_partial_redemption_points_en": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_checkout_text_partial_redemption_points_en",
+          "options": {
+            "defaultValue": "Enter amount of [points_label] to redeem:"
+          }
+        },
+
+
+        "my_account_text_for_unregistered_user_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_my_account_text_for_unregistered_user_de",
           "options": {
             "defaultValue": "Ich möchte an dem Treueprogramm teilnehmen und in Zukunft von tollen Rabatten und Aktionen profitieren. Meine Teilnahme an dem Programm kann ich jederzeit widerrufen."
           }
         },
-        "my_account_text_for_exiting_the_participation": {
+        "my_account_text_for_unregistered_user_en": {
           "type": "inputTextArea",
           "required": false,
-          "label": "Config.label_my_account_text_for_exiting_the_participation",
+          "label": "Config.label_my_account_text_for_unregistered_user_en",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "my_account_text_for_exiting_the_participation_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_my_account_text_for_exiting_the_participation_de",
           "options": {
             "defaultValue": "Ich möchte meine Teilnahme an dem Bonus Programm beenden. Mir ist bewusst, dass damit alle meine gesammelten [points_label] im Wert von [value_of_account_balance] unwiderruflich gelöscht werden."
           }
         },
-        "text_for_unregistered_users_for_product_and_shopping_cart": {
+        "my_account_text_for_exiting_the_participation_en": {
           "type": "inputTextArea",
           "required": false,
-          "label": "Config.label_text_for_unregistered_users_for_product_and_shopping_cart",
+          "label": "Config.label_my_account_text_for_exiting_the_participation_en",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+
+
+
+        "my_account_text_for_exiting_the_participation_redeem_hint_text_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_my_account_text_for_exiting_the_participation_redeem_hint_text_de",
+          "options": {
+            "defaultValue": "Einlösbare [name_of_points]:[total_number_of_redeemable_points]"
+          }
+        },
+        "my_account_text_for_exiting_the_participation_redeem_hint_text_en": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_my_account_text_for_exiting_the_participation_redeem_hint_text_en",
+          "options": {
+            "defaultValue": "Redeemable [name_of_points]:[total_number_of_redeemable_points]"
+          }
+        },
+        "my_account_text_for_exiting_the_participation_locked_hint_text_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_my_account_text_for_exiting_the_participation_locked_hint_text_de",
+          "options": {
+            "defaultValue": "Gesperrt [name_of_points]:[total_number_of_locked_points]"
+          }
+        },
+        "my_account_text_for_exiting_the_participation_locked_hint_text_en": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_my_account_text_for_exiting_the_participation_locked_hint_text_en",
+          "options": {
+            "defaultValue": "Locked [name_of_points]:[total_number_of_locked_points]"
+
+          }
+        },
+        "my_account_text_for_exiting_the_participation_expiry_hint_text_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_my_account_text_for_exiting_the_participation_expiry_hint_de",
+          "options": {
+            "defaultValue": "Am [date_of_expiry] verfallen [amount_of_points] [name_of_points]"
+          }
+        },
+        "my_account_text_for_exiting_the_participation_expiry_hint_text_en": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_my_account_text_for_exiting_the_participation_expiry_hint_en",
+          "options": {
+            "defaultValue": "On [date_of_expiry] expired [amount_of_points] [name_of_points]"
+          }
+        },
+        "my_account_text_for_exiting_the_participation_join_request_hint_text_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_my_account_text_for_exiting_the_participation_join_request_hint_de",
+          "options": {
+            "defaultValue": "Bitte das konto mit folgender E-Mail-Addresse mit diesem konto zusammenfugen."
+          }
+        },
+        "my_account_text_for_exiting_the_participation_join_request_hint_text_en": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_my_account_text_for_exiting_the_participation_join_request_hint_en",
+          "options": {
+            "defaultValue": "Please merge the account with the following email address with this account."
+          }
+        },
+
+
+
+
+
+        "text_for_unregistered_users_for_product_and_shopping_cart_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_text_for_unregistered_users_for_product_and_shopping_cart_de",
           "options": {
             "defaultValue": "Nehmen Sie jetzt an unserem Treueprogramm teil und sammeln Sie direkt [points_for_signup] [points_label] und erhalten Sie zusätzlich [number_of_points] [points_label] für Ihren aktuellen Warenkorb."
           }
         },
-        "text_for_registered_users_for_the_product_page": {
+        "text_for_unregistered_users_for_product_and_shopping_cart_en": {
           "type": "inputTextArea",
           "required": false,
-          "label": "Config.label_text_for_registered_users_for_the_product_page",
+          "label": "Config.label_text_for_unregistered_users_for_product_and_shopping_cart_en",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+
+        "text_for_registered_users_for_the_product_page_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_text_for_registered_users_for_the_product_page_de",
           "options": {
             "defaultValue": "Erhalten Sie [points_for_product] [points_label] auf dieses Produkt."
           }
         },
-        "text_for_registered_users_for_extra_points_for_the_product_page": {
+        "text_for_registered_users_for_the_product_page_en": {
           "type": "inputTextArea",
           "required": false,
-          "label": "Config.label_text_for_registered_users_for_extra_points_for_the_product_page",
+          "label": "Config.label_text_for_registered_users_for_the_product_page_en",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+
+        "text_for_registered_users_for_extra_points_for_the_product_page_de": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_text_for_registered_users_for_extra_points_for_the_product_page_de",
           "options": {
             "defaultValue": "Erhalten Sie [number_of_extra_points] [points_label] auf dieses Produkt."
           }
+        },
+        "text_for_registered_users_for_extra_points_for_the_product_page_en": {
+          "type": "inputTextArea",
+          "required": false,
+          "label": "Config.label_text_for_registered_users_for_extra_points_for_the_product_page_en",
+          "options": {
+            "defaultValue": ""
+          }
         }
+
+
+
+
+
+
+
+
+
       }
     },
     "Setting" : {

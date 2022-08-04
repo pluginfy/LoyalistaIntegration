@@ -8,10 +8,10 @@ use Plenty\Plugin\Templates\Twig;
 use Plenty\Modules\Authorization\Services\AuthHelper;
 use Plenty\Modules\Webshop\Contracts\ContactRepositoryContract;
 
-use LoyalistaIntegration\Core\Api\Services\ApiTokenService;
-use LoyalistaIntegration\Helpers\ConfigHelper;
 
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
+
+use LoyalistaIntegration\Helpers\LoyalistaHelper;
 
 
 

@@ -6,6 +6,8 @@ use Plenty\Plugin\Log\Loggable;
 use Plenty\Plugin\Log\Reportable;
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
 
+use Plenty\Modules\Account\Address\Contracts\AddressRepositoryContract;
+
 class Procedures
 {
     use Loggable;
