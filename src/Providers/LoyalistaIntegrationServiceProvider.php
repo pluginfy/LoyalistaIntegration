@@ -1,6 +1,8 @@
 <?php
 
 namespace LoyalistaIntegration\Providers;
+use Plenty\Modules\Order\Coupon\Campaign\Code\Contracts\CouponCampaignCodeRepositoryContract;
+use Plenty\Modules\Order\Coupon\Campaign\Contracts\CouponCampaignRepositoryContract;
 use Plenty\Plugin\Log\Loggable;
 use Plenty\Plugin\ServiceProvider;
 

@@ -21,6 +21,7 @@ use Plenty\Plugin\Log\Loggable;
 // Temp CouponCampaignRepositoryContract
 
 use Plenty\Modules\Order\Coupon\Campaign\Code\Contracts\CouponCampaignCodeRepositoryContract;
+use Plenty\Modules\Order\Coupon\Campaign\Contracts\CouponCampaignRepositoryContract;
 
 
 
@@ -30,16 +31,6 @@ class CustomerController extends Controller
 
     public function unRegisterCustomer()
     {
-
-        $couponRepo = pluginApp(CouponCampaignCodeRepositoryContract::class);
-
-        //$coupon = $couponRepo->create([]);  4XX5ZW
-
-        $coupon = $couponRepo->getByCode('4XX5ZW');
-        
-        $this->getLogger('Coupon')->error('Coupon', ['coupon'=> $coupon]);
-
-        return false;
 
         $account_service = pluginApp(AccountService::class);
         $plenty_customer_id  = $account_service->getAccountContactId();
