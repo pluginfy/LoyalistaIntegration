@@ -41,7 +41,7 @@ class ApiTokenService extends BaseApiService
             'Loyalista-Integration-Agent : ' . 'PlentyMarket -v 0.0.0.1'  // Get from plugin config
         ];
 
-        $url = 'http://loyalista.de/api/validate_user_token';
+        $url = 'http://loyalista.de/v1/validate_user_token';
         $postFields = array('vendor_id'=>'2' ,
                             'access_token' => '2|4ZiUunRpYSL6efouPIh9qOXbhKJnwpqjgGm3ftcG');
 

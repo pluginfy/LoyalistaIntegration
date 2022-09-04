@@ -42,9 +42,9 @@
         },
         {
             "key": "LoyalistaIntegration\\Containers\\CheckoutWidget",
-            "name": "Checkout Widget newly Build",
+            "name": "Checkout Redeem Widget ",
             "description": "Show loyalista data on my checkout page",
-            "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
+            "defaultLayoutContainer": "Ceres::Checkout.AfterBasketTotals"
         },
         {
             "key": "LoyalistaIntegration\\Containers\\ProductWidget",

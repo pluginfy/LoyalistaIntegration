@@ -1,6 +1,11 @@
 <?php
 namespace LoyalistaIntegration\Controllers;
 
+use Plenty\Modules\Authorization\Services\AuthHelper;
+use Plenty\Modules\Basket\Contracts\BasketRepositoryContract;
+use Plenty\Modules\Order\Coupon\Campaign\Models\CouponCampaign;
+use Plenty\Modules\Order\Coupon\Campaign\Reference\Contracts\CouponCampaignReferenceRepositoryContract;
+use Plenty\Modules\Order\Coupon\Campaign\Reference\Models\CouponCampaignReference;
 use Plenty\Plugin\Controller;
 
 
@@ -158,5 +163,4 @@ class CustomerController extends Controller
             }
         }
     }
-
 }

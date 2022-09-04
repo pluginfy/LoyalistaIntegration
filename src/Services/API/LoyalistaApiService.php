@@ -27,7 +27,7 @@ class LoyalistaApiService extends BaseApiService
 
     public function verifyApiToken()
     {
-        $requestURL = ConfigHelper::BASE_URL .'/api/validate_user_token';
+        $requestURL = ConfigHelper::BASE_URL .'/v1/validate_user_token';
 
         $requestType = static::REQUEST_METHOD_POST;
 
@@ -58,7 +58,7 @@ class LoyalistaApiService extends BaseApiService
             'customer_reference_id'=> $customer_id,
         );
 
-        $requestURL = ConfigHelper::BASE_URL .'/api/get_customer_total_points';
+        $requestURL = ConfigHelper::BASE_URL .'/v1/get_customer_total_points';
 
         $requestType = static::REQUEST_METHOD_GET;
 
@@ -267,7 +267,7 @@ class LoyalistaApiService extends BaseApiService
 
                     $out['order_details'] = $items;
 
-                    $requestURL = ConfigHelper::BASE_URL .'/api/add_order';
+                    $requestURL = ConfigHelper::BASE_URL .'/v1/add_order';
                     $requestType = static::REQUEST_METHOD_POST;
                     $vendor_id = $this->configHelper->getVendorID();
                     $vendorSecret = $this->configHelper->getVendorSecret();
@@ -320,7 +320,7 @@ class LoyalistaApiService extends BaseApiService
 
         }
 
-        $requestURL = ConfigHelper::BASE_URL .'/api/verify_customer';
+        $requestURL = ConfigHelper::BASE_URL .'/v1/verify_customer';
         $requestType = static::REQUEST_METHOD_POST;
         $vendor_id = $this->configHelper->getVendorID();
         $vendorSecret = $this->configHelper->getVendorSecret();
@@ -336,7 +336,7 @@ class LoyalistaApiService extends BaseApiService
 
     public function getMyAccountWidgetData($loggedin_customer_id){
 
-        $requestURL = ConfigHelper::BASE_URL .'/api/get_user_account_data';
+        $requestURL = ConfigHelper::BASE_URL .'/v1/get_user_account_data';
 
 
         $requestType = static::REQUEST_METHOD_GET;
@@ -351,11 +351,7 @@ class LoyalistaApiService extends BaseApiService
         $tokenVerified =  $this->verifyApiToken();
 
         if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
-
             $response = $this->doCurl($requestURL ,$requestType , [], $data);
-
-
-
 
             return $response;
 
@@ -367,7 +363,7 @@ class LoyalistaApiService extends BaseApiService
 
     public function getMyMergeAccountWidgetData($loggedin_customer_id){
 
-        $requestURL = ConfigHelper::BASE_URL .'/api/get_user_merge_account_data';
+        $requestURL = ConfigHelper::BASE_URL .'/v1/get_user_merge_account_data';
 
         $requestType = static::REQUEST_METHOD_GET;
 
@@ -398,7 +394,7 @@ class LoyalistaApiService extends BaseApiService
     public function getCartWidgetData($loggedin_customer_id){
 
 
-        $requestURL = ConfigHelper::BASE_URL .'/api/get_user_cart_data';
+        $requestURL = ConfigHelper::BASE_URL .'/v1/get_user_cart_data';
 
         $requestType = static::REQUEST_METHOD_GET;
 
@@ -419,12 +415,14 @@ class LoyalistaApiService extends BaseApiService
         }
     }
 
-
-
+    /**
+     * @param $loggedin_customer_id
+     * @return mixed|string|void
+     */
     public function getCartCheckoutWidgetData($loggedin_customer_id){
 
 
-        $requestURL = ConfigHelper::BASE_URL .'/api/get_user_checkout_cart_data';
+        $requestURL = ConfigHelper::BASE_URL .'/v1/get_user_checkout_cart_data';
 
         $requestType = static::REQUEST_METHOD_GET;
 
@@ -448,18 +446,13 @@ class LoyalistaApiService extends BaseApiService
         }
     }
 
-
-
-
-
     /**
-     * Login Customer.
      * @param $data
-     * @return mixed|string
+     * @return mixed|string|void
      */
     public function registerCustomer($data)
     {
-        $requestURL = ConfigHelper::BASE_URL .'/api/add_customer';
+        $requestURL = ConfigHelper::BASE_URL .'/v1/add_customer';
         $requestType = static::REQUEST_METHOD_POST;
         $tokenVerified =  $this->verifyApiToken();
         if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
@@ -471,9 +464,13 @@ class LoyalistaApiService extends BaseApiService
         }
     }
 
+    /**
+     * @param $data
+     * @return mixed|string|void
+     */
     public function unRegisterCustomer($data)
     {
-        $requestURL = ConfigHelper::BASE_URL .'/api/remove_customer';
+        $requestURL = ConfigHelper::BASE_URL .'/v1/remove_customer';
         $requestType = static::REQUEST_METHOD_POST;
         $tokenVerified =  $this->verifyApiToken();
         if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
@@ -485,10 +482,13 @@ class LoyalistaApiService extends BaseApiService
         }
     }
 
-
+    /**
+     * @param $data
+     * @return mixed|string|void
+     */
     public function mergeCustomr($data)
     {
-        $requestURL = ConfigHelper::BASE_URL .'/api/merge_customer_request';
+        $requestURL = ConfigHelper::BASE_URL .'/v1/merge_customer_request';
         $requestType = static::REQUEST_METHOD_POST;
         $tokenVerified =  $this->verifyApiToken();
         if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
@@ -500,14 +500,40 @@ class LoyalistaApiService extends BaseApiService
         }
     }
 
-
-
-
+    /**
+     * @param $data
+     * @return void
+     */
     public function test($data)
     {
         $this->getLogger('dump')->error('Dump', ['data'=> $data]);
 
     }
 
+    /**
+     * @param $loggedin_customer_id
+     * @param $points
+     * @return mixed|string|void
+     */
+    public function redeemPoints($loggedin_customer_id, $points){
+        $requestURL = ConfigHelper::BASE_URL .'/v1/redeem_points';
+        $requestType = static::REQUEST_METHOD_POST;
+        $shopReference = $this->configHelper->getShopID();
+        $data = [
+            'shop_reference' => $shopReference,
+            'customer_reference_id' => $loggedin_customer_id,
+            'points' => $points
+        ];
+
+        $tokenVerified =  $this->verifyApiToken();
+
+        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] ){
+            return $this->doCurl($requestURL ,$requestType , [], $data);
+        }else{
+            $this->getLogger('Token Verification Failed')->error('Loyalista Token Expire or invalid');
+
+            return $tokenVerified;
+        }
+    }
 
 }
