@@ -454,14 +454,12 @@ class LoyalistaApiService extends BaseApiService
     {
         $requestURL = ConfigHelper::BASE_URL .'/v1/add_customer';
         $requestType = static::REQUEST_METHOD_POST;
-        $tokenVerified =  $this->verifyApiToken();
-        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
-            $response = $this->doCurl($requestURL ,$requestType , [], $data);
-            return $response;
+        $response = $this->doCurl($requestURL ,$requestType , [], $data);
+        if (!isset($response['success'])){
+            $this->getLogger(__FUNCTION__)->error( $response['message']);
         }
-        else{
-            $this->getLogger('Api Token')->error('Unverified Token Used');
-        }
+
+        return $response;
     }
 
     /**
@@ -490,24 +488,12 @@ class LoyalistaApiService extends BaseApiService
     {
         $requestURL = ConfigHelper::BASE_URL .'/v1/merge_customer_request';
         $requestType = static::REQUEST_METHOD_POST;
-        $tokenVerified =  $this->verifyApiToken();
-        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
-            $response = $this->doCurl($requestURL ,$requestType , [], $data);
-            return $response;
+        $response = $this->doCurl($requestURL ,$requestType , [], $data);
+        if (!isset($response['success'])){
+            $this->getLogger(__FUNCTION__)->error( $response['message']);
         }
-        else{
-            $this->getLogger('Api Token')->error('Unverified Token Used');
-        }
-    }
 
-    /**
-     * @param $data
-     * @return void
-     */
-    public function test($data)
-    {
-        $this->getLogger('dump')->error('Dump', ['data'=> $data]);
-
+        return $response;
     }
 
     /**
@@ -525,15 +511,66 @@ class LoyalistaApiService extends BaseApiService
             'points' => $points
         ];
 
-        $tokenVerified =  $this->verifyApiToken();
-
-        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] ){
-            return $this->doCurl($requestURL ,$requestType , [], $data);
-        }else{
-            $this->getLogger('Token Verification Failed')->error('Loyalista Token Expire or invalid');
-
-            return $tokenVerified;
+        $response = $this->doCurl($requestURL ,$requestType , [], $data);
+        if (!isset($response['success'])){
+            $this->getLogger(__FUNCTION__)->error( $response['message']);
         }
+
+        return $response;
+    }
+
+    /**
+     * @param $data
+     * @return void
+     */
+    public function test($data)
+    {
+        $this->getLogger('dump')->error('Dump', ['data'=> $data]);
+    }
+
+    public function pullConfiguration(){
+
+        $requestURL = ConfigHelper::BASE_URL .'/v1/get_configurations';
+        $requestType = static::REQUEST_METHOD_GET;
+
+
+        $response = $this->doCurl($requestURL ,$requestType , []);
+        if (!isset($response['success'])){
+            $this->getLogger(__FUNCTION__)->error( $response['message']);
+        }
+
+        return $response;
+    }
+
+
+
+    public function pushConfiguration()
+    {
+        $requestURL = ConfigHelper::BASE_URL .'/v1/update_configurations';
+        $requestType = static::REQUEST_METHOD_POST;
+
+        $data = [
+            'expiry_period' => $this->configHelper->getVar('expiry_period'),
+            'redeemable_after' => $this->configHelper->getVar('redeemable_after'),
+            'revenue_to_point' => $this->configHelper->getVar('revenue_to_one_point'),
+            'point_to_value' => $this->configHelper->getVar('one_point_to_value'),
+
+            'events' => [
+                'signup_points' => $this->configHelper->getVar('signup_points'),
+                'order_created_points' => $this->configHelper->getVar('order_created_points'),
+                'category_ids' => $this->configHelper->getVar('category_ids'),
+                'category_extra_points' => $this->configHelper->getVar('category_extra_points'),
+                'product_ids' => $this->configHelper->getVar('product_ids'),
+                'product_extra_points' => $this->configHelper->getVar('product_extra_points'),
+            ]
+        ] ;
+
+        $response = $this->doCurl($requestURL ,$requestType , [], $data);
+         if (!isset($response['success'])){
+            $this->getLogger(__FUNCTION__)->error( $response['message']);
+        }
+
+        return $response;
     }
 
 }

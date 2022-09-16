@@ -332,7 +332,516 @@
     },
     "Setting" : {
       "label": "Config.SettingTab",
-      "fullWidth": true
+      "fullWidth": true,
+      "formFields": {
+        "revenue_to_one_point": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.revenueToOnePointLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "one_point_to_value": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.onePointToValueLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "redeemable_after": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.redeemableAfterLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "expiry_period": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.expiryPeriodLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "signup_points": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.signupPointsLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "order_created_points": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.orderCreatedPointsLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "category_extra_points": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.categoryExtraPointsLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "category_ids": {
+          "type": "inputText",
+          "required": false,
+          "label": "Config.categoryIdsLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "product_extra_points": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.productExtraPointsLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "product_ids": {
+          "type": "inputText",
+          "required": false,
+          "label": "Config.productIdsLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "partial_redemption": {
+          "type": "checkBox",
+          "required": false,
+          "label": "Config.partialRedemptionLabel",
+          "options": {
+            "tooltip": "Config.partialRedemptionLabelTooltip",
+            "defaultValue": false
+          }
+        },
+        "referrer_ids": {
+          "type": "multiCheckBox",
+          "required": false,
+          "label": "Config.referrerIdLabel",
+          "options": {
+            "defaultValue": "none",
+            "checkBoxValues": [
+              {
+                "value": "0",
+                "caption": "Config.referrerIdPossibleValue0"
+              },
+              {
+                "value": "1",
+                "caption": "Config.referrerIdPossibleValue1"
+              },
+              {
+                "value": "2",
+                "caption": "Config.referrerIdPossibleValue2"
+              },
+              {
+                "value": "3",
+                "caption": "Config.referrerIdPossibleValue3"
+              },
+              {
+                "value": "4",
+                "caption": "Config.referrerIdPossibleValue4"
+              },
+              {
+                "value": "5",
+                "caption": "Config.referrerIdPossibleValue5"
+              },
+              {
+                "value": "6",
+                "caption": "Config.referrerIdPossibleValue6"
+              },
+              {
+                "value": "7",
+                "caption": "Config.referrerIdPossibleValue7"
+              },
+              {
+                "value": "101",
+                "caption": "Config.referrerIdPossibleValue101"
+              },
+              {
+                "value": "102",
+                "caption": "Config.referrerIdPossibleValue102"
+              },
+              {
+                "value": "103",
+                "caption": "Config.referrerIdPossibleValue103"
+              },
+              {
+                "value": "104",
+                "caption": "Config.referrerIdPossibleValue104"
+              },
+              {
+                "value": "105",
+                "caption": "Config.referrerIdPossibleValue105"
+              },
+              {
+                "value": "106",
+                "caption": "Config.referrerIdPossibleValue106"
+              },
+              {
+                "value": "107",
+                "caption": "Config.referrerIdPossibleValue107"
+              },
+              {
+                "value": "108",
+                "caption": "Config.referrerIdPossibleValue108"
+              },
+              {
+                "value": "109",
+                "caption": "Config.referrerIdPossibleValue109"
+              },
+              {
+                "value": "110",
+                "caption": "Config.referrerIdPossibleValue110"
+              },
+              {
+                "value": "111",
+                "caption": "Config.referrerIdPossibleValue111"
+              },
+              {
+                "value": "112",
+                "caption": "Config.referrerIdPossibleValue112"
+              },
+              {
+                "value": "113",
+                "caption": "Config.referrerIdPossibleValue113"
+              },
+              {
+                "value": "114",
+                "caption": "Config.referrerIdPossibleValue114"
+              },
+              {
+                "value": "115",
+                "caption": "Config.referrerIdPossibleValue115"
+              },
+              {
+                "value": "116",
+                "caption": "Config.referrerIdPossibleValue116"
+              },
+              {
+                "value": "117",
+                "caption": "Config.referrerIdPossibleValue117"
+              },
+              {
+                "value": "118",
+                "caption": "Config.referrerIdPossibleValue118"
+              },
+              {
+                "value": "119",
+                "caption": "Config.referrerIdPossibleValue119"
+              },
+              {
+                "value": "120",
+                "caption": "Config.referrerIdPossibleValue120"
+              },
+              {
+                "value": "121",
+                "caption": "Config.referrerIdPossibleValue121"
+              },
+              {
+                "value": "122",
+                "caption": "Config.referrerIdPossibleValue122"
+              },
+              {
+                "value": "123",
+                "caption": "Config.referrerIdPossibleValue123"
+              },
+              {
+                "value": "124",
+                "caption": "Config.referrerIdPossibleValue124"
+              },
+              {
+                "value": "125",
+                "caption": "Config.referrerIdPossibleValue125"
+              },
+              {
+                "value": "126",
+                "caption": "Config.referrerIdPossibleValue126"
+              },
+              {
+                "value": "127",
+                "caption": "Config.referrerIdPossibleValue127"
+              },
+              {
+                "value": "130",
+                "caption": "Config.referrerIdPossibleValue130"
+              },
+              {
+                "value": "131",
+                "caption": "Config.referrerIdPossibleValue131"
+              },
+              {
+                "value": "132",
+                "caption": "Config.referrerIdPossibleValue132"
+              },
+              {
+                "value": "133",
+                "caption": "Config.referrerIdPossibleValue133"
+              },
+              {
+                "value": "134",
+                "caption": "Config.referrerIdPossibleValue134"
+              },
+              {
+                "value": "135",
+                "caption": "Config.referrerIdPossibleValue135"
+              },
+              {
+                "value": "136",
+                "caption": "Config.referrerIdPossibleValue136"
+              },
+              {
+                "value": "137",
+                "caption": "Config.referrerIdPossibleValue137"
+              },
+              {
+                "value": "138",
+                "caption": "Config.referrerIdPossibleValue138"
+              },
+              {
+                "value": "139",
+                "caption": "Config.referrerIdPossibleValue139"
+              },
+              {
+                "value": "143",
+                "caption": "Config.referrerIdPossibleValue143"
+              },
+              {
+                "value": "144",
+                "caption": "Config.referrerIdPossibleValue144"
+              },
+              {
+                "value": "145",
+                "caption": "Config.referrerIdPossibleValue145"
+              },
+              {
+                "value": "147",
+                "caption": "Config.referrerIdPossibleValue147"
+              },
+              {
+                "value": "148",
+                "caption": "Config.referrerIdPossibleValue148"
+              },
+              {
+                "value": "149",
+                "caption": "Config.referrerIdPossibleValue149"
+              },
+              {
+                "value": "150",
+                "caption": "Config.referrerIdPossibleValue150"
+              },
+              {
+                "value": "152",
+                "caption": "Config.referrerIdPossibleValue152"
+              },
+              {
+                "value": "2.01",
+                "caption": "Config.referrerIdPossibleValue201"
+              },
+              {
+                "value": "2.02",
+                "caption": "Config.referrerIdPossibleValue202"
+              },
+              {
+                "value": "2.03",
+                "caption": "Config.referrerIdPossibleValue203"
+              },
+              {
+                "value": "2.04",
+                "caption": "Config.referrerIdPossibleValue204"
+              },
+              {
+                "value": "2.05",
+                "caption": "Config.referrerIdPossibleValue205"
+              },
+              {
+                "value": "2.06",
+                "caption": "Config.referrerIdPossibleValue206"
+              },
+              {
+                "value": "2.07",
+                "caption": "Config.referrerIdPossibleValue207"
+              },
+              {
+                "value": "2.08",
+                "caption": "Config.referrerIdPossibleValue208"
+              },
+              {
+                "value": "2.09",
+                "caption": "Config.referrerIdPossibleValue209"
+              },
+              {
+                "value": "2.1",
+                "caption": "Config.referrerIdPossibleValue21"
+              },
+              {
+                "value": "2.11",
+                "caption": "Config.referrerIdPossibleValue211"
+              },
+              {
+                "value": "2.12",
+                "caption": "Config.referrerIdPossibleValue212"
+              },
+              {
+                "value": "2.13",
+                "caption": "Config.referrerIdPossibleValue213"
+              },
+              {
+                "value": "2.14",
+                "caption": "Config.referrerIdPossibleValue214"
+              },
+              {
+                "value": "2.15",
+                "caption": "Config.referrerIdPossibleValue215"
+              },
+              {
+                "value": "2.16",
+                "caption": "Config.referrerIdPossibleValue216"
+              },
+              {
+                "value": "2.17",
+                "caption": "Config.referrerIdPossibleValue217"
+              },
+              {
+                "value": "2.18",
+                "caption": "Config.referrerIdPossibleValue218"
+              },
+              {
+                "value": "2.19",
+                "caption": "Config.referrerIdPossibleValue219"
+              },
+              {
+                "value": "2.2",
+                "caption": "Config.referrerIdPossibleValue22"
+              },
+              {
+                "value": "2.21",
+                "caption": "Config.referrerIdPossibleValue221"
+              },
+              {
+                "value": "2.22",
+                "caption": "Config.referrerIdPossibleValue222"
+              },
+              {
+                "value": "4.01",
+                "caption": "Config.referrerIdPossibleValue401"
+              },
+              {
+                "value": "4.02",
+                "caption": "Config.referrerIdPossibleValue402"
+              },
+              {
+                "value": "4.03",
+                "caption": "Config.referrerIdPossibleValue403"
+              },
+              {
+                "value": "4.04",
+                "caption": "Config.referrerIdPossibleValue404"
+              },
+              {
+                "value": "4.05",
+                "caption": "Config.referrerIdPossibleValue405"
+              },
+              {
+                "value": "4.06",
+                "caption": "Config.referrerIdPossibleValue406"
+              },
+              {
+                "value": "4.21",
+                "caption": "Config.referrerIdPossibleValue421"
+              },
+              {
+                "value": "4.22",
+                "caption": "Config.referrerIdPossibleValue422"
+              },
+              {
+                "value": "104.01",
+                "caption": "Config.referrerIdPossibleValue10401"
+              },
+              {
+                "value": "104.02",
+                "caption": "Config.referrerIdPossibleValue10402"
+              },
+              {
+                "value": "104.03",
+                "caption": "Config.referrerIdPossibleValue10403"
+              },
+              {
+                "value": "104.04",
+                "caption": "Config.referrerIdPossibleValue10404"
+              },
+              {
+                "value": "104.05",
+                "caption": "Config.referrerIdPossibleValue10405"
+              },
+              {
+                "value": "104.06",
+                "caption": "Config.referrerIdPossibleValue10406"
+              },
+              {
+                "value": "104.21",
+                "caption": "Config.referrerIdPossibleValue10421"
+              },
+              {
+                "value": "104.22",
+                "caption": "Config.referrerIdPossibleValue10422"
+              },
+              {
+                "value": "106.02",
+                "caption": "Config.referrerIdPossibleValue10602"
+              },
+              {
+                "value": "108.02",
+                "caption": "Config.referrerIdPossibleValue10802"
+              },
+              {
+                "value": "121.02",
+                "caption": "Config.referrerIdPossibleValue12102"
+              },
+              {
+                "value": "143.02",
+                "caption": "Config.referrerIdPossibleValue14302"
+              },
+              {
+                "value": "154",
+                "caption": "Config.referrerIdPossibleValue154"
+              },
+              {
+                "value": "160",
+                "caption": "Config.referrerIdPossibleValue160"
+              },
+              {
+                "value": "160.1",
+                "caption": "Config.referrerIdPossibleValue1601"
+              },
+              {
+                "value": "170",
+                "caption": "Config.referrerIdPossibleValue170"
+              },
+              {
+                "value": "170.01",
+                "caption": "Config.referrerIdPossibleValue17001"
+              },
+              {
+                "value": "170.02",
+                "caption": "Config.referrerIdPossibleValue17002"
+              },
+              {
+                "value": "170.03",
+                "caption": "Config.referrerIdPossibleValue17003"
+              }
+            ]
+          }
+        }
+      }
     },
     "Action" : {
       "label": "Config.ActionTab"

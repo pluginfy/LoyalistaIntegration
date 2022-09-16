@@ -39,7 +39,7 @@
 
 <script>
 
-    $('.widget-place-order .btn').on('click', function () {
+    $('.widget-place-order .btn').on('click', function (event) {
         var current_widget = $('.widget-checkout-widget_wrapper_loyalista');
         var pointToValue = current_widget.find('span.loyalista_co_num_of_points').data('point_to_value');
         var selected_type = current_widget.find("input[name=loyalista_widget_chekcout__options]:checked").val();
@@ -53,24 +53,38 @@
         }
 
         if(pointsToRedeem > 0) {
-            $.ajax({
-                url: '/checkout/redeem/points/',
-                type: "POST",
-                data: {'pointsToRedeem' : pointsToRedeem, 'pointToValue' : pointToValue},
-                dataType: "json",
-                cache: true,
-                async: false
-            }).done(function (return_data) {
-                console.log(return_data);
-            }).fail(function (data) {
-                console.log(data);
-            });
+            redeemPoints(pointsToRedeem, pointToValue).then(
+                function (value) {
+                    console.log(value);
+                    },
+                function (error) {
+                    console.log(error);
+                    event.preventDefault();
+                }
+            );
         }
 
         // setTimeout(function(){
         //     console.log(pointsToRedeem);
         // }, 2000);
     });
+
+    async function redeemPoints(pointsToRedeem, pointToValue) {
+        $.ajax({
+            url: '/checkout/redeem/points/',
+            type: "POST",
+            data: {'pointsToRedeem' : pointsToRedeem, 'pointToValue' : pointToValue},
+            dataType: "json",
+            cache: true,
+            async: false
+        }).done(function (return_data) {
+            console.log(return_data);
+            return true;
+        }).fail(function (data) {
+            console.log(data);
+            return true;
+        });
+    }
 
 
     function setCoPointBait(){

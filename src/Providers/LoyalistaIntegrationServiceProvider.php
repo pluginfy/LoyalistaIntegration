@@ -1,13 +1,11 @@
 <?php
 
 namespace LoyalistaIntegration\Providers;
-use Plenty\Modules\Order\Coupon\Campaign\Code\Contracts\CouponCampaignCodeRepositoryContract;
-use Plenty\Modules\Order\Coupon\Campaign\Contracts\CouponCampaignRepositoryContract;
+
 use Plenty\Plugin\Log\Loggable;
 use Plenty\Plugin\ServiceProvider;
-
+use Plenty\Modules\Cron\Services\CronContainer;
 use Plenty\Log\Services\ReferenceContainer;
-use Plenty\Log\Exceptions\ReferenceTypeException;
 
 use LoyalistaIntegration\Contracts\ToDoRepositoryContract;
 use LoyalistaIntegration\Repositories\ToDoRepository;
@@ -18,6 +16,8 @@ use LoyalistaIntegration\Repositories\OrderSyncedRepository;
 use Plenty\Modules\EventProcedures\Services\EventProceduresService;
 use Plenty\Modules\EventProcedures\Services\Entries\ProcedureEntry;
 use LoyalistaIntegration\EventProcedures\Procedures;
+use LoyalistaIntergation\Crons\ConfigurationCron;
+
 
 /**
  * Class LoyalistaIntegrationServiceProvider
@@ -41,17 +41,32 @@ class LoyalistaIntegrationServiceProvider extends ServiceProvider
         $this->getApplication()->bind(OrderSyncedRepositoryContract::class, OrderSyncedRepository::class);
     }
 
-    public function boot(ReferenceContainer $referenceContainer, EventProceduresService $eventProceduresService)
+    public function boot(ReferenceContainer $referenceContainer, EventProceduresService $eventProceduresService, CronContainer $container)
     {
-        $register = $eventProceduresService->registerProcedure(
+
+        $container->add(CronContainer::EVERY_FIVE_MINUTES, ConfigurationCron::class);
+
+        $export_order = $eventProceduresService->registerProcedure(
             'exportOrder',
             ProcedureEntry::EVENT_TYPE_ORDER,
             [
                 'de' => 'Bestelling exporteren loyalista',
-                'en' => 'Export Order Loyalista'
+                'en' => 'Export Order to Loyalista'
             ],
             Procedures::class . '@exportOrder'
         );
+
+        $updateOrderStatus = $eventProceduresService->registerProcedure(
+            'updateOrderStatus',
+            ProcedureEntry::EVENT_TYPE_ORDER,
+            [
+                'de' => 'Update bestelstatus loyalista',
+                'en' => 'Update Order Status loyalista'
+            ],
+            Procedures::class . '@updateOrderStatus'
+        );
+
+
     }
 }
 

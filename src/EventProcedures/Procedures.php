@@ -36,4 +36,15 @@ class Procedures
             // TODO count to external apli log service
         }
     }
+
+    public function updateOrderStatus(EventProceduresTriggered $event)
+    {
+        $this->getLogger('updateOrderStatus')->error('status function called', ['message'=> 'updateOrderStatus' ]);
+    }
+
+    public function cancelRedeemPoint()
+    {
+        $this->getLogger('cancelRedeemPoint')->error('cancelRedeemPoint function called', ['message'=> 'cancelRedeemPoint' ]);
+    }
+
 }
