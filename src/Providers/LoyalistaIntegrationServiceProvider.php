@@ -15,8 +15,9 @@ use LoyalistaIntegration\Repositories\OrderSyncedRepository;
 
 use Plenty\Modules\EventProcedures\Services\EventProceduresService;
 use Plenty\Modules\EventProcedures\Services\Entries\ProcedureEntry;
-use LoyalistaIntegration\EventProcedures\Procedures;
-use LoyalistaIntergation\Crons\ConfigurationCron;
+use LoyalistaIntegration\EventProcedures\LoyalistaProcedures;
+
+use LoyalistaIntegration\Cron\ConfigurationCron;
 
 
 /**
@@ -41,29 +42,30 @@ class LoyalistaIntegrationServiceProvider extends ServiceProvider
         $this->getApplication()->bind(OrderSyncedRepositoryContract::class, OrderSyncedRepository::class);
     }
 
-    public function boot(ReferenceContainer $referenceContainer, EventProceduresService $eventProceduresService, CronContainer $container)
+    public function boot(EventProceduresService $eventProceduresService,
+                         CronContainer $cronContainer)
     {
 
-        $container->add(CronContainer::EVERY_FIVE_MINUTES, ConfigurationCron::class);
+        $cronContainer->add(CronContainer::EVERY_FIVE_MINUTES, ConfigurationCron::class);
 
-        $export_order = $eventProceduresService->registerProcedure(
+        $eventProceduresService->registerProcedure(
             'exportOrder',
             ProcedureEntry::EVENT_TYPE_ORDER,
             [
-                'de' => 'Bestelling exporteren loyalista',
-                'en' => 'Export Order to Loyalista'
+                'de' => 'Bestelling exporteren loyalista CRM.',
+                'en' => 'Export User Order to Loyalista CRM.'
             ],
-            Procedures::class . '@exportOrder'
+            LoyalistaProcedures::class . '@exportOrder'
         );
 
-        $updateOrderStatus = $eventProceduresService->registerProcedure(
-            'updateOrderStatus',
+         $eventProceduresService->registerProcedure(
+            'revertPointLoyalista',
             ProcedureEntry::EVENT_TYPE_ORDER,
             [
-                'de' => 'Update bestelstatus loyalista',
-                'en' => 'Update Order Status loyalista'
+                'de' => 'Loyalista-Punkte zurückgeben.',
+                'en' => 'Revert points-loyalista..'
             ],
-            Procedures::class . '@updateOrderStatus'
+            LoyalistaProcedures::class . '@revertPointLoyalista'
         );
 
 

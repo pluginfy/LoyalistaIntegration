@@ -8,7 +8,7 @@ use Plenty\Plugin\Templates\Twig;
 use Plenty\Plugin\Log\Loggable;
 use Ceres\Widgets\Helper\BaseWidget;
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
-use LoyalistaIntegration\Contexts\MyContext;
+
 
 class CartProductWidget extends BaseWidget{
 
@@ -26,11 +26,11 @@ class CartProductWidget extends BaseWidget{
     protected function getTemplateData($widgetSettings, $isPreview)
     {
 
-        $con = pluginApp(MyContext::class);
+
 
         return [
             "widgetData" => [
-                'heading' => $con->myText(),
+                'heading' => 'test',
                 'customer_id' => $this->login_id ,
             ],
         ];

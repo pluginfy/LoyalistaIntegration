@@ -6,7 +6,7 @@
         "en": "Loyalista Integration"
     },
     "type"              :   "general",
-    "version"           :   "1.0.0",
+    "version"           :   "1.2.0",
     "pluginIcon"        :   "icon_plugin_xs.png",
     "description"       :   "Allows you to easily integrate your Plentymarkets Shop with Loyalista..",
     "shortDescription": {
@@ -20,7 +20,7 @@
     "phone": "+92 3004801494",
     "keywords": [
         "plugins",
-        "loyalisty",
+        "loyalty",
         "loyalista",
         "integration",
         "points",

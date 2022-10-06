@@ -12,6 +12,7 @@ use LoyalistaIntegration\Contracts\OrderSyncedRepositoryContract;
 use Plenty\Plugin\Log\Reportable;
 
 use Plenty\Modules\Account\Address\Contracts\AddressRepositoryContract;
+use Plenty\Modules\Item\Item\Contracts\ItemRepositoryContract;
 
 
 class LoyalistaApiService extends BaseApiService
@@ -95,7 +96,6 @@ class LoyalistaApiService extends BaseApiService
                 // Insert Into OrderSyncedDataTable in any case token verified or not.
                 $OrderSyncedRepo = pluginApp(OrderSyncedRepositoryContract::class);
                 $OrderSynced = $OrderSyncedRepo->createOrderSync(['orderId' => $order->id]);
-
                 if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
                     // token good
 
@@ -152,7 +152,6 @@ class LoyalistaApiService extends BaseApiService
 
                     $out['item_line_total_gross'] = 0.00;
                     $out['item_line_total_net'] = 0.00;
-
 
 
                     // Address information
@@ -228,12 +227,32 @@ class LoyalistaApiService extends BaseApiService
                     $out['shipping_address'] = $shipping_address;
                     // Address information
 
+
+                    $this->getLogger('sendingOrderToLoyalista_II')->info('Item Object of Plenty', ['Plenty order item'=> '$o_item']);
+                    $this->getLogger('sendingOrderToLoyalista_II')->debug('Item Object of Plenty', ['Plenty order item'=> '$o_item']);
+
+
+                    $PlentyItemRepo = pluginApp(ItemRepositoryContract::class);
+
+
                     $items = [] ;
+
                     foreach ($order->orderItems as $o_item) {
 
                         if($o_item->typeId != 1){
                             continue;
                         }
+
+                        $this->getLogger('sendingOrderToLoyalista_II')->info('Item Object of Plenty', ['Plenty order item'=> $o_item]);
+
+                        $plenty_item_variation = $PlentyItemRepo->show($o_item->itemVariationId);
+
+                        $this->getLogger('sendingOrderToLoyalista_II')->error('Plenty Item', ['item'=> $plenty_item_variation]);
+
+                        $plenty_item = $PlentyItemRepo->show($o_item->id);
+
+
+                        $this->getLogger('sendingOrderToLoyalista_II')->error('Plenty Item', ['item'=> $plenty_item]);
 
                         $temp_itm =  array(
                             'item_reference_id' => $o_item->id,
@@ -243,7 +262,6 @@ class LoyalistaApiService extends BaseApiService
                             'item_qty' => $o_item->quantity,
                             'item_type' => $o_item->typeId,
                         );
-
 
 
                         $item_amounts = $o_item->amounts;
@@ -288,7 +306,7 @@ class LoyalistaApiService extends BaseApiService
 
                         $data['postSynced'] = $MarkedOrderSynced;
                         // Report save case
-                        $this->getLogger('sendingOrderToLoyalista')->error('Export Order Pass', ['data'=> $data]);
+                        $this->getLogger('sendingOrderToLoyalista')->error('Export Order Passed successfully', ['data'=> $data]);
 
                     }else{
                         $this->getLogger('sendingOrderToLoyalista')->error('Export Order Failed', ['data'=> $data]);
@@ -438,7 +456,10 @@ class LoyalistaApiService extends BaseApiService
         if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
             $response = $this->doCurl($requestURL ,$requestType , [], $data);
 
-            $this->getLogger('response')->error('Checkout Widget', ['res'=> $response ]);
+            $this->report('Pluginfy.com-ABCD12d',
+                'some code',
+                ['orderID' => 'random' ],
+                ['orDId' => 'randomm 2' ]);
 
             return $response;
         }else{
@@ -533,8 +554,8 @@ class LoyalistaApiService extends BaseApiService
         $requestURL = ConfigHelper::BASE_URL .'/v1/get_configurations';
         $requestType = static::REQUEST_METHOD_GET;
 
-
         $response = $this->doCurl($requestURL ,$requestType , []);
+
         if (!isset($response['success'])){
             $this->getLogger(__FUNCTION__)->error( $response['message']);
         }
@@ -549,24 +570,52 @@ class LoyalistaApiService extends BaseApiService
         $requestURL = ConfigHelper::BASE_URL .'/v1/update_configurations';
         $requestType = static::REQUEST_METHOD_POST;
 
+        $redeemable_after = $this->configHelper->getVar('redeemable_after');
+        $expiry_period = $this->configHelper->getVar('expiry_period');
+
         $data = [
-            'expiry_period' => $this->configHelper->getVar('expiry_period'),
-            'redeemable_after' => $this->configHelper->getVar('redeemable_after'),
+            'expiry_period' => $expiry_period,
+            'redeemable_after' => $redeemable_after,
             'revenue_to_point' => $this->configHelper->getVar('revenue_to_one_point'),
             'point_to_value' => $this->configHelper->getVar('one_point_to_value'),
 
             'events' => [
-                'signup_points' => $this->configHelper->getVar('signup_points'),
-                'order_created_points' => $this->configHelper->getVar('order_created_points'),
-                'category_ids' => $this->configHelper->getVar('category_ids'),
-                'category_extra_points' => $this->configHelper->getVar('category_extra_points'),
-                'product_ids' => $this->configHelper->getVar('product_ids'),
-                'product_extra_points' => $this->configHelper->getVar('product_extra_points'),
+                'signup' => [
+                    'points' => $this->configHelper->getVar('signup_points'),
+                    'point_redeemable_after_days' => $redeemable_after,
+                    'point_expiry_days' =>  $expiry_period,
+
+                ],
+                'orderCreated' => [
+                    'points' => $this->configHelper->getVar('order_created_points'),
+                    'point_redeemable_after_days' => $redeemable_after,
+                    'point_expiry_days' =>  $expiry_period,
+                ],
+                'revenue' => [
+                    'points' => $this->configHelper->getVar('revenue_to_one_point'),
+                    'point_redeemable_after_days' => $redeemable_after,
+                    'point_expiry_days' =>  $expiry_period,
+                ],
+
+                'CategoryExtraPoint' => [
+                    'special_ids' => $this->configHelper->getVar('category_ids'),
+                    'points' => $this->configHelper->getVar('category_extra_points'),
+                    'point_redeemable_after_days' => $redeemable_after,
+                    'point_expiry_days' =>  $expiry_period,
+                ],
+
+                'ProductExtraPoint' => [
+                    'special_ids' => $this->configHelper->getVar('product_ids'),
+                    'points' => $this->configHelper->getVar('product_extra_points'),
+                    'point_redeemable_after_days' => $redeemable_after,
+                    'point_expiry_days' =>  $expiry_period,
+                ],
             ]
         ] ;
 
         $response = $this->doCurl($requestURL ,$requestType , [], $data);
          if (!isset($response['success'])){
+            $this->getLogger(__FUNCTION__)->error( $data);
             $this->getLogger(__FUNCTION__)->error( $response['message']);
         }
 

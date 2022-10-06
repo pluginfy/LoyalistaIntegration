@@ -33,6 +33,7 @@ class ConfigHelper extends AbstractConfigHelper
      * @var ConfigRepository
      */
     private $config;
+    private $prifix;
 
     /**
      * ConfigHelper constructor.
@@ -42,6 +43,8 @@ class ConfigHelper extends AbstractConfigHelper
     public function __construct(ConfigRepository $config)
     {
         $this->config = $config;
+
+        $this->prifix = $config::getPrefix();
     }
 
     // Added for Lolista
@@ -74,6 +77,15 @@ class ConfigHelper extends AbstractConfigHelper
     public function getVar($var){
 
         return $this->config->get(self::PLUGIN_NAME   .'.'  .$var);
+    }
+
+    public function setVar($var, $value){
+        $this->config->set(self::PLUGIN_NAME . '.'  . $var , $value);
+    }
+
+    public function getPrefix()
+    {
+        return $this->prifix;
     }
 
 
