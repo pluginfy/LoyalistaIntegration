@@ -6,7 +6,7 @@
         "en": "Loyalista Integration"
     },
     "type"              :   "general",
-    "version"           :   "1.3.4",
+    "version"           :   "1.3.5",
     "pluginIcon"        :   "icon_plugin_xs.png",
     "description"       :   "Allows you to easily integrate your Plentymarkets Shop with Loyalista..",
     "shortDescription": {
@@ -24,9 +24,10 @@
         "loyalista",
         "integration",
         "points",
+        "bonuses",
         "rewards",
         "discounts",
-        "Pluginfy"
+        "pluginfy"
     ],
     "serviceProvider"  :  "LoyalistaIntegration\\Providers\\LoyalistaIntegrationServiceProvider",
     "runOnBuild":[
@@ -43,25 +44,25 @@
         {
             "key": "LoyalistaIntegration\\Containers\\CheckoutWidget",
             "name": "Checkout Redeem Widget ",
-            "description": "Show loyalista data on my checkout page",
+            "description": "Show Loyalista data on my checkout page",
             "defaultLayoutContainer": "Ceres::Checkout.AfterBasketTotals"
         },
         {
             "key": "LoyalistaIntegration\\Containers\\ProductWidget",
             "name": "Product Widget",
-            "description": "Show loyalista data on my single product page",
+            "description": "Show Loyalista data on my single product page",
             "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
         },
         {
             "key": "LoyalistaIntegration\\Containers\\CartProductWidget",
             "name": "Cart Product Widget",
-            "description": "Show loyalista data on my shopping cart page",
+            "description": "Show Loyalista data on my shopping cart page",
             "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
         },
         {
             "key": "LoyalistaIntegration\\Containers\\MyAccountWidget",
             "name": "My Account Widget",
-            "description": "Show loyalista data on my account page",
+            "description": "Show Loyalista data on my account page",
             "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
         },
         {

@@ -21,7 +21,7 @@ class LoyalistaIntegrationRouteServiceProvider extends RouteServiceProvider
         $router->get('/account/unregister/customer/', 'LoyalistaIntegration\Controllers\CustomerController@unRegisterCustomer');
         $router->post('/account/merge/customer/', 'LoyalistaIntegration\Controllers\CustomerController@mergeCustomer');
         $router->get('/user/total/basket/', 'LoyalistaIntegration\Controllers\BasketController@getBasketValue');
-        $router->post('/checkout/redeem/points/', 'LoyalistaIntegration\Controllers\CheckoutController@redeemPoints');
+        $router->post('/checkout/redeem/points/', 'LoyalistaIntegration\Controllers\CheckoutController@createCoupon');
         $router->get('/getCampaign/', 'LoyalistaIntegration\Controllers\LoyalistaIntegrationController@getCampaign');
         $router->get('/pushConfiguration/', 'LoyalistaIntegration\Controllers\LoyalistaIntegrationController@pushConfiguration');
     }

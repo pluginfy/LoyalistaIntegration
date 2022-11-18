@@ -22,13 +22,11 @@ use Plenty\Plugin\Log\Loggable;
 use Plenty\Modules\Order\Coupon\Campaign\Contracts\CouponCampaignRepositoryContract;
 
 
-
-
 class CheckoutController extends Controller
 {
     use Loggable;
 
-    public function redeemPoints(Request $request)
+    public function createCoupon(Request $request)
     {
         $basketRepo = pluginApp(BasketRepositoryContract::class);
         $customerBasket = $basketRepo->load();
@@ -73,8 +71,7 @@ class CheckoutController extends Controller
          * Do your API call here...
          */
         // Register in loyalista
-        $api = pluginApp(LoyalistaApiService::class);
-
+       // $api = pluginApp(LoyalistaApiService::class);
 //        $response = $api->redeemPoints($plenty_customer_id, $point_to_redeem);
 //        $this->getLogger(__FUNCTION__)->error('redeemPoints', $response);
 
@@ -97,7 +94,7 @@ class CheckoutController extends Controller
         return json_encode($response);
     }
 
-    function createNewCampaign($contact, $value, $point_to_redeem) {
+    function createNewCampaign($contact, $value, $points_to_redeem) {
         $authHelper = pluginApp(AuthHelper::class);
         $couponCampaignRepo = pluginApp(CouponCampaignRepositoryContract::class);
         $couponCampaignRefRepo = pluginApp(CouponCampaignReferenceRepositoryContract::class);
@@ -105,7 +102,7 @@ class CheckoutController extends Controller
         $data = [
             'name' => ConfigHelper::LOYALISTA_CAMPAIGN_NAME,
             'minOrderValue' => 0.00,
-            'variable' => $point_to_redeem,
+            'variable' => $points_to_redeem,
             'codeLength' => CouponCampaign::CODE_LENGTH_MEDIUM,
             'codeDurationWeeks' => 1,
             'includeShipping' => TRUE,
