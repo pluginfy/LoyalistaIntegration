@@ -23,6 +23,7 @@ use Plenty\Modules\Order\Coupon\Campaign\Contracts\CouponCampaignRepositoryContr
 
 
 
+
 class CheckoutController extends Controller
 {
     use Loggable;
@@ -31,10 +32,34 @@ class CheckoutController extends Controller
     {
         $basketRepo = pluginApp(BasketRepositoryContract::class);
         $customerBasket = $basketRepo->load();
-        if (!empty($customerBasket->couponCode)) {
-            $response = ['status' => 'OK', 'message' => 'Coupon already applied!', 'coupon' => $customerBasket->couponCode];
+//        if (!empty($customerBasket->couponCode)) {
+//            $response = ['status' => 'OK', 'message' => 'Coupon already applied!', 'coupon' => $customerBasket->couponCode];
+//            return json_encode($response);
+//        }
 
-            return json_encode($response);
+
+        $configHelper = pluginApp(ConfigHelper::class);
+
+        // validate max_redeem
+        $basket_total = $customerBasket->basketAmount;
+        $one_point_to_value = floatval(trim($configHelper->getVar('one_point_to_value')));
+        $revenue_to_one_point = floatval(trim($configHelper->getVar('revenue_to_one_point')));
+        $max_points =  floatval($basket_total /  $one_point_to_value);
+        $point_to_redeem = floatval($request->get('pointsToRedeem'));
+
+        if($point_to_redeem <= 0 || $point_to_redeem >  $max_points){
+            $data = [
+                'bt' => $basket_total
+                , 'mp' => $max_points
+                , 'ptr' => $point_to_redeem
+                , 'ptr-minus-max' => ($point_to_redeem - $max_points)
+                , 'max-minus-ptr' => ($max_points - $point_to_redeem )
+                , 'eval' => ($point_to_redeem >  $max_points)
+                , 'eval1' => ($point_to_redeem ==  $max_points)
+                , 'eval2' => ($point_to_redeem <  $max_points)
+            ];
+
+            return ['status' => 'ERROR', 'message' => 'Validation Error' , 'data' => $data ];
         }
 
         $account_service = pluginApp(AccountService::class);
@@ -50,11 +75,12 @@ class CheckoutController extends Controller
         // Register in loyalista
         $api = pluginApp(LoyalistaApiService::class);
 
-        $response = $api->redeemPoints($plenty_customer_id, $request->get('pointsToRedeem'));
-        $this->getLogger(__FUNCTION__)->error('redeemPoints', $response);
+//        $response = $api->redeemPoints($plenty_customer_id, $point_to_redeem);
+//        $this->getLogger(__FUNCTION__)->error('redeemPoints', $response);
 
         //step 2: create campaign.
-        $campaign = $this->createNewCampaign($contact, $request->all());
+        $couponValue = floatval($point_to_redeem * $one_point_to_value);
+        $campaign = $this->createNewCampaign($contact, $couponValue, $point_to_redeem);
         $this->getLogger(__FUNCTION__)->error('LoyalistaCampaign', ['campaign'=> $campaign, 'campaign_codes'=> $campaign->codes, 'campaign_references'=> $campaign->references]);
         if($campaign) {
             $basketRepo->setCouponCode($campaign->codes[0]->code);
@@ -71,14 +97,15 @@ class CheckoutController extends Controller
         return json_encode($response);
     }
 
-    function createNewCampaign($contact, $postData) {
+    function createNewCampaign($contact, $value, $point_to_redeem) {
         $authHelper = pluginApp(AuthHelper::class);
         $couponCampaignRepo = pluginApp(CouponCampaignRepositoryContract::class);
         $couponCampaignRefRepo = pluginApp(CouponCampaignReferenceRepositoryContract::class);
 
         $data = [
-            'name' => 'Loyalista Coupon Campaign',
+            'name' => ConfigHelper::LOYALISTA_CAMPAIGN_NAME,
             'minOrderValue' => 0.00,
+            'variable' => $point_to_redeem,
             'codeLength' => CouponCampaign::CODE_LENGTH_MEDIUM,
             'codeDurationWeeks' => 1,
             'includeShipping' => TRUE,
@@ -89,12 +116,11 @@ class CheckoutController extends Controller
             'campaignType' => CouponCampaign::CAMPAIGN_TYPE_COUPON,  // coupon
             'couponType' => CouponCampaign::COUPON_TYPE_SALES,
             'description' => 'Coupon Campaign created by Loyalista to redeem the customer points',
-            'value' => (float) ($postData['pointsToRedeem'] * $postData['pointToValue']),
+            'value' => (float) $value,
             'codeAssignment' => CouponCampaign::CODE_ASSIGNMENT_GENERATE,
             'isPermittedForExternalReferrers' => TRUE,
             'startsAt' => date('c'),
             'endsAt' => date('c', strtotime("+5 min")),
-//            'codes' => ['LOYALISTA' . strtoupper(substr(md5(time()), 0, 7))]
         ];
 
         $basketItemRepo = pluginApp(BasketItemRepositoryContract::class);

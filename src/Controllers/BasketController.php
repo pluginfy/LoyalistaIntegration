@@ -23,25 +23,24 @@ class BasketController extends Controller
         // Only Ajax Request
 
         $basket_repo = pluginApp(BasketRepositoryContract::class);
+
         $customer_cart = $basket_repo->load();
 
         $basket_total = $customer_cart->basketAmount;
 
-        $return = ['status' => 'OK', 'basket_total' => $basket_total];
+        $return = ['status' => 'OK', 'basket_total' => $basket_total, 'customer_cart' => $customer_cart ];
 
         return json_encode($return);
-
     }
+
 
 
     public function getBasket()
     {
 
         // Only Ajax Request
-
         $basket_repo = pluginApp(BasketRepositoryContract::class);
         $customer_cart = $basket_repo->load();
-
         $return = ['status' => 'OK', 'customer_cart' => $customer_cart];
 
         return json_encode($return);

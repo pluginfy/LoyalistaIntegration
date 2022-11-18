@@ -46,14 +46,6 @@
             "defaultValue": ""
           }
         },
-        "latest_api_hit": {
-          "type": "inputText",
-          "required": false,
-          "label": "Config.last_transaction_api_hit_on",
-          "options": {
-            "defaultValue": "my-default-value"
-          }
-        },
         "show_widgets": {
           "type": "checkBox",
           "required": false,

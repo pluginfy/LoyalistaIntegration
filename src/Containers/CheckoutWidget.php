@@ -46,7 +46,7 @@ class CheckoutWidget
 
                     $point_label  =   $config_helper->getVar('account_points_label_text_' .$lang);
 
-                    $html = '<span data-total_redeemable_points="'. $widgetdata['total_redeemable_points'] .'" data-revenue_to_point="'. $widgetdata['revenue_to_point'] .'" data-point_to_value="'. $widgetdata['point_to_value'] .'" class="loyalista_co_num_of_points">[number_of_points_shopping_cart]</span>';
+                    $html = '<span data-basket_total=""  data-total_redeemable_points="'. $widgetdata['total_redeemable_points'] .'" data-revenue_to_point="'. $widgetdata['revenue_to_point'] .'" data-point_to_value="'. $widgetdata['point_to_value'] .'" class="loyalista_co_num_of_points">[number_of_points_shopping_cart]</span>';
 
 
                     $text_registered = str_ireplace("[account_balance]" ,$widgetdata['total_redeemable_points'], $text_registered);
@@ -56,13 +56,17 @@ class CheckoutWidget
 
 
                     // Full redeem.
-                    $text_redeem_full = str_ireplace("[account_balance]" ,$widgetdata['total_redeemable_points'], $text_redeem_full);
+                    //$text_redeem_full = str_ireplace("[account_balance]" ,$widgetdata['total_redeemable_points'], $text_redeem_full);
+                    $text_redeem_full = str_ireplace("[account_balance]" ,'<span class="cow_account_balance">'.$widgetdata['total_redeemable_points'].'</span>', $text_redeem_full);
                     $text_redeem_full = str_ireplace("[points_label]" ,$point_label , $text_redeem_full);
+
 
 
                     $Point_value = ($widgetdata['total_redeemable_points'] * $widgetdata['point_to_value']);
 
-                    $text_redeem_full = str_ireplace("[value_of_account_balance]" ,$Point_value , $text_redeem_full);
+                    //$text_redeem_full = str_ireplace("[value_of_account_balance]" ,$Point_value , $text_redeem_full);
+
+                    $text_redeem_full = str_ireplace("[value_of_account_balance]" ,'<span class="cow_points_label">'.$Point_value.'</span>' , $text_redeem_full);
 
                     // Partial redeem.
                     $html = '<span data-total_redeemable_points="'. $widgetdata['total_redeemable_points'] .'" data-revenue_to_point="'. $widgetdata['revenue_to_point'] .'" data-point_to_value="'. $widgetdata['point_to_value'] .'" class="loyalista_co_num_of_points">[number_of_points]</span>';
@@ -91,7 +95,7 @@ class CheckoutWidget
                     $disclaimer = str_ireplace("[points_label]" ,$point_label ,$disclaimer);
 
                     // Hydrate Number of points text
-                    $html = '<span data-total_redeemable_points="null" data-checkout_revenue_to_point="'. $widgetdata['revenue_to_point'] .'" data-point_to_value="'. $widgetdata['point_to_value'] .'" class="loyalista_co_num_of_points">[number_of_points_shopping_cart]</span>';
+                    $html = '<span class="loyalista_co_num_of_points" data-total_redeemable_points="null" data-checkout_revenue_to_point="'. $widgetdata['revenue_to_point'] .'" data-point_to_value="'. $widgetdata['point_to_value'] .'">[number_of_points_shopping_cart]</span>';
 
                     $disclaimer = str_ireplace("[number_of_points_shopping_cart]" , $html  ,$disclaimer);
 

@@ -18,12 +18,13 @@ class LoyalistaProcedures
     public function exportOrder(EventProceduresTriggered $event)
     {
         $this->report('order hit loyalista',
-            'some code',
+            __FUNCTION__,
             ['orderID' => 12 ],
             ['orDId' => 18 ]);
 
         try {
             $order = $event->getOrder();
+            $this->getLogger(__FUNCTION__)->error('Hit Export', ['order'=> $order ]);
             if ($order && $order->typeId == 1)
             {
                 $api = pluginApp(LoyalistaApiService::class);
@@ -32,8 +33,7 @@ class LoyalistaProcedures
         }
         catch (\Exception $e)
         {
-            $this->getLogger('exportOrder')
-                ->error('Error while get order', ['message'=> $e->getMessage() ]);
+            $this->getLogger(__FUNCTION__)->error('Error while get order', ['message'=> $e->getMessage() ]);
         }
         finally {
             // Do something to log this information
@@ -43,13 +43,12 @@ class LoyalistaProcedures
 
 
 
-    public function revertPointLoyalista(EventProceduresTriggered $event)
+    public function revertPoints(EventProceduresTriggered $event)
     {
         try {
             $order = $event->getOrder();
 
-            $this->getLogger('revert point')
-                ->error('Hit revert', ['order'=> $order ]);
+            $this->getLogger(__FUNCTION__)->error('Hit revert', ['order'=> $order ]);
 
             if ($order && $order->typeId == 1)
             {
@@ -58,13 +57,12 @@ class LoyalistaProcedures
         }
         catch (\Exception $e)
         {
-            $this->getLogger('revert point')
-                ->error('Error while get order', ['message'=> $e->getMessage() ]);
+            $this->getLogger(__FUNCTION__)->error('Error while refund order', ['message'=> $e->getMessage() ]);
         }
         finally {
             // TODO count to external api log service
             $this->report('Pluginfy.com-ABCD12d',
-                'some code',
+                __FUNCTION__,
                 ['orderID' => 12 ],
                 ['orDId' => 18 ]);
         }

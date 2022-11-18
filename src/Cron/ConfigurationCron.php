@@ -34,10 +34,8 @@ class ConfigurationCron extends Cron
      */
     public function handle()
     {
-           $this->apiService->pushConfiguration();
+           $response = $this->apiService->pushConfiguration();
 
-           $this->getLogger(__FUNCTION__)->error('Configuration-Cron', 'Cron func hit successfully');
-
-
+           $this->getLogger(__CLASS__)->error(__FUNCTION__, $response);
     }
 }

@@ -17,6 +17,7 @@ class ConfigHelper extends AbstractConfigHelper
     const PRODUCT_IDENTIFIER_ID = 'id"';
     const PRODUCT_IDENTIFIER_NUMBER = 'number';
     const PRODUCT_IDENTIFIER_VARIATION = 'variation';
+    const LOYALISTA_CAMPAIGN_NAME = 'Loyalista Gutscheine';
 
     /**
      * Configuration enable/disable values.

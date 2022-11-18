@@ -1,10 +1,11 @@
 <style>
-    .label {
+    .loyalista-label {
         background-color: #fff;
         text-align: left;
         color: #000;
         display: inline-block;
         cursor: pointer;
+        width: 280px;
     }
     div.widget-checkout-widget_wrapper_loyalista{
         margin-top: 15px;
@@ -13,61 +14,76 @@
         padding: 5px;
     }
 
-    div.pluginfy_checkout_cart_contents_wrapper #loyalista_widget_chekcout_option_custom_value {
+    div.widget-checkout-widget_wrapper_loyalista #loyalista_widget_chekcout_option_custom_value {
         width: 100px;
+    }
+
+    div.loyalista-redemption-options{
+        display: grid;
+    }
+    div.pluginfy-checkout-notify-msg{
+        color: red;
+        padding: 0  20px 20px 20px;
+        display: none;
     }
 </style>
 
 <div class="widget_wrapper_loyalista" style="">
     <h2>Bonusprogramm checkout</h2>
     <div class = "widget-checkout-widget_wrapper_loyalista">
-        <span>{{ content_1 | raw }}</span><br /><hr />
-        <label class="label">
-           <input name="loyalista_widget_chekcout__options" class="loyalista_widget_chekcout_option_skip" id="loyalista_widget_chekcout_option_skip" type="radio" value="skip" checked> {{ content_2 }}
-        </label>
-        <label class="label">
-            <input name="loyalista_widget_chekcout__options"  class="loyalista_widget_chekcout_option_all" id="loyalista_widget_chekcout_option_all" type="radio" value="all"> {{ content_3 }}
-        </label>
-        <label class="label">
-            <div class="pluginfy_checkout_cart_contents_wrapper">
-                <input name="loyalista_widget_chekcout__options" id="loyalista_widget_chekcout_option_custom" class="loyalista_widget_chekcout_option_custom" type="radio" value="custom">
-                {{ content_4 }} <input type="text" name="loyalista_widget_chekcout_option_custom_value" id="loyalista_widget_chekcout_option_custom_value">
+        <span>{{ content_1 | raw }}</span>
+        <br/><hr/>
+        <div class="loyalista-redemption-options">
+            <label class="loyalista-label">
+                <input name="loyalista_widget_chekcout__options" class="loyalista_widget_chekcout_option_skip" id="loyalista_widget_chekcout_option_skip" type="radio" value="skip" checked>
+                {{ content_2 }}
+            </label>
+            <label class="loyalista-label">
+                <input name="loyalista_widget_chekcout__options"  class="loyalista_widget_chekcout_option_all" id="loyalista_widget_chekcout_option_all" type="radio" value="all">
+                {{ content_3 | raw}}
+            </label>
+            <div class="loyalista-redemption-options-custom">
+                <label class="loyalista-label">
+                    <div class="pluginfy_checkout_cart_contents_wrapper">
+                        <input name="loyalista_widget_chekcout__options" id="loyalista_widget_chekcout_option_custom" class="loyalista_widget_chekcout_option_custom" type="radio" value="custom">
+                        {{ content_4 }}
+                    </div>
+                </label>
+                <span id="loyalista_widget_chekcout_option_custom_value_wrapper">
+                            <input  style="display: none"
+                                    class="input-unit"
+                                    type="number"
+                                    min="0.01"
+                                    step="1"
+                                    name="loyalista_widget_chekcout_option_custom_value"
+                                    id="loyalista_widget_chekcout_option_custom_value"
+                                    onkeypress="return isNumber(event)"
+                                    onselectstart="return false"
+                                    onpaste="return false"
+                                    oncopy="return false"
+                                    oncut="return false"
+                                    ondrag="return false"
+                                    ondrop="return false">
+                    </span>
             </div>
-        </label>
+            <div class="pluginfy-checkout-notify-msg"></div>
+        </div>
     </div>
 </div>
 
 <script>
 
-    $('.widget-place-order .btn').on('click', function (event) {
-        var current_widget = $('.widget-checkout-widget_wrapper_loyalista');
-        var pointToValue = current_widget.find('span.loyalista_co_num_of_points').data('point_to_value');
-        var selected_type = current_widget.find("input[name=loyalista_widget_chekcout__options]:checked").val();
-        var pointsToRedeem = 0;
-        if(selected_type === 'custom') {
-            pointsToRedeem = current_widget.find("input[name=loyalista_widget_chekcout_option_custom_value]").val();
-        } else if(selected_type === 'all') {
-            pointsToRedeem = current_widget.find('span.loyalista_co_num_of_points').data('total_redeemable_points');
-        } else {
-            current_widget.hide();
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        let charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+
+            // Exception for period or decimal "."
+            return (charCode === 46 && evt.target.value.indexOf('.') === -1)
         }
 
-        if(pointsToRedeem > 0) {
-            redeemPoints(pointsToRedeem, pointToValue).then(
-                function (value) {
-                    console.log(value);
-                    },
-                function (error) {
-                    console.log(error);
-                    event.preventDefault();
-                }
-            );
-        }
-
-        // setTimeout(function(){
-        //     console.log(pointsToRedeem);
-        // }, 2000);
-    });
+        return true;
+    }
 
     async function redeemPoints(pointsToRedeem, pointToValue) {
         $.ajax({
@@ -78,19 +94,17 @@
             cache: true,
             async: false
         }).done(function (return_data) {
-            console.log(return_data);
+            console.log(return_data)
             return true;
         }).fail(function (data) {
-            console.log(data);
+            console.log(data)
             return true;
         });
     }
 
-
+    // Get User Plentymarket Basket
     function setCoPointBait(){
-
         let target_span = $('div.widget-checkout-widget_wrapper_loyalista').find('span.loyalista_co_num_of_points');
-
         $.ajax({
             url: '/user/total/basket/',
             type: "GET",
@@ -99,7 +113,6 @@
             cache: true
         }).done(function (return_data) {
             try {
-
                 var data;
                 if (typeof return_data === 'object') data = return_data;
                 else data = $.parseJSON(return_data);
@@ -107,33 +120,137 @@
                 if (data.status === "OK") {
 
                     let basket_total = data.basket_total;
-                    let conversion = target_span.data('revenue_to_point');
+                    // Set Basket Total Val
+                    target_span.data("basket_total" ,  basket_total);
+                    // get current points gain
+                    let account_balance = target_span.data('total_redeemable_points');
+                    $('span.cow_account_balance').html(account_balance);
+                    $('#loyalista_widget_chekcout_option_custom_value').attr('max',account_balance );
 
-                    let points = ( basket_total /  conversion );
+                    target_span.data("max_points" ,  account_balance);
+
+                    let conversion = target_span.data('revenue_to_point');
+                    let points = ( basket_total /  conversion ).toFixed(2);
+                    // $('span.cow_points_label').html(points);
+
+                    let point_to_val = target_span.data('point_to_value');
+
+                    let max_points = ( basket_total /  point_to_val ).toFixed(2);
+                    if(parseFloat(max_points) < parseFloat(account_balance)){
+                        target_span.data("max_points" ,  max_points);
+                        $('#loyalista_widget_chekcout_option_custom_value').attr('max',max_points )
+                        $('span.cow_account_balance').html(max_points);
+                    }
+
+                    $('span.cow_points_label').html((  target_span.data("max_points") *  point_to_val ).toFixed(2));
+
+                    // Set current points gain hint
                     target_span.html(points);
 
                 } else {
-                    $(_obj).attr('disabled' , false);
-                    alert(data.message);
+                    console.error(data);
+                    // location.reload();
                 }
             } catch (error) {
-                console.log(error);
-                $(_obj).attr('disabled' , false);
+                console.error(error);
+                location.reload();
             }
         }).fail(function (data) {
-            $(_obj).attr('disabled' , false);
+            console.error(data)
+            location.reload();
         });
     }
 
+    function validateCustomOption(){
+        let custom_value = $('input#loyalista_widget_chekcout_option_custom_value').val();
+        let current_widget = $('.widget-checkout-widget_wrapper_loyalista');
+        let max_points = current_widget.find('span.loyalista_co_num_of_points').data('max_points');
 
+        if(parseFloat(custom_value) > parseFloat(max_points) ){
+            $('div.pluginfy-checkout-notify-msg').html('You can\'t enter more than ' + max_points)
+            $('div.pluginfy-checkout-notify-msg').show();
+            $(this).val(max_points);
+            $(this).focus();
+        } else if(parseFloat(custom_value) <= 0) {
+            $('div.pluginfy-checkout-notify-msg').html('Please enter more than 0 points.')
+            $('div.pluginfy-checkout-notify-msg').show();
+            $(this).val(max_points);
+            $(this).focus();
+        }else{
+            $('div.pluginfy-checkout-notify-msg').html('')
+            $('div.pluginfy-checkout-notify-msg').hide()
+            return true
+        }
 
+        return false;
+    }
 
     $(function(){
         $('.totalSum dd[data-testing="basket-amount"]').bind('DOMSubtreeModified', function(){
             setCoPointBait();
         });
 
+        $('input#loyalista_widget_chekcout_option_custom_value').on('blur', function(e){
+            validateCustomOption();
+        });
+
+        // Checkout redeeem option changed
+        $('input[name=loyalista_widget_chekcout__options]').click(function() {
+            let choice = $('input[name="loyalista_widget_chekcout__options"]:checked').val();
+            let custom_input_field = $('input#loyalista_widget_chekcout_option_custom_value');
+            $('div.pluginfy-checkout-notify-msg').hide();
+            switch (choice){
+                case 'skip':
+                case 'all':
+                    custom_input_field.val(0).hide();
+                    break;
+                case 'custom':
+                    custom_input_field.show();
+                    $('div.pluginfy-checkout-notify-msg').show();
+                    break;
+            }
+        });
+
+        $('.widget-place-order .btn').on('click', function (event) {
+        // $('button.improvise').on('click', function (event) {
+            let current_widget = $('.widget-checkout-widget_wrapper_loyalista');
+            let pointToValue = current_widget.find('span.loyalista_co_num_of_points').data('point_to_value');
+            let selected_type = current_widget.find("input[name=loyalista_widget_chekcout__options]:checked").val();
+            let total_allowed_redeemable_points = current_widget.find('span.loyalista_co_num_of_points').data('max_points');
+            let basket_total_val = current_widget.find('span.loyalista_co_num_of_points').data('basket_total');
+
+            let pointsToRedeem = 0;
+
+            if(selected_type === 'custom') {
+                if(!validateCustomOption()){
+                    event.preventDefault();
+                    return false;
+                }
+                pointsToRedeem = parseFloat(current_widget.find("input[name=loyalista_widget_chekcout_option_custom_value]").val().trim());
+            }
+            else if(selected_type === 'all')
+            {
+                pointsToRedeem = total_allowed_redeemable_points;
+            }
+
+            if(parseFloat(pointsToRedeem) > 0) {
+                redeemPoints(pointsToRedeem, pointToValue)
+                    .then(
+                        function (value) {
+                            console.log(value);
+                        },
+                        function (error) {
+                            console.log(error);
+                            //event.preventDefault();
+                        }
+                    );
+            }
+
+            // setTimeout(function(){
+            //     console.log(pointsToRedeem);
+            // }, 2000);
+        });
+        setCoPointBait();
+        // Event Binding
     });
-
-
 </script>
