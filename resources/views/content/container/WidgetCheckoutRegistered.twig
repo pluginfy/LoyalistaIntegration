@@ -186,6 +186,7 @@
     }
 
     $(function(){
+        setCoPointBait();
         $('.totalSum dd[data-testing="basket-amount"]').bind('DOMSubtreeModified', function(){
             setCoPointBait();
         });
@@ -250,7 +251,6 @@
             //     console.log(pointsToRedeem);
             // }, 2000);
         });
-        setCoPointBait();
         // Event Binding
     });
 </script>

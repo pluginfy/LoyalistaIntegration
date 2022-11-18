@@ -50,11 +50,12 @@ class LoyalistaApiService extends BaseApiService
     public function getCustomerPoints($loggedin_customer_id)
     {
         //Todo
-
-
-
     }
 
+    /**
+     * @param $customer_id
+     * @return mixed|string
+     */
     public function getCustomerTotalPoints($customer_id)
     {
         $data = array(
@@ -76,7 +77,6 @@ class LoyalistaApiService extends BaseApiService
         return $response;
 
     }
-
 
     /**
      * Add Newly created order to loyalista
@@ -159,16 +159,17 @@ class LoyalistaApiService extends BaseApiService
 
                 $coupon = $orderHelper->getCoupon($order);
                 $couponCampaignRepo = pluginApp(CouponCampaignRepositoryContract::class);
+                $out['coupon_code'] = '';
+                $out['coupon_value'] = 0;
+                $out['points_redeemed'] = 0;
 
                 if(!empty($coupon)) {
                     $campainCoupon = $couponCampaignRepo->findByCouponCode($coupon['code']);
-                    if($campainCoupon->name === ConfigHelper::LOYALISTA_CAMPAIGN_NAME) {
+                    if($campainCoupon && $campainCoupon->name === ConfigHelper::LOYALISTA_CAMPAIGN_NAME) {
                         $out['coupon_code'] = $coupon['code'];
                         $out['coupon_value'] = $coupon['value'];
                         $one_point_to_value = floatval(trim($this->configHelper->getVar('one_point_to_value')));
-                        $point_to_redeem = ($coupon['value'] / $one_point_to_value);
-                        $response = $this->redeemPoints($customer_id, $point_to_redeem);
-                        $this->getLogger(__FUNCTION__)->error('campainCoupon', $campainCoupon);
+                        $out['points_redeemed'] = ($coupon['value'] / $one_point_to_value);
                     }
                 }
 
@@ -197,12 +198,12 @@ class LoyalistaApiService extends BaseApiService
             $this->getLogger('sendOrderToLoyalista')->error('Exception Error while get order', ['message'=> $e->getMessage() ]);
 
         }
-        finally {
-
-
-        }
+        finally {}
     }
 
+    /**
+     * @return void
+     */
     public function getCheckoutWidgetData(){
 
         $tokenVerified =  $this->verifyApiToken();
@@ -389,14 +390,16 @@ class LoyalistaApiService extends BaseApiService
      * @param $points
      * @return mixed|string|void
      */
-    public function redeemPoints($loggedin_customer_id, $points){
+    public function redeemPoints($loggedin_customer_id, $points, $reference_type, $reference_value){
         $requestURL = ConfigHelper::BASE_URL .'/v1/redeem_points';
         $requestType = static::REQUEST_METHOD_POST;
         $shopReference = $this->configHelper->getShopID();
         $data = [
             'shop_reference' => $shopReference,
             'customer_reference_id' => $loggedin_customer_id,
-            'points' => $points
+            'points' => $points,
+            'reference_type' => $reference_type,
+            'reference_value' => $reference_value,
         ];
 
         $response = $this->doCurl($requestURL ,$requestType , [], $data);

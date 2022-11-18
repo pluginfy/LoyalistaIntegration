@@ -30,10 +30,10 @@ class CheckoutController extends Controller
     {
         $basketRepo = pluginApp(BasketRepositoryContract::class);
         $customerBasket = $basketRepo->load();
-//        if (!empty($customerBasket->couponCode)) {
-//            $response = ['status' => 'OK', 'message' => 'Coupon already applied!', 'coupon' => $customerBasket->couponCode];
-//            return json_encode($response);
-//        }
+        if (!empty($customerBasket->couponCode)) {
+            $response = ['status' => 'OK', 'message' => 'Coupon already applied!', 'coupon' => $customerBasket->couponCode];
+            return json_encode($response);
+        }
 
 
         $configHelper = pluginApp(ConfigHelper::class);
@@ -66,35 +66,37 @@ class CheckoutController extends Controller
         $contactRepo = pluginApp(ContactRepositoryContract::class);
         $contact = $contactRepo->findContactById($plenty_customer_id);
 
-        //step1: check for the balance through API and redeem.
+        $couponValue = floatval($point_to_redeem * $one_point_to_value);
+        $campaign = $this->createNewCampaign($contact, $couponValue);
+        $this->getLogger(__FUNCTION__)->error('LoyalistaCampaign', ['campaign'=> $campaign, 'campaign_codes'=> $campaign->codes, 'campaign_references'=> $campaign->references]);
+
+        if(!$campaign) {
+            return ['status' => 'ERROR', 'message' => 'No coupon campaign is created!'];
+        }
+
         /**
          * Do your API call here...
          */
         // Register in loyalista
-       // $api = pluginApp(LoyalistaApiService::class);
-//        $response = $api->redeemPoints($plenty_customer_id, $point_to_redeem);
-//        $this->getLogger(__FUNCTION__)->error('redeemPoints', $response);
-
-        //step 2: create campaign.
-        $couponValue = floatval($point_to_redeem * $one_point_to_value);
-        $campaign = $this->createNewCampaign($contact, $couponValue, $point_to_redeem);
-        $this->getLogger(__FUNCTION__)->error('LoyalistaCampaign', ['campaign'=> $campaign, 'campaign_codes'=> $campaign->codes, 'campaign_references'=> $campaign->references]);
-        if($campaign) {
-            $basketRepo->setCouponCode($campaign->codes[0]->code);
-            $response = [
-                'status' => 'OK',
-                'couponCampaign' => [
-                    'id' => $campaign->id, 'name' => $campaign->name, 'value' => $campaign->value, 'usedCodesCount' => $campaign->usedCodesCount,
-                ]
-            ];
-        } else {
-            $response = ['status' => 'ERROR', 'message' => 'No coupon campaign is created!'];
+        $api = pluginApp(LoyalistaApiService::class);
+        $response = $api->redeemPoints($plenty_customer_id, $point_to_redeem, 'coupon', $campaign->codes[0]->code);
+        if(!isset($response['success']) || !$response['success']) {
+            $this->deleteCampaign($campaign->id);
+            return ['status' => 'ERROR', 'message' => $response['message']];
         }
+
+        $basketRepo->setCouponCode($campaign->codes[0]->code);
+        $response = [
+            'status' => 'OK',
+            'couponCampaign' => [
+                'id' => $campaign->id, 'name' => $campaign->name, 'value' => $campaign->value, 'usedCodesCount' => $campaign->usedCodesCount,
+            ]
+        ];
 
         return json_encode($response);
     }
 
-    function createNewCampaign($contact, $value, $points_to_redeem) {
+    function createNewCampaign($contact, $value) {
         $authHelper = pluginApp(AuthHelper::class);
         $couponCampaignRepo = pluginApp(CouponCampaignRepositoryContract::class);
         $couponCampaignRefRepo = pluginApp(CouponCampaignReferenceRepositoryContract::class);
@@ -102,7 +104,7 @@ class CheckoutController extends Controller
         $data = [
             'name' => ConfigHelper::LOYALISTA_CAMPAIGN_NAME,
             'minOrderValue' => 0.00,
-            'variable' => $points_to_redeem,
+            'variable' => 0,
             'codeLength' => CouponCampaign::CODE_LENGTH_MEDIUM,
             'codeDurationWeeks' => 1,
             'includeShipping' => TRUE,
@@ -139,6 +141,20 @@ class CheckoutController extends Controller
         );
 
         return $campaign;
+    }
+
+    /**
+     * @param $campaignId
+     * @return mixed
+     */
+    function deleteCampaign($campaignId) {
+        $authHelper = pluginApp(AuthHelper::class);
+        $couponCampaignRepo = pluginApp(CouponCampaignRepositoryContract::class);
+        return $authHelper->processUnguarded(
+            function () use ($couponCampaignRepo, $campaignId) {
+                return $couponCampaignRepo->delete($campaignId);
+            }
+        );
     }
 
 }

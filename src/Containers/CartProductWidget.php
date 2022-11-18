@@ -74,7 +74,7 @@ class CartProductWidget
 
             }else{
              // Todo save error log
-                $api->test($response);
+                $api->logData($response, __FUNCTION__);
 
             }
         }
