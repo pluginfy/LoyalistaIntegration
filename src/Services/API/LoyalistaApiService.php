@@ -83,7 +83,7 @@ class LoyalistaApiService extends BaseApiService
      * @param null $order
      *
      */
-    public function createOrder($order = NULL)
+    public function exportOrder($order = NULL, $type = '')
     {
         $orderHelper = pluginApp(OrderHelper::class);
 
@@ -122,6 +122,8 @@ class LoyalistaApiService extends BaseApiService
 
                 $out['customer'] = $customer;
 
+                $out['type'] = $type;
+                $out['parent_reference_id'] = $orderHelper->getOrderReferenceId($order);
                 $out['reference_id'] = $order->id;
                 $out['shop_reference'] = $shop_reference;
                 //$out['platform_id'] = 1;
@@ -176,31 +178,42 @@ class LoyalistaApiService extends BaseApiService
                 $requestURL = ConfigHelper::BASE_URL .'/v1/add_order';
                 $responses = $this->doCurl($requestURL ,self::REQUEST_METHOD_POST , [], $out);
 
-                $data = ['order_original' => $order , 'out' => $out, 'api_response' => $responses];
-                $data['preSynced'] = $OrderSynced;
+                $logResponse = ['order_original' => $order , 'out' => json_encode($out), 'api_response' => $responses];
+                $logResponse['preSynced'] = $OrderSynced;
 
                 if (is_array($responses) && $responses['success'] == true ){
                     // Update Sync
                     $MarkedOrderSynced = $OrderSyncedRepo->markSyncedOrder($OrderSynced->id);
-                    $data['postSynced'] = $MarkedOrderSynced;
+                    $logResponse['postSynced'] = $MarkedOrderSynced;
                     // Report save case
-                    $this->getLogger('sendingOrderToLoyalista')->error('Export Order Passed successfully', ['data'=> $data]);
+                    $this->getLogger(__FUNCTION__ . '-' . $type)->error('Export Order Passed successfully', $logResponse);
 
                 }else{
-                    $this->getLogger('sendingOrderToLoyalista')->error('Export Order Failed', ['data'=> $data]);
+                    $this->getLogger(__FUNCTION__ . '-' . $type)->error('Export Order Failed', $logResponse);
                 }
             }else{
-                $this->getLogger('sendOrderToLoyalista')->error('Order not get');
+                $this->getLogger(__FUNCTION__ . '-' . $type)->error('Order not get');
             }
         }
         catch (\Exception $e)
         {
-            $this->getLogger('sendOrderToLoyalista')->error('Exception Error while get order', ['message'=> $e->getMessage() ]);
+            $this->getLogger(__FUNCTION__ . '-' . $type)->error('Exception Error while get order', ['message'=> $e->getMessage() ]);
 
         }
         finally {}
     }
 
+    public function refundOrder($order = NULL) {
+        $orderHelper = pluginApp(OrderHelper::class);
+        try {
+
+        } catch (\Exception $ex) {
+
+        } finally {
+
+        }
+
+    }
     /**
      * @return void
      */

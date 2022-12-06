@@ -31,7 +31,7 @@ class LoyalistaIntegrationController extends Controller
         $api = pluginApp(LoyalistaApiService::class);
 		$test = null;
 
-        $curl_response1 = $api->createOrder();
+        $curl_response1 = $api->exportOrder();
         $curl_response2 = $api->verifyApiToken();
 
         $data = array(

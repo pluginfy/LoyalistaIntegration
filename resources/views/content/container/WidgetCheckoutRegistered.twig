@@ -130,19 +130,19 @@
                     target_span.data("max_points" ,  account_balance);
 
                     let conversion = target_span.data('revenue_to_point');
-                    let points = ( basket_total /  conversion ).toFixed(2);
+                    let points = Math.floor( basket_total /  conversion );
                     // $('span.cow_points_label').html(points);
 
                     let point_to_val = target_span.data('point_to_value');
 
-                    let max_points = ( basket_total /  point_to_val ).toFixed(2);
+                    let max_points = Math.floor( basket_total /  point_to_val );
                     if(parseFloat(max_points) < parseFloat(account_balance)){
                         target_span.data("max_points" ,  max_points);
                         $('#loyalista_widget_chekcout_option_custom_value').attr('max',max_points )
                         $('span.cow_account_balance').html(max_points);
                     }
 
-                    $('span.cow_points_label').html((  target_span.data("max_points") *  point_to_val ).toFixed(2));
+                    $('span.cow_points_label').html(Math.floor(target_span.data("max_points") *  point_to_val ));
 
                     // Set current points gain hint
                     target_span.html(points);

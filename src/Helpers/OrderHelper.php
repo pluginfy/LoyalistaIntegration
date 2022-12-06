@@ -14,6 +14,9 @@ class OrderHelper
 {
     use Loggable;
 
+    const ORDER_TYPE_NEW = 'new';
+    const ORDER_TYPE_REFUND = 'refund';
+
     private $addressRepo;
     private $variationCategoryRepo;
     private $variationRepo;
@@ -24,6 +27,15 @@ class OrderHelper
         $this->addressRepo = $addressRepo;
         $this->variationCategoryRepo = $variationCategoryRepo;
         $this->variationRepo = $variationRepo;
+    }
+
+    public function getOrderReferenceId($order) {
+        $orderReference = $order->orderReferences;
+        if(!isset($orderReference[0])) {
+            return $orderReference[0]->referenceOrderId;
+        }
+
+        return NULL;
     }
 
     public function getBillingAddress($order){
@@ -113,8 +125,7 @@ class OrderHelper
                 }
             );
 
-            $this->getLogger('getOrderItems_I')->error('VariationCategory', $variationCategory);
-
+//            $this->getLogger('getOrderItems_I')->error('VariationCategory', $variationCategory);
 //            $plenty_item = $this->itemRepo->show($o_item->id);
 //            $this->getLogger('getOrderItems_II')->error('Item', ['item'=> $plenty_item]);
 

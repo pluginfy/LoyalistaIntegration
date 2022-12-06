@@ -1,6 +1,7 @@
 <?php
 namespace LoyalistaIntegration\EventProcedures;
 
+use LoyalistaIntegration\Helpers\OrderHelper;
 use Plenty\Modules\EventProcedures\Events\EventProceduresTriggered;
 use Plenty\Plugin\Log\Loggable;
 use Plenty\Plugin\Log\Reportable;
@@ -28,7 +29,7 @@ class LoyalistaProcedures
             if ($order && $order->typeId == 1)
             {
                 $api = pluginApp(LoyalistaApiService::class);
-                $api->createOrder($order);
+                $api->exportOrder($order, OrderHelper::ORDER_TYPE_NEW);
             }
         }
         catch (\Exception $e)
@@ -43,16 +44,17 @@ class LoyalistaProcedures
 
 
 
-    public function revertPoints(EventProceduresTriggered $event)
+    public function refundOrder(EventProceduresTriggered $event)
     {
         try {
             $order = $event->getOrder();
 
             $this->getLogger(__FUNCTION__)->error('Hit revert', ['order'=> $order ]);
 
-            if ($order && $order->typeId == 1)
+            if ($order && $order->typeId == 4)
             {
-              //  $api = pluginApp(LoyalistaApiService::class);
+                $api = pluginApp(LoyalistaApiService::class);
+                $api->exportOrder($order, OrderHelper::ORDER_TYPE_REFUND);
             }
         }
         catch (\Exception $e)

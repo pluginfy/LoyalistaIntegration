@@ -65,7 +65,7 @@ class MyAccountMergeWidget
 
 
 
-                $disclaimer = str_ireplace("[value_of_account_balance]" ,($points * $point_to_conversion) ,$disclaimer);
+                $disclaimer = str_ireplace("[value_of_account_balance]" ,floor($points * $point_to_conversion) ,$disclaimer);
 
                 $disclaimer = str_ireplace("[points_label]" ,$point_label ,$disclaimer);
 

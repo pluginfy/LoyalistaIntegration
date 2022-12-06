@@ -52,7 +52,7 @@
                     let basket_total = data.basket_total;
                     let conversion = $('span.loyalista_num_of_points').data('revenue_to_point');
 
-                    let points = (basket_total /  conversion);
+                    let points = Math.floor(basket_total /  conversion);
                     target_span.html(points);
 
                     // Get and Set current cart total

@@ -54,7 +54,7 @@
 
                     let basket_total = data.basket_total;
                     let conversion = target_span.data('checkout_revenue_to_point');
-                    let points = (basket_total /  conversion).toFixed(2);
+                    let points = Math.floor(basket_total /  conversion);
                     target_span.html(points);
                 } else {
                     $(_obj).attr('disabled' , false);
