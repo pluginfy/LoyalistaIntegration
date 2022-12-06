@@ -36,10 +36,7 @@ class LoyalistaProcedures
         {
             $this->getLogger(__FUNCTION__)->error('Error while get order', ['message'=> $e->getMessage() ]);
         }
-        finally {
-            // Do something to log this information
-
-        }
+        finally {}
     }
 
 
@@ -61,13 +58,7 @@ class LoyalistaProcedures
         {
             $this->getLogger(__FUNCTION__)->error('Error while refund order', ['message'=> $e->getMessage() ]);
         }
-        finally {
-            // TODO count to external api log service
-            $this->report('Pluginfy.com-ABCD12d',
-                __FUNCTION__,
-                ['orderID' => 12 ],
-                ['orDId' => 18 ]);
-        }
+        finally {}
     }
 
 }

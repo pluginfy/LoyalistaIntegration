@@ -60,7 +60,7 @@ class LoyalistaIntegrationServiceProvider extends ServiceProvider
 
          $eventProceduresService->registerProcedure(
             'refundOrder',
-            ProcedureEntry::PROCEDURE_GROUP_RETURN,
+            ProcedureEntry::EVENT_TYPE_ORDER,
             [
                 'de' => 'Loyalista - Refund Order / Revert Points',
                 'en' => 'Loyalista - Refund Order / Revert Points'
