@@ -48,7 +48,7 @@ class LoyalistaProcedures
 
             $this->getLogger(__FUNCTION__)->error('Hit revert', ['order'=> $order ]);
 
-            if ($order && $order->typeId == 4)
+            if ($order && $order->typeId != 1)
             {
                 $api = pluginApp(LoyalistaApiService::class);
                 $api->exportOrder($order, OrderHelper::ORDER_TYPE_REFUND);

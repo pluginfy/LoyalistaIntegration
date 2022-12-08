@@ -31,7 +31,7 @@ class OrderHelper
 
     public function getOrderReferenceId($order) {
         $orderReference = $order->orderReferences;
-        if(!isset($orderReference[0])) {
+        if(isset($orderReference[0])) {
             return $orderReference[0]->referenceOrderId;
         }
 
