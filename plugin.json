@@ -2,13 +2,13 @@
     "name"              :   "LoyalistaIntegration",
     "namespace"         :   "LoyalistaIntegration",
     "marketplaceName": {
-        "de": "Loyalista Integration",
-        "en": "Loyalista Integration"
+        "de": "Loyalista",
+        "en": "Loyalista"
     },
     "type"              :   "general",
-    "version"           :   "1.0.1",
+    "version"           :   "1.0.0",
     "pluginIcon"        :   "icon_plugin_xs.png",
-    "description"       :   "Allows you to easily integrate your Plentymarkets Shop with Loyalista..",
+    "description"       :   "Allows you to easily integrate your Plentymarkets Shop with Loyalista.",
     "shortDescription": {
         "de": "Allows you to easily integrate your Plentymarkets Shop with Loyalista.",
         "en": "Allows you to easily integrate your Plentymarkets Shop with Loyalista."
@@ -31,7 +31,6 @@
     ],
     "serviceProvider"  :  "LoyalistaIntegration\\Providers\\LoyalistaIntegrationServiceProvider",
     "runOnBuild":[
-        "LoyalistaIntegration\\Migrations\\CreateToDoTable" ,
         "LoyalistaIntegration\\Migrations\\CreateOrderSyncedTable"
     ],
     "dataProviders": [
@@ -43,33 +42,21 @@
         },
         {
             "key": "LoyalistaIntegration\\Containers\\CheckoutWidget",
-            "name": "Checkout Redeem Widget ",
-            "description": "Show Loyalista data on my checkout page",
-            "defaultLayoutContainer": "Ceres::Checkout.AfterBasketTotals"
+            "name": "Checkout/Shopping cart Widget",
+            "description": "Widget für Kasse und Warenkorb. Gibt dem Kunden eine Auswahlmöglichkeit für das Bonusprogramm beim Bezahlen der Waren.",
+            "defaultLayoutContainer": "Ceres::BasketTotals.AfterTotalSum"
         },
         {
             "key": "LoyalistaIntegration\\Containers\\ProductWidget",
             "name": "Product Widget",
-            "description": "Show Loyalista data on my single product page",
-            "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
-        },
-        {
-            "key": "LoyalistaIntegration\\Containers\\CartProductWidget",
-            "name": "Cart Product Widget",
-            "description": "Show Loyalista data on my shopping cart page",
-            "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
-        },
-        {
-            "key": "LoyalistaIntegration\\Containers\\MyAccountWidget",
-            "name": "My Account Widget",
-            "description": "Show Loyalista data on my account page",
-            "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
+            "description": "Widget für Produkt-Seite. Zeigt dem Kunden an, wieviele Punkte er beim Kauf sammeln kann.",
+            "defaultLayoutContainer": "Ceres::SingleItem.BeforeAddToBasket"
         },
         {
             "key": "LoyalistaIntegration\\Containers\\MyAccountMergeWidget",
-            "name": "Account Merge Request Widget",
-            "description": "Merge account option",
-            "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
+            "name": "MyAccount Widget",
+            "description": "Widget für Mein Konto-Seite. Gibt dem Kunden u.a. Auskunft über aktuellen Punktestand.",
+            "defaultLayoutContainer": "Ceres::MyAccount.OrderHistoryPaymentInformation"
         }
     ]
 }

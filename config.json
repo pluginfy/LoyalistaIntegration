@@ -45,14 +45,6 @@
           "options": {
             "defaultValue": ""
           }
-        },
-        "show_widgets": {
-          "type": "checkBox",
-          "required": false,
-          "label": "Config.showWidgetsLabel",
-          "options": {
-            "defaultValue": false
-          }
         }
       }
     },
@@ -412,6 +404,14 @@
           "label": "Config.productIdsLabel",
           "options": {
             "defaultValue": ""
+          }
+        },
+        "show_widgets": {
+          "type": "checkBox",
+          "required": false,
+          "label": "Config.showWidgetsLabel",
+          "options": {
+            "defaultValue": false
           }
         },
         "partial_redemption": {

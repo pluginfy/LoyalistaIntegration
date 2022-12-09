@@ -1,4 +1,4 @@
-# Release Notes for LoyalistaIntegration
+# Release Notes for Loyalista
 
 ## v1.0.0
 

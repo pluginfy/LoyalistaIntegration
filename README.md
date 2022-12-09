@@ -1,1 +1,1 @@
-# loyalista-plentymarkets-integration
+# Loyalista
