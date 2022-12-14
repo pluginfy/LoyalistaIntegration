@@ -13,10 +13,10 @@ class CheckoutWidget
     public function call(Twig $twig, $arg)
     {
 
-        $lang = 'en';
         $config_helper = pluginApp(ConfigHelper::class);
         $account_service = pluginApp(AccountService::class);
         $api = pluginApp(LoyalistaApiService::class);
+        $lang = $config_helper->getCurrentLocale();
 
         // Get Loggedin Customer
         // Allways loggedin.
@@ -79,7 +79,7 @@ class CheckoutWidget
                     $data['content_4'] =  $text_redeem_partial;
 
                     $data['btn_label'] = ($lang == 'de') ? 'Teilnehmen!' : 'Participate' ;
-                    return $twig->render('LoyalistaIntegration::content.container.WidgetCheckoutRegistered', $data);
+                    return $twig->render('LoyalistaIntegration::content.container.CheckoutWidget_registered', $data);
 
                 }else{
 
@@ -102,7 +102,7 @@ class CheckoutWidget
                     $data['contents'] = $disclaimer;
                     $data['btn_label'] = ($lang == 'de') ? 'Teilnehmen!' : 'Participate' ;
 
-                    return $twig->render('LoyalistaIntegration::content.container.WidgetCheckoutUnregistered', $data);
+                    return $twig->render('LoyalistaIntegration::content.container.CheckoutWidget_unregistered', $data);
                 }
 
             }else{

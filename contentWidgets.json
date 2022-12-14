@@ -1,138 +1,42 @@
 [
     {
-        "identifier": "LoyalistaIntegration::FeedbackWidget",
-        "label": "Widget.feedbackLabel",
-        "previewImageURL": "/images/loyalista_logo_xs.png",
-        "type": "default",
-        "position": 1050,
-        "widgetClass": "LoyalistaIntegration\\Widgets\\FeedbackWidget",
-        "settings": {
-            "title": {
-                "type": "textarea",
-                "required": true,
-                "defaultValue": "",
-                "options": {
-                    "name": "Widget.feedbackTitleLabel",
-                    "tooltip": "Widget.feedbackTitleTooltip"
-                }
-            },
-            "description": {
-                "type": "textarea",
-                "required": true,
-                "defaultValue": "",
-                "options": {
-                    "name": "Widget.feedbackDescriptionLabel",
-                    "tooltip": "Widget.feedbackDescriptionTooltip"
-                }
-            },
-            "show_as": {
-                "type": "select",
-                "required": true,
-                "defaultValue": "Pop-up",
-                "options": {
-                    "name": "Widget.feedbackShowAsLabel",
-                    "tooltip": "Widget.feedbackShowAsTooltip",
-                    "listBoxValues": [
-                        {
-                            "value": "pop-up",
-                            "caption": "Widget.feedbackItemListPopUp",
-                            "position": 0
-                        },
-                        {
-                            "value": "embedded",
-                            "caption": "Widget.feedbackItemListEmbedded",
-                            "position": 1
-                        }
-                    ]
-                }
-            },
-            "tick_box_options": {
-                "type": "text",
-                "required": true,
-                "defaultValue": "",
-                "isList": "[1,]",
-                "options": {
-                    "name": "Widget.feedbackTickBoxOptionsLabel",
-                    "tooltip": "Widget.feedbackTickBoxOptionsTooltip"
-                }
-            },
-            "comment_placeholder": {
-                "type": "text",
-                "required": true,
-                "defaultValue": "",
-                "options": {
-                    "name": "Widget.feedbackCommentPlaceholderLabel",
-                    "tooltip": "Widget.feedbackCommentPlaceholderTooltip"
-                }
-            }
+      "identifier": "LoyalistaIntegration::MyAccountWidget",
+      "label": "Widget.MyAccountWidgetLabel",
+      "previewImageURL": "/images/loyalista_logo_xs.png",
+      "type": "structure",
+      "position": 1050,
+      "widgetClass": "LoyalistaIntegration\\Widgets\\MyAccountWidget",
+      "settings": {
+        "title": {
+          "type": "text",
+          "required": true,
+          "defaultValue": "Loyalista - My Account",
+          "options": {
+            "name": "Widget.TitleLabel",
+            "tooltip": "Widget.TitleTooltip"
+          }
+        },
+        "show_as": {
+          "type": "select",
+          "required": true,
+          "defaultValue": "link",
+          "options": {
+            "name": "Widget.ShowAsLabel",
+            "tooltip": "Widget.ShowAsTooltip",
+            "listBoxValues": [
+              {
+                "value": "link",
+                "caption": "Widget.LinkTxt",
+                "position": 0
+              },
+              {
+                "value": "button",
+                "caption": "Widget.ButtonTxt",
+                "position": 1
+              }
+            ]
+          }
         }
-    },
-    {
-        "identifier": "LoyalistaIntegration::CartProductWidget",
-        "label": "Widget.CartProductWidgetLabel",
-        "previewImageURL": "/images/loyalista_logo_xs.png",
-        "type": "structure",
-        "position": 1050,
-        "widgetClass": "LoyalistaIntegration\\Widgets\\CartProductWidget",
-        "settings": {
-            "title": {
-                "type": "textarea",
-                "required": true,
-                "defaultValue": "",
-                "options": {
-                    "name": "Widget.feedbackTitleLabel",
-                    "tooltip": "Widget.feedbackTitleTooltip"
-                }
-            },
-            "description": {
-                "type": "textarea",
-                "required": true,
-                "defaultValue": "",
-                "options": {
-                    "name": "Widget.feedbackDescriptionLabel",
-                    "tooltip": "Widget.feedbackDescriptionTooltip"
-                }
-            },
-            "show_as": {
-                "type": "select",
-                "required": true,
-                "defaultValue": "Pop-up",
-                "options": {
-                    "name": "Widget.feedbackShowAsLabel",
-                    "tooltip": "Widget.feedbackShowAsTooltip",
-                    "listBoxValues": [
-                        {
-                            "value": "pop-up",
-                            "caption": "Widget.feedbackItemListPopUp",
-                            "position": 0
-                        },
-                        {
-                            "value": "embedded",
-                            "caption": "Widget.feedbackItemListEmbedded",
-                            "position": 1
-                        }
-                    ]
-                }
-            },
-            "tick_box_options": {
-                "type": "text",
-                "required": true,
-                "defaultValue": "",
-                "isList": "[1,]",
-                "options": {
-                    "name": "Widget.feedbackTickBoxOptionsLabel",
-                    "tooltip": "Widget.feedbackTickBoxOptionsTooltip"
-                }
-            },
-            "comment_placeholder": {
-                "type": "text",
-                "required": true,
-                "defaultValue": "",
-                "options": {
-                    "name": "Widget.feedbackCommentPlaceholderLabel",
-                    "tooltip": "Widget.feedbackCommentPlaceholderTooltip"
-                }
-            }
-        }
+      }
     }
 ]

@@ -17,7 +17,6 @@ use LoyalistaIntegration\Services\API\LoyalistaApiService;
 use LoyalistaIntegration\Helpers\ConfigHelper;
 
 use Plenty\Plugin\Http\Request;
-use Plenty\Validation\Validator;
 use Plenty\Plugin\Log\Loggable;
 use Plenty\Modules\Order\Coupon\Campaign\Contracts\CouponCampaignRepositoryContract;
 

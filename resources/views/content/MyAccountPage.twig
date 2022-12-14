@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>To Do</title>
+
+    <!-- Link main CSS file and additional fonts -->
+    <link href="{{ plugin_path('LoyalistaIntegration') }}/css/main.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+
+
+    <!-- Integrate jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class ="widget-myaccount">
+        <h2>{{ widget_heading }}</h2>
+        {% if is_user_registered %}
+            <div>{{ txt_redeem_points }}</div>
+            <div>{{ txt_locked_points }}</div>
+            <div>{{ txt_expiry_points }}</div>
+            <div style="margin-top: 15px">{{ txt_merge_account }}</div>
+            <div>
+                <input type="text" id="merge_loyalista_acc_btn" >
+                <button class="btn  btn-primary btn-appearance btn-info" onclick="mergeAccountButton(this)"> {{ join_btn_label }}</button>
+            </div>
+            <br/>
+            <div id="loyalista_error"></div>
+            <hr />
+            <div style="margin-top: 15px">
+                <label class="label">
+                    <input id="yes_unreg_loyalista_pro" type="checkbox" value="text"> {{ disclaimer }}
+                </label>
+                <button class="btn  btn-primary btn-appearance btn-danger" onclick="unRegisterMe(this)"> {{ btn_label }}</button>
+            </div>
+        {% else %}
+            <label class="label">
+                <input id="yes_rgisistered_loyalista_programme" type="checkbox" value="text">  {{ offer }}
+            </label>
+            <button class="btn  btn-primary btn-appearance btn-success" onclick="register_me(this)"> {{ btn_label }}</button>
+
+        {% endif %}
+    </div>
+
+    <script src="{{ plugin_path('LoyalistaIntegration') }}/js/main.js"></script>
+</body>
+</html>

@@ -1,5 +1,4 @@
 <h2>Bonusprogramm (my account page)</h2>
-
 <style>
 
     .label {
@@ -16,25 +15,22 @@
         border: 1px solid #666;
         padding: 5px;
     }
-    .checkbox:checked:before{
-        background-color:red;
-    }
 
 </style>
 
 <div class = "widget-myaccount">
     <label class="label">
-        <input id="yes_unregistered_loyalista_programme" type="checkbox" value="text"> {{ disclaimer }}
+        <input id="yes_rgisistered_loyalista_programme" type="checkbox" value="text">  {{ offer }}
     </label>
-    <button class="btn  btn-primary btn-appearance" onclick="myFunction(this)"> {{ btn_label }}</button>
+    <button class="btn  btn-primary btn-appearance" onclick="register_me(this)"> {{ btn_label }}</button>
 </div>
 
 <script>
-    function myFunction(_obj) {
 
+    function register_me(_obj) {
         $(_obj).attr('disabled' , true);
 
-        let checked = $('#yes_unregistered_loyalista_programme').is(":checked");
+        let checked = $('#yes_rgisistered_loyalista_programme').is(":checked");
 
         if(!checked){
             $(_obj).attr('disabled' , false);
@@ -42,39 +38,30 @@
         }
 
         $.ajax({
-            url: '/account/unregister/customer/',
+            url: '/account/register/customer/',
             type: "GET",
             data: {},
             dataType: "json",
             cache: true
         }).done(function (return_data) {
             try {
-
                 var data;
-
                 if (typeof return_data === 'object') data = return_data;
                 else data = $.parseJSON(return_data);
-
                 if (data.status === "OK") {
                     location.reload();
-                    console.log('done');
                 } else {
                     $(_obj).attr('disabled' , false);
                     alert(data.message);
                 }
             } catch (error) {
-                $(_obj).attr('disabled' , false);
                 console.log(error);
+                $(_obj).attr('disabled' , false);
             }
-
         }).fail(function (data) {
             $(_obj).attr('disabled' , false);
-
         });
-
-
-
-
     }
+
 
 </script>

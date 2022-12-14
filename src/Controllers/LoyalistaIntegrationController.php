@@ -4,20 +4,15 @@ namespace LoyalistaIntegration\Controllers;
 
 use Plenty\Modules\Authorization\Services\AuthHelper;
 use Plenty\Modules\Order\Coupon\Campaign\Contracts\CouponCampaignRepositoryContract;
-use Plenty\Modules\Plugin\Contracts\ConfigurationRepositoryContract;
-use Plenty\Modules\Plugin\Contracts\PluginRepositoryContract;
-use Plenty\Modules\Plugin\Models\Plugin;
 use Plenty\Plugin\Controller;
 use Plenty\Plugin\Log\Loggable;
 use Plenty\Plugin\Templates\Twig;
 use Plenty\Modules\Plugin\Libs\Contracts\LibraryCallContract;
 use Plenty\Plugin\Http\Request;
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
-use LoyalistaIntegration\Helpers\ConfigHelper;
 
 class LoyalistaIntegrationController extends Controller
 {
-
     use Loggable;
 
     /**

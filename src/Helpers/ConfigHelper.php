@@ -4,7 +4,7 @@ namespace LoyalistaIntegration\Helpers;
 
 use LoyalistaIntegration\Core\Helpers\AbstractConfigHelper;
 use Plenty\Plugin\ConfigRepository;
-use Plenty\Modules\Plugin\Contracts\PluginRepositoryContract;
+use Plenty\Plugin\Http\Request;
 
 /**
  * Class ConfigHelper.
@@ -90,7 +90,11 @@ class ConfigHelper extends AbstractConfigHelper
     }
 
 
-
+    public function getCurrentLocale()
+    {
+        $request = pluginApp(Request::class);
+        return $request->getLocale();
+    }
 
 
 

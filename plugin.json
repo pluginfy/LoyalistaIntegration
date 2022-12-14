@@ -35,12 +35,6 @@
     ],
     "dataProviders": [
         {
-            "key": "LoyalistaIntegration\\Containers\\CutomerPoints",
-            "name": "Customer Points/Rewards Widget",
-            "description": "Loyalista Customer Points/Rewards Widget",
-            "defaultLayoutContainer": "Ceres::SingleItem.BeforePrice"
-        },
-        {
             "key": "LoyalistaIntegration\\Containers\\CheckoutWidget",
             "name": "Checkout/Shopping cart Widget",
             "description": "Widget für Kasse und Warenkorb. Gibt dem Kunden eine Auswahlmöglichkeit für das Bonusprogramm beim Bezahlen der Waren.",
@@ -53,7 +47,7 @@
             "defaultLayoutContainer": "Ceres::SingleItem.BeforeAddToBasket"
         },
         {
-            "key": "LoyalistaIntegration\\Containers\\MyAccountMergeWidget",
+            "key": "LoyalistaIntegration\\Containers\\MyAccountWidget",
             "name": "MyAccount Widget",
             "description": "Widget für Mein Konto-Seite. Gibt dem Kunden u.a. Auskunft über aktuellen Punktestand.",
             "defaultLayoutContainer": "Ceres::MyAccount.OrderHistoryPaymentInformation"

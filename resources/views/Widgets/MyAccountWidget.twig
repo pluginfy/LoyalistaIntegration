@@ -1,1 +1,7 @@
-<h1>My Account Widget</h1>
+<span>
+    {% if widgetData.show_as == 'button' %}
+            <a href="/my-loyalista-account" target="_blank" class="btn btn-primary">{{ widgetData.title }}</a>
+    {% else %}
+        <a href="/my-loyalista-account" target="_blank" class="">{{ widgetData.title }}</a>
+    {% endif %}
+</span>
