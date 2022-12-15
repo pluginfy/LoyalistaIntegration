@@ -15,18 +15,9 @@
     background-color:red;
 }
 
-.loyalista-label {
-    background-color: #fff;
-    text-align: left;
-    color: #000;
-    display: inline-block;
-    cursor: pointer;
-}
-
 div.loyalista-widget-wrapper{
     margin-top: 15px;
     margin-bottom: 15px;
-    border: 1px solid #666;
     padding: 5px;
 }
 .checkbox:checked:before{
@@ -35,4 +26,34 @@ div.loyalista-widget-wrapper{
 
 div#loyalista_error{
     color: red;
+}
+
+.un-registered-label,
+.loyalista-label{
+    background-color: #fff;
+    text-align: left;
+    color: #000;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.loyalista-label {
+    width: 280px;
+}
+
+div.loyalista-checkout-widget_wrapper #loyalista_widget_chekcout_option_custom_value {
+    width: 100px;
+}
+
+div.loyalista-redemption-options{
+    display: grid;
+}
+div.pluginfy-checkout-notify-msg{
+    color: red;
+    padding: 0  20px 20px 20px;
+    display: none;
+}
+
+.loyalista-account-page{
+
 }

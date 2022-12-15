@@ -1,10 +1,12 @@
 <link href="{{ plugin_path('LoyalistaIntegration') }}/css/main.css" rel="stylesheet">
 <script src="{{ plugin_path('LoyalistaIntegration') }}/js/main.js"></script>
-<div class="loyalista-widget-wrapper">
-    <h3>{{ widget_heading }}</h3>
-    <div>
-        <p>
-            {{ contents | nl2br }}
-        </p>
+<div class="loyalista-widget-wrapper" style="border: {{widget_border_width}} solid {{widget_border_color}}">
+    <div class="loyalista-product-widget-warp">
+        <h3>{{ widget_heading }}</h3>
+        <div>
+            <p>
+                {{ contents | nl2br }}
+            </p>
+        </div>
     </div>
 </div>

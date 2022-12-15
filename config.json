@@ -57,7 +57,7 @@
           "required": true,
           "label": "Config.label_points_label_text_de",
           "options": {
-            "defaultValue": "point label"
+            "defaultValue": "Bonuspunkte"
           }
         },
         "account_points_label_text_en": {
@@ -65,9 +65,27 @@
           "required": true,
           "label": "Config.label_points_label_text_en",
           "options": {
-            "defaultValue": "point label"
+            "defaultValue": "Bonus Points"
           }
         },
+
+        "widget_border_width": {
+          "type": "inputText",
+          "required": false,
+          "label": "Config.label_widget_border_width",
+          "options": {
+            "defaultValue": "1px"
+          }
+        },
+        "widget_border_color": {
+          "type": "inputText",
+          "required": false,
+          "label": "Config.label_widget_border_color",
+          "options": {
+            "defaultValue": "#666"
+          }
+        },
+
 
         "checkout_widget_heading_text_de": {
           "type": "inputTextArea",

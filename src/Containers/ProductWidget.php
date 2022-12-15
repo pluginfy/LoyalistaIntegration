@@ -37,7 +37,9 @@ class ProductWidget
         $data = [
             'customer_id' => $loggedin_user_id ,
             'contents' => $widget_contents,
-            'widget_heading' => $helper->getWidgetHeading('product_page_widget_heading_text_')
+            'widget_heading' => $helper->getWidgetHeading('product_page_widget_heading_text_'),
+            'widget_border_width' => $helper->getWidgetBorderWidth(),
+            'widget_border_color' => $helper->getWidgetBorderColor(),
         ];
 
         return $twig->render('LoyalistaIntegration::content.container.ProductWidget', $data);

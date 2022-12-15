@@ -1,6 +1,6 @@
 <link href="{{ plugin_path('LoyalistaIntegration') }}/css/main.css" rel="stylesheet">
 <script src="{{ plugin_path('LoyalistaIntegration') }}/js/main.js"></script>
-<div class="loyalista-widget-wrapper">
+<div class="loyalista-widget-wrapper" style="border: {{widget_border_width}} solid {{widget_border_color}}">
     <div class="loyalista-widget-myaccount-warp">
         <h3>{{ widget_heading }}</h3>
         {% if is_user_registered %}

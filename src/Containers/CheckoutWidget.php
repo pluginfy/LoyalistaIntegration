@@ -22,6 +22,12 @@ class CheckoutWidget
         $plenty_customer_id  = $account_service->getAccountContactId();
         $response =   $api->getCartCheckoutWidgetData($plenty_customer_id);
 
+        $data = [
+            'widget_border_width' => $helper->getWidgetBorderWidth(),
+            'widget_border_color' => $helper->getWidgetBorderColor(),
+            'widget_heading' => $helper->getWidgetHeading('checkout_widget_heading_text_')
+        ];
+
         if (isset($response['success']) && $response['success'] && $response['data']['user_registered']) {
             $widgetdata = $response['data'];
             $text_registered = $config_helper->getVar('checkout_text_for_registered_user_' .$lang);
@@ -51,7 +57,6 @@ class CheckoutWidget
             $text_redeem_partial = $helper->replacePointsLabel($text_redeem_partial, $lang);
 
 
-            $data['widget_heading'] = $helper->getWidgetHeading('checkout_widget_heading_text_');
             $data['content_1'] = $text_registered ;
             $data['content_2'] = $text_redeem_no ;
             $data['content_3'] =  $text_redeem_full;
@@ -72,7 +77,6 @@ class CheckoutWidget
             $disclaimer = str_ireplace("[number_of_points_shopping_cart]" , $html  ,$disclaimer);
 
             $data['is_user_registered'] =  false;
-            $data['widget_heading'] = $helper->getWidgetHeading('checkout_widget_heading_text_');
             $data['contents'] = $disclaimer;
             $data['btn_label'] = ($lang == 'de') ? 'Teilnehmen!' : 'Participate' ;
 

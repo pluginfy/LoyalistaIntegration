@@ -60,11 +60,13 @@ class LoyalistaHelper
         $api = pluginApp(LoyalistaApiService::class);
         $response = $api->getMyMergeAccountWidgetData($plenty_customer_id);
 
-        $data = array(
+        $data = [
             'plenty_customer_id' => $plenty_customer_id ,
             'is_user_registered' => false ,
             'widget_heading'  =>   $this->configHelper->getVar('my_account_widget_heading_text_' .$lang),
-        );
+            'widget_border_width' => $this->getWidgetBorderWidth(),
+            'widget_border_color' => $this->getWidgetBorderColor(),
+        ];
 
         if (isset($response['success']) && $response['success'] && $response['data']['user_registered']) {
             $data['is_user_registered'] = true;
@@ -130,5 +132,15 @@ class LoyalistaHelper
     {
         $lang = $this->configHelper->getCurrentLocale();
         return $this->configHelper->getVar($widget . $lang);
+    }
+
+    public function getWidgetBorderWidth(): string
+    {
+        return $this->configHelper->getVar('widget_border_width');
+    }
+
+    public function getWidgetBorderColor(): string
+    {
+        return $this->configHelper->getVar('widget_border_color');
     }
 }

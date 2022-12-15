@@ -1,19 +1,6 @@
-<style>
-    .un-registered-label {
-        background-color: #fff;
-        text-align: left;
-        color: #000;
-        display: inline-block;
-        cursor: pointer;
-    }
-    div.loyalista-checkout-widget_wrapper{
-        margin-top: 15px;
-        margin-bottom: 15px;
-        border: 1px solid #666 !important;
-        padding: 5px;
-    }
-</style>
-<div class="loyalista-widget-wrapper">
+<link href="{{ plugin_path('LoyalistaIntegration') }}/css/main.css" rel="stylesheet">
+
+<div class="loyalista-widget-wrapper" style="border: {{widget_border_width}} solid {{widget_border_color}}">
     <div class="loyalista-checkout-widget_wrapper">
         <h3>{{ widget_heading }}</h3>
         <label class="un-registered-label">
