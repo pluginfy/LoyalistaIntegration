@@ -6,11 +6,11 @@
         "en": "Loyalista"
     },
     "type"              :   "general",
-    "version"           :   "1.0.0",
+    "version"           :   "3.0.0",
     "pluginIcon"        :   "icon_plugin_xs.png",
     "description"       :   "Allows you to easily integrate your Plentymarkets Shop with Loyalista.",
     "shortDescription": {
-        "de": "Allows you to easily integrate your Plentymarkets Shop with Loyalista.",
+        "de": "Ermöglicht Ihnen die einfache Integration Ihres Plentymarkets-Shops mit Loyalista.",
         "en": "Allows you to easily integrate your Plentymarkets Shop with Loyalista."
     },
     "categories": ["3527"],

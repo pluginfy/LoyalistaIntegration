@@ -1,4 +1,10 @@
-<h2>{{ widget_heading }}</h2>
-<p>
-    {{ contents | nl2br }}
-</p>
+<link href="{{ plugin_path('LoyalistaIntegration') }}/css/main.css" rel="stylesheet">
+<script src="{{ plugin_path('LoyalistaIntegration') }}/js/main.js"></script>
+<div class="loyalista-widget-wrapper">
+    <h3>{{ widget_heading }}</h3>
+    <div>
+        <p>
+            {{ contents | nl2br }}
+        </p>
+    </div>
+</div>

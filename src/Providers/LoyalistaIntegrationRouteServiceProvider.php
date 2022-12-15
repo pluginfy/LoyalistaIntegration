@@ -24,6 +24,6 @@ class LoyalistaIntegrationRouteServiceProvider extends RouteServiceProvider
         $router->post('/checkout/redeem/points/', 'LoyalistaIntegration\Controllers\CheckoutController@createCoupon');
         $router->get('/getCampaign/', 'LoyalistaIntegration\Controllers\LoyalistaIntegrationController@getCampaign');
         $router->get('/pushConfiguration/', 'LoyalistaIntegration\Controllers\LoyalistaIntegrationController@pushConfiguration');
-        $router->get('/my-loyalista-account/', 'LoyalistaIntegration\Controllers\CustomerController@myAccountWidget');
+        $router->get('/my-loyalista-account/', 'LoyalistaIntegration\Controllers\CustomerController@loayslistaAccountPage');
     }
 }

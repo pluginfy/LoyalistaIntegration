@@ -232,7 +232,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_redeem_hint_text_de",
           "options": {
-            "defaultValue": "Einlösbare [name_of_points]:[total_number_of_redeemable_points]"
+            "defaultValue": "Einlösbare [points_label]:[total_number_of_redeemable_points]"
           }
         },
         "my_account_text_for_exiting_the_participation_redeem_hint_text_en": {
@@ -240,7 +240,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_redeem_hint_text_en",
           "options": {
-            "defaultValue": "Redeemable [name_of_points]:[total_number_of_redeemable_points]"
+            "defaultValue": "Redeemable [points_label]:[total_number_of_redeemable_points]"
           }
         },
         "my_account_text_for_exiting_the_participation_locked_hint_text_de": {
@@ -248,7 +248,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_locked_hint_text_de",
           "options": {
-            "defaultValue": "Gesperrt [name_of_points]:[total_number_of_locked_points]"
+            "defaultValue": "Gesperrt [points_label]:[total_number_of_locked_points]"
           }
         },
         "my_account_text_for_exiting_the_participation_locked_hint_text_en": {
@@ -256,7 +256,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_locked_hint_text_en",
           "options": {
-            "defaultValue": "Locked [name_of_points]:[total_number_of_locked_points]"
+            "defaultValue": "Locked [points_label]:[total_number_of_locked_points]"
 
           }
         },
@@ -265,7 +265,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_expiry_hint_de",
           "options": {
-            "defaultValue": "Am [date_of_expiry] verfallen [amount_of_points] [name_of_points]"
+            "defaultValue": "Am [date_of_expiry] verfallen [amount_of_points] [points_label]"
           }
         },
         "my_account_text_for_exiting_the_participation_expiry_hint_text_en": {
@@ -273,7 +273,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_expiry_hint_en",
           "options": {
-            "defaultValue": "On [date_of_expiry] expired [amount_of_points] [name_of_points]"
+            "defaultValue": "On [date_of_expiry] expired [amount_of_points] [points_label]"
           }
         },
         "my_account_text_for_exiting_the_participation_join_request_hint_text_de": {
@@ -321,7 +321,7 @@
           "required": false,
           "label": "Config.label_text_for_unregistered_users_for_product_page_de",
           "options": {
-            "defaultValue": "Nehmen Sie jetzt an unserem Treueprogramm teil und sammeln Sie direkt [points_for_signup] [points_label] und erhalten Sie zusätzlich [number_of_points] [points_label] für Ihren aktuellen Warenkorb."
+            "defaultValue": "Nehmen Sie jetzt an unserem Treueprogramm teil und sammeln Sie direkt [points_for_signup] [points_label] und erhalten Sie zusätzlich [number_of_points] [points_label] für aktuelles Produkt."
           }
         },
         "text_for_unregistered_users_for_product_page_en": {
@@ -329,7 +329,7 @@
           "required": false,
           "label": "Config.label_text_for_unregistered_users_for_product_page_en",
           "options": {
-            "defaultValue": "Join our loyalty program now and collect [points_for_signup] [points_label] directly and receive an additional [number_of_points] [points_label] for your current shopping cart."
+            "defaultValue": "Join our loyalty program now and collect [points_for_signup] [points_label] directly and receive an additional [number_of_points] [points_label] for current product."
           }
         },
 

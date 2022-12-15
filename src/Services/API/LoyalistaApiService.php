@@ -253,16 +253,9 @@ class LoyalistaApiService extends BaseApiService
             'reference_id' => $loggedin_customer_id,
         ];
 
-        $tokenVerified =  $this->verifyApiToken();
+        $response = $this->doCurl($requestURL ,$requestType , [], $data);
 
-        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
-            $response = $this->doCurl($requestURL ,$requestType , [], $data);
-
-            return $response;
-
-        }else{
-            $this->getLogger('Token Verification Failed')->error('Loyalista Token Expire or invalid');
-        }
+        return $response;
     }
 
 
@@ -325,8 +318,6 @@ class LoyalistaApiService extends BaseApiService
      * @return mixed|string|void
      */
     public function getCartCheckoutWidgetData($loggedin_customer_id){
-
-
         $requestURL = ConfigHelper::BASE_URL .'/v1/get_user_checkout_cart_data';
 
         $requestType = static::REQUEST_METHOD_GET;
@@ -338,14 +329,7 @@ class LoyalistaApiService extends BaseApiService
             'reference_id' => $loggedin_customer_id,
         ];
 
-        $tokenVerified =  $this->verifyApiToken();
-
-        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
-            $response = $this->doCurl($requestURL ,$requestType , [], $data);
-            return $response;
-        }else{
-            $this->getLogger('Token Verification Failed')->error('Loyalista Token Expire or invalid');
-        }
+        return $this->doCurl($requestURL ,$requestType , [], $data);
     }
 
     /**

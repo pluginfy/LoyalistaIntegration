@@ -8,8 +8,6 @@ use Plenty\Modules\Frontend\Services\AccountService;
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
 use LoyalistaIntegration\Helpers\LoyalistaHelper;
 
-
-
 class ProductWidget
 {
     use Loggable;
@@ -25,13 +23,13 @@ class ProductWidget
         $api = pluginApp(LoyalistaApiService::class);
         $response =   $api->getMyAccountWidgetData($loggedin_user_id);
 
-        if (isset($response['success']) && $response['success'] == true){
-        } else {
-            $loggedin_user_id = 0;
+        $isRegistered = false;
+        if (isset($response['success']) && $response['success'] && $response['data']['user_registered']){
+            $isRegistered = true;
         }
 
         $widget_contents  = $helper->hydrate_product_contents(
-            $loggedin_user_id,
+            $isRegistered,
             $this->getItemId($arg),
             $this->getItemPrice($arg),
         );
@@ -41,7 +39,6 @@ class ProductWidget
             'contents' => $widget_contents,
             'widget_heading' => $helper->getWidgetHeading('product_page_widget_heading_text_')
         ];
-
 
         return $twig->render('LoyalistaIntegration::content.container.ProductWidget', $data);
     }
