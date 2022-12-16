@@ -14,30 +14,33 @@
                 <input name="loyalista_widget_chekcout__options"  class="loyalista_widget_chekcout_option_all" id="loyalista_widget_chekcout_option_all" type="radio" value="all">
                 {{ content_3 | raw}}
             </label>
-            <div class="loyalista-redemption-options-custom">
-                <label class="loyalista-label">
-                    <div class="loyalista_checkout_content_wrapper">
-                        <input name="loyalista_widget_chekcout__options" id="loyalista_widget_chekcout_option_custom" class="loyalista_widget_chekcout_option_custom" type="radio" value="custom">
-                        {{ content_4 }}
-                    </div>
-                </label>
-                <span id="loyalista_widget_chekcout_option_custom_value_wrapper">
-                    <input  style="display: none"
-                            class="input-unit"
-                            type="number"
-                            min="0.01"
-                            step="1"
-                            name="loyalista_widget_chekcout_option_custom_value"
-                            id="loyalista_widget_chekcout_option_custom_value"
-                            onkeypress="return isNumber(event)"
-                            onselectstart="return false"
-                            onpaste="return false"
-                            oncopy="return false"
-                            oncut="return false"
-                            ondrag="return false"
-                            ondrop="return false">
-                </span>
-            </div>
+
+            {% if config('LoyalistaIntegration.partial_redemption') %}
+                <div class="loyalista-redemption-options-custom">
+                    <label class="loyalista-label">
+                        <div class="loyalista_checkout_content_wrapper">
+                            <input name="loyalista_widget_chekcout__options" id="loyalista_widget_chekcout_option_custom" class="loyalista_widget_chekcout_option_custom" type="radio" value="custom">
+                            {{ content_4 }}
+                        </div>
+                    </label>
+                    <span id="loyalista_widget_chekcout_option_custom_value_wrapper">
+                        <input  style="display: none"
+                                class="input-unit"
+                                type="number"
+                                min="0.01"
+                                step="1"
+                                name="loyalista_widget_chekcout_option_custom_value"
+                                id="loyalista_widget_chekcout_option_custom_value"
+                                onkeypress="return isNumber(event)"
+                                onselectstart="return false"
+                                onpaste="return false"
+                                oncopy="return false"
+                                oncut="return false"
+                                ondrag="return false"
+                                ondrop="return false">
+                    </span>
+                </div>
+            {% endif %}
             <div class="pluginfy-checkout-notify-msg"></div>
         </div>
     </div>
@@ -205,6 +208,8 @@
         $('input[name=loyalista_widget_chekcout__options]').click(function() {
             let choice = $('input[name="loyalista_widget_chekcout__options"]:checked').val();
             let custom_input_field = $('input#loyalista_widget_chekcout_option_custom_value');
+            console.log(choice);
+            console.log(custom_input_field);
             $('div.pluginfy-checkout-notify-msg').hide();
             switch (choice){
                 case 'skip':
@@ -223,7 +228,6 @@
         });
 
         setTimeout(function(){
-            console.log('coBait-Working');
             setCoPointBait();
         }, 2000);
     });

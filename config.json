@@ -3,7 +3,7 @@
   "menu": {
     "Connection" : {
       "label": "Config.ConfigurationTab",
-      "fullWidth": true,
+      "fullWidth": false,
       "formFields": {
         "is_active": {
           "type": "checkBox",
@@ -48,6 +48,173 @@
         }
       }
     },
+    "Setting" : {
+      "label": "Config.SettingTab",
+      "fullWidth": false,
+      "formFields": {
+        "revenue_to_one_point": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.revenueToOnePointLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "one_point_to_value": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.onePointToValueLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "redeemable_after": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.redeemableAfterLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "expiry_period": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.expiryPeriodLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "signup_points": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.signupPointsLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "order_created_points": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.orderCreatedPointsLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "category_extra_points": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.categoryExtraPointsLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "category_ids": {
+          "type": "inputText",
+          "required": false,
+          "label": "Config.categoryIdsLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "product_extra_points": {
+          "type": "inputNumber",
+          "required": false,
+          "label": "Config.productExtraPointsLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "product_ids": {
+          "type": "inputText",
+          "required": false,
+          "label": "Config.productIdsLabel",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "partial_redemption": {
+          "type": "checkBox",
+          "required": false,
+          "label": "Config.partialRedemptionLabel",
+          "options": {
+            "tooltip": "Config.partialRedemptionLabelTooltip",
+            "defaultValue": true
+          }
+        }
+      }
+    },
+    "Action" : {
+      "label": "Config.ActionTab",
+      "fullWidth": false,
+      "formFields": {
+        "date_from": {
+          "type": "datePicker",
+          "required": false,
+          "label": "Config.label_date_from",
+          "options": {
+            "defaultValue": ""
+          }
+        },
+        "order_type": {
+            "type": "multiCheckBox",
+            "required": false,
+            "label": "Config.order_type",
+            "options": {
+              "defaultValue": "1",
+              "checkBoxValues": [
+                {
+                  "value": "1",
+                  "caption": "Config.order_type_SALE"
+                },
+                {
+                  "value": "2",
+                  "caption": "Config.order_type_DELIVERY"
+                },
+                {
+                  "value": "3",
+                  "caption": "Config.order_type_RETURNS"
+                },
+                {
+                  "value": "4",
+                  "caption": "Config.order_type_CREDIT_NOTE"
+                },
+                {
+                  "value": "5",
+                  "caption": "Config.order_type_WARRANTY"
+                },
+                {
+                  "value": "6",
+                  "caption": "Config.order_type_REPAIR"
+                },
+                {
+                  "value": "7",
+                  "caption": "Config.order_type_OFFER"
+                },
+                {
+                  "value": "8",
+                  "caption": "Config.order_type_PRE_ORDER"
+                },
+                {
+                  "value": "9",
+                  "caption": "Config.order_type_MULTI_ORDER"
+                },
+                {
+                  "value": "10",
+                  "caption": "Config.order_type_MULTI_CREDIT_ORDER"
+                },
+                {
+                  "value": "11",
+                  "caption": "Config.order_type_REORDER"
+                },
+                {
+                  "value": "12",
+                  "caption": "Config.order_type_PARTIAL_DELIVERY"
+                }
+              ]
+            }
+          }
+      }
+    },
     "Content" : {
       "label": "Config.ContentTab",
       "fullWidth": true,
@@ -77,9 +244,11 @@
             "defaultValue": "1px"
           }
         },
+
         "widget_border_color": {
-          "type": "inputText",
-          "required": false,
+          "deprecated": true,
+          "type": "colorPicker",
+          "required": true,
           "label": "Config.label_widget_border_color",
           "options": {
             "defaultValue": "#666"
@@ -388,104 +557,6 @@
 
 
       }
-    },
-    "Setting" : {
-      "label": "Config.SettingTab",
-      "fullWidth": true,
-      "formFields": {
-        "revenue_to_one_point": {
-          "type": "inputNumber",
-          "required": false,
-          "label": "Config.revenueToOnePointLabel",
-          "options": {
-            "defaultValue": ""
-          }
-        },
-        "one_point_to_value": {
-          "type": "inputNumber",
-          "required": false,
-          "label": "Config.onePointToValueLabel",
-          "options": {
-            "defaultValue": ""
-          }
-        },
-        "redeemable_after": {
-          "type": "inputNumber",
-          "required": false,
-          "label": "Config.redeemableAfterLabel",
-          "options": {
-            "defaultValue": ""
-          }
-        },
-        "expiry_period": {
-          "type": "inputNumber",
-          "required": false,
-          "label": "Config.expiryPeriodLabel",
-          "options": {
-            "defaultValue": ""
-          }
-        },
-        "signup_points": {
-          "type": "inputNumber",
-          "required": false,
-          "label": "Config.signupPointsLabel",
-          "options": {
-            "defaultValue": ""
-          }
-        },
-        "order_created_points": {
-          "type": "inputNumber",
-          "required": false,
-          "label": "Config.orderCreatedPointsLabel",
-          "options": {
-            "defaultValue": ""
-          }
-        },
-        "category_extra_points": {
-          "type": "inputNumber",
-          "required": false,
-          "label": "Config.categoryExtraPointsLabel",
-          "options": {
-            "defaultValue": ""
-          }
-        },
-        "category_ids": {
-          "type": "inputText",
-          "required": false,
-          "label": "Config.categoryIdsLabel",
-          "options": {
-            "defaultValue": ""
-          }
-        },
-        "product_extra_points": {
-          "type": "inputNumber",
-          "required": false,
-          "label": "Config.productExtraPointsLabel",
-          "options": {
-            "defaultValue": ""
-          }
-        },
-        "product_ids": {
-          "type": "inputText",
-          "required": false,
-          "label": "Config.productIdsLabel",
-          "options": {
-            "defaultValue": ""
-          }
-        },
-        "partial_redemption": {
-          "type": "checkBox",
-          "required": false,
-          "label": "Config.partialRedemptionLabel",
-          "options": {
-            "tooltip": "Config.partialRedemptionLabelTooltip",
-            "defaultValue": false
-          }
-        }
-      }
-    },
-    "Action" : {
-      "label": "Config.ActionTab"
     }
   }
 }

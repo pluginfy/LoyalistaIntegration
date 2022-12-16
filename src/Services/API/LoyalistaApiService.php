@@ -274,12 +274,8 @@ class LoyalistaApiService extends BaseApiService
 
         $tokenVerified =  $this->verifyApiToken();
 
-        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
-
+        if (isset($tokenVerified['success']) && $tokenVerified['success']){
             $response = $this->doCurl($requestURL ,$requestType , [], $data);
-
-
-
 
             return $response;
 
@@ -305,7 +301,7 @@ class LoyalistaApiService extends BaseApiService
 
         $tokenVerified =  $this->verifyApiToken();
 
-        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
+        if (isset($tokenVerified['success']) && $tokenVerified['success']){
             $response = $this->doCurl($requestURL ,$requestType , [], $data);
             return $response;
         }else{
@@ -357,7 +353,7 @@ class LoyalistaApiService extends BaseApiService
         $requestURL = ConfigHelper::BASE_URL .'/v1/remove_customer';
         $requestType = static::REQUEST_METHOD_POST;
         $tokenVerified =  $this->verifyApiToken();
-        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
+        if (isset($tokenVerified['success']) && $tokenVerified['success']){
             $response = $this->doCurl($requestURL ,$requestType , [], $data);
             return $response;
         }
