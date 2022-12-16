@@ -54,6 +54,8 @@ class LoyalistaHelper
 
     public function hydrate_my_account_data()
     {
+        $date_of_expiry = 30;
+
         $lang =  $this->configHelper->getCurrentLocale();
         $plenty_customer_id  = $this->accountService->getAccountContactId();
 
@@ -89,6 +91,7 @@ class LoyalistaHelper
                 $txt_locked_points = $this->replacePointsLabel($txt_locked_points, $lang);
 
                 $txt_expiry_points = str_ireplace("[amount_of_points]"  ,$widgetdata['expired_amount_of_points'],$txt_expiry_points);
+                $txt_expiry_points = str_ireplace("[date_of_expiry]"  ,$date_of_expiry,$txt_expiry_points);
                 $txt_expiry_points = $this->replacePointsLabel($txt_expiry_points, $lang);
 
                 $disclaimer = str_ireplace("[value_of_account_balance]" ,floor($points * $point_to_conversion) ,$disclaimer);

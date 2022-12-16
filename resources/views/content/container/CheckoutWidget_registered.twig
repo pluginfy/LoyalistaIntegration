@@ -1,47 +1,47 @@
 <link href="{{ plugin_path('LoyalistaIntegration') }}/css/main.css" rel="stylesheet">
 
 <div class="loyalista-widget-wrapper" style="border: {{widget_border_width}} solid {{widget_border_color}}">
-        <div class="loyalista-checkout-widget_wrapper">
-            <h3>{{ widget_heading }}</h3>
-            <span>{{ content_1 | raw }}</span>
-            <br/><hr/>
-            <div class="loyalista-redemption-options">
+    <div class="loyalista-checkout-widget_wrapper">
+        <h3>{{ widget_heading }}</h3>
+        <span>{{ content_1 | raw }}</span>
+        <br/><hr/>
+        <div class="loyalista-redemption-options">
+            <label class="loyalista-label">
+                <input name="loyalista_widget_chekcout__options" class="loyalista_widget_chekcout_option_skip" id="loyalista_widget_chekcout_option_skip" type="radio" value="skip" checked>
+                {{ content_2 }}
+            </label>
+            <label class="loyalista-label">
+                <input name="loyalista_widget_chekcout__options"  class="loyalista_widget_chekcout_option_all" id="loyalista_widget_chekcout_option_all" type="radio" value="all">
+                {{ content_3 | raw}}
+            </label>
+            <div class="loyalista-redemption-options-custom">
                 <label class="loyalista-label">
-                    <input name="loyalista_widget_chekcout__options" class="loyalista_widget_chekcout_option_skip" id="loyalista_widget_chekcout_option_skip" type="radio" value="skip" checked>
-                    {{ content_2 }}
+                    <div class="loyalista_checkout_content_wrapper">
+                        <input name="loyalista_widget_chekcout__options" id="loyalista_widget_chekcout_option_custom" class="loyalista_widget_chekcout_option_custom" type="radio" value="custom">
+                        {{ content_4 }}
+                    </div>
                 </label>
-                <label class="loyalista-label">
-                    <input name="loyalista_widget_chekcout__options"  class="loyalista_widget_chekcout_option_all" id="loyalista_widget_chekcout_option_all" type="radio" value="all">
-                    {{ content_3 | raw}}
-                </label>
-                <div class="loyalista-redemption-options-custom">
-                    <label class="loyalista-label">
-                        <div class="loyalista_checkout_content_wrapper">
-                            <input name="loyalista_widget_chekcout__options" id="loyalista_widget_chekcout_option_custom" class="loyalista_widget_chekcout_option_custom" type="radio" value="custom">
-                            {{ content_4 }}
-                        </div>
-                    </label>
-                    <span id="loyalista_widget_chekcout_option_custom_value_wrapper">
-                                <input  style="display: none"
-                                        class="input-unit"
-                                        type="number"
-                                        min="0.01"
-                                        step="1"
-                                        name="loyalista_widget_chekcout_option_custom_value"
-                                        id="loyalista_widget_chekcout_option_custom_value"
-                                        onkeypress="return isNumber(event)"
-                                        onselectstart="return false"
-                                        onpaste="return false"
-                                        oncopy="return false"
-                                        oncut="return false"
-                                        ondrag="return false"
-                                        ondrop="return false">
-                        </span>
-                </div>
-                <div class="pluginfy-checkout-notify-msg"></div>
+                <span id="loyalista_widget_chekcout_option_custom_value_wrapper">
+                    <input  style="display: none"
+                            class="input-unit"
+                            type="number"
+                            min="0.01"
+                            step="1"
+                            name="loyalista_widget_chekcout_option_custom_value"
+                            id="loyalista_widget_chekcout_option_custom_value"
+                            onkeypress="return isNumber(event)"
+                            onselectstart="return false"
+                            onpaste="return false"
+                            oncopy="return false"
+                            oncut="return false"
+                            ondrag="return false"
+                            ondrop="return false">
+                </span>
             </div>
+            <div class="pluginfy-checkout-notify-msg"></div>
         </div>
-    </div>>
+    </div>
+</div>
 
 <script type="application/javascript">
     function isNumber(evt) {

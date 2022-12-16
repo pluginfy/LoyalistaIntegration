@@ -7,22 +7,22 @@
             <div>{{ txt_redeem_points }}</div>
             <div>{{ txt_locked_points }}</div>
             <div>{{ txt_expiry_points }}</div>
+            <hr/>
             <div style="margin-top: 15px">{{ txt_merge_account }}</div>
             <div>
                 <input type="text" id="merge_loyalista_acc_btn" >
                 <button class="btn btn-primary btn-appearance" onclick="mergeAccountButton(this)"> {{ join_btn_label }}</button>
             </div>
-            <br/>
             <div id="loyalista_error"></div>
-            <hr />
+            <hr/>
             <div style="margin-top: 15px">
-                <label class="loyalista-label">
+                <label class="">
                     <input id="yes_unreg_loyalista_pro" type="checkbox" value="text"> {{ disclaimer }}
                 </label>
                 <button class="btn btn-primary btn-appearance" onclick="unRegisterMe(this)"> {{ btn_label }}</button>
             </div>
         {% else %}
-            <label class="loyalista-label">
+            <label class="">
                 <input id="yes_rgisistered_loyalista_programme" type="checkbox" value="text">  {{ offer }}
             </label>
             <button class="btn btn-primary btn-appearance" onclick="register_me(this)"> {{ btn_label }}</button>

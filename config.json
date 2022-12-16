@@ -250,7 +250,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_redeem_hint_text_de",
           "options": {
-            "defaultValue": "Einlösbare [points_label]:[total_number_of_redeemable_points]"
+            "defaultValue": "Einlösbare [points_label]: [total_number_of_redeemable_points]"
           }
         },
         "my_account_text_for_exiting_the_participation_redeem_hint_text_en": {
@@ -258,7 +258,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_redeem_hint_text_en",
           "options": {
-            "defaultValue": "Redeemable [points_label]:[total_number_of_redeemable_points]"
+            "defaultValue": "Redeemable [points_label]: [total_number_of_redeemable_points]"
           }
         },
         "my_account_text_for_exiting_the_participation_locked_hint_text_de": {
@@ -266,7 +266,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_locked_hint_text_de",
           "options": {
-            "defaultValue": "Gesperrt [points_label]:[total_number_of_locked_points]"
+            "defaultValue": "Gesperrt [points_label]: [total_number_of_locked_points]"
           }
         },
         "my_account_text_for_exiting_the_participation_locked_hint_text_en": {
@@ -274,7 +274,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_locked_hint_text_en",
           "options": {
-            "defaultValue": "Locked [points_label]:[total_number_of_locked_points]"
+            "defaultValue": "Locked [points_label]: [total_number_of_locked_points]"
 
           }
         },
