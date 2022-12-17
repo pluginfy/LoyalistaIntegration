@@ -18,7 +18,8 @@ use Plenty\Modules\EventProcedures\Services\Entries\ProcedureEntry;
 use LoyalistaIntegration\EventProcedures\LoyalistaProcedures;
 
 use LoyalistaIntegration\Cron\ConfigurationCron;
-
+use LoyalistaIntegration\Cron\OrdersCron;
+use LoyalistaIntegration\Cron\RedeemCron;
 
 /**
  * Class LoyalistaIntegrationServiceProvider
@@ -47,6 +48,8 @@ class LoyalistaIntegrationServiceProvider extends ServiceProvider
     {
 
         $cronContainer->add(CronContainer::EVERY_FIVE_MINUTES, ConfigurationCron::class);
+        $cronContainer->add(CronContainer::EVERY_FIVE_MINUTES, OrdersCron::class);
+        $cronContainer->add(CronContainer::EVERY_FIVE_MINUTES, RedeemCron::class);
 
         $eventProceduresService->registerProcedure(
             'exportOrder',

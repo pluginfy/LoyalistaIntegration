@@ -14,8 +14,8 @@
                 <input name="loyalista_widget_chekcout__options"  class="loyalista_widget_chekcout_option_all" id="loyalista_widget_chekcout_option_all" type="radio" value="all">
                 {{ content_3 | raw}}
             </label>
-
-            {% if config('LoyalistaIntegration.partial_redemption') %}
+            <label>{{ config('LoyalistaIntegration.partial_redemption') }}</label>
+            {% if config('LoyalistaIntegration.partial_redemption') == "true" %}
                 <div class="loyalista-redemption-options-custom">
                     <label class="loyalista-label">
                         <div class="loyalista_checkout_content_wrapper">
@@ -195,40 +195,38 @@
     }
 
     $(function(){
-        setCoPointBait();
-        $('.totalSum dd[data-testing="basket-amount"]').bind('DOMSubtreeModified', function(){
-            setCoPointBait();
-        });
-
-        $('input#loyalista_widget_chekcout_option_custom_value').on('blur', function(e){
-            validateCustomOption();
-        });
-
-        // Checkout redeeem option changed
-        $('input[name=loyalista_widget_chekcout__options]').click(function() {
-            let choice = $('input[name="loyalista_widget_chekcout__options"]:checked').val();
-            let custom_input_field = $('input#loyalista_widget_chekcout_option_custom_value');
-            console.log(choice);
-            console.log(custom_input_field);
-            $('div.pluginfy-checkout-notify-msg').hide();
-            switch (choice){
-                case 'skip':
-                case 'all':
-                    custom_input_field.val(0).hide();
-                    break;
-                case 'custom':
-                    custom_input_field.show();
-                    $('div.pluginfy-checkout-notify-msg').show();
-                    break;
-            }
-        });
-
-        $('.widget-place-order').on('click', function (event) {
-           doCheckOutLoyalista();
-        });
-
         setTimeout(function(){
+            $('.totalSum dd[data-testing="basket-amount"]').bind('DOMSubtreeModified', function(){
+                setCoPointBait();
+            });
+
+            $('input#loyalista_widget_chekcout_option_custom_value').on('blur', function(e){
+                validateCustomOption();
+            });
+
+            // Checkout redeeem option changed
+            $('input[name=loyalista_widget_chekcout__options]').click(function() {
+                let choice = $('input[name="loyalista_widget_chekcout__options"]:checked').val();
+                let custom_input_field = $('input#loyalista_widget_chekcout_option_custom_value');
+                console.log(choice);
+                console.log(custom_input_field);
+                $('div.pluginfy-checkout-notify-msg').hide();
+                switch (choice){
+                    case 'skip':
+                    case 'all':
+                        custom_input_field.val(0).hide();
+                        break;
+                    case 'custom':
+                        custom_input_field.show();
+                        $('div.pluginfy-checkout-notify-msg').show();
+                        break;
+                }
+            });
+
+            $('.widget-place-order').on('click', function (event) {
+                doCheckOutLoyalista();
+            });
             setCoPointBait();
-        }, 2000);
+        }, 1000);
     });
 </script>

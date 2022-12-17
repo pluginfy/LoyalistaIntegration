@@ -46,7 +46,6 @@
             $(_obj).attr('disabled' , false);
         });
     }
-
     function ck_register_me(_obj) {
         $(_obj).attr('disabled' , true);
         let checked = $('#yes_co_rgisistered_loyalista_programme').is(":checked");
@@ -79,18 +78,13 @@
             $(_obj).attr('disabled' , false);
         });
     }
-
     $(function() {
-        setCheckoutPointBait();
-        // Event Handler
-        $('.totalSum dd[data-testing="basket-amount"]').bind('DOMSubtreeModified', function(){
-            setCheckoutPointBait();
-        });
-
         setTimeout(function(){
-            console.log('coBait-Working');
+            $('.totalSum dd[data-testing="basket-amount"]').bind('DOMSubtreeModified', function(){
+                setCheckoutPointBait();
+            });
             setCheckoutPointBait();
-        }, 2000);
+        }, 1000);
     });
 
 </script>

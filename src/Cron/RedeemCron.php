@@ -1,7 +1,6 @@
 <?php
 namespace LoyalistaIntegration\Cron;
 
-
 use Plenty\Modules\Cron\Contracts\CronHandler as Cron;
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
 
@@ -10,18 +9,10 @@ use Plenty\Plugin\Log\Loggable;
 /**
  * Class ConfigurationCron.
  */
-class ConfigurationCron extends Cron
+class RedeemCron extends Cron
 {
      use Loggable;
-
-    /**
-     * Error code types.
-     */
-    const ERROR_CODE_CRON = 'CronStatus';
-
     public $apiService;
-
-
     public function __construct(LoyalistaApiService $apiService)
     {
         $this->apiService = $apiService;
@@ -32,8 +23,6 @@ class ConfigurationCron extends Cron
      */
     public function handle()
     {
-           $response = $this->apiService->pushConfiguration();
-
-        $this->getLogger('ConfigurationCron')->error(__FUNCTION__, $response);
+           $this->getLogger('RedeemCron')->error(__FUNCTION__, 'Cron is working');
     }
 }

@@ -5,15 +5,6 @@
       "label": "Config.ConfigurationTab",
       "fullWidth": false,
       "formFields": {
-        "is_active": {
-          "type": "checkBox",
-          "required": false,
-          "label": "Config.isActiveLabel",
-          "options": {
-            "tooltip": "Config.isActiveLabelTooltip",
-            "defaultValue": false
-          }
-        },
         "shop_id": {
           "type": "inputNumber",
           "required": false,
@@ -147,6 +138,14 @@
       "label": "Config.ActionTab",
       "fullWidth": false,
       "formFields": {
+        "order_ids": {
+          "type": "inputText",
+          "required": false,
+          "label": "Config.label_order_ids",
+          "options": {
+            "defaultValue": ""
+          }
+        },
         "date_from": {
           "type": "datePicker",
           "required": false,
@@ -155,10 +154,10 @@
             "defaultValue": ""
           }
         },
-        "order_type": {
+        "order_types": {
             "type": "multiCheckBox",
             "required": false,
-            "label": "Config.order_type",
+            "label": "Config.label_order_type",
             "options": {
               "defaultValue": "1",
               "checkBoxValues": [
@@ -212,7 +211,129 @@
                 }
               ]
             }
+          },
+        "order_statuses": {
+          "type": "multiCheckBox",
+          "required": false,
+          "label": "Config.orderStatusLabel",
+          "options": {
+            "defaultValue": "7",
+            "checkBoxValues": [
+              {
+                "value": "1",
+                "caption": "Config.orderStatusPossibleValue1"
+              },
+              {
+                "value": "1.1",
+                "caption": "Config.orderStatusPossibleValue1.1"
+              },
+              {
+                "value": "1.2",
+                "caption": "Config.orderStatusPossibleValue1.2"
+              },
+              {
+                "value": "2",
+                "caption": "Config.orderStatusPossibleValue2"
+              },
+              {
+                "value": "3",
+                "caption": "Config.orderStatusPossibleValue3"
+              },
+              {
+                "value": "3.2",
+                "caption": "Config.orderStatusPossibleValue3.2"
+              },
+              {
+                "value": "3.3",
+                "caption": "Config.orderStatusPossibleValue3.3"
+              },
+              {
+                "value": "3.4",
+                "caption": "Config.orderStatusPossibleValue3.4"
+              },
+              {
+                "value": "4",
+                "caption": "Config.orderStatusPossibleValue4"
+              },
+              {
+                "value": "5",
+                "caption": "Config.orderStatusPossibleValue5"
+              },
+              {
+                "value": "5.1",
+                "caption": "Config.orderStatusPossibleValue5.1"
+              },
+              {
+                "value": "6",
+                "caption": "Config.orderStatusPossibleValue6"
+              },
+              {
+                "value": "7",
+                "caption": "Config.orderStatusPossibleValue7"
+              },
+              {
+                "value": "7.1",
+                "caption": "Config.orderStatusPossibleValue7.1"
+              },
+              {
+                "value": "8",
+                "caption": "Config.orderStatusPossibleValue8"
+              },
+              {
+                "value": "8.1",
+                "caption": "Config.orderStatusPossibleValue8.1"
+              },
+              {
+                "value": "9",
+                "caption": "Config.orderStatusPossibleValue9"
+              },
+              {
+                "value": "9.1",
+                "caption": "Config.orderStatusPossibleValue9.1"
+              },
+              {
+                "value": "9.2",
+                "caption": "Config.orderStatusPossibleValue9.2"
+              },
+              {
+                "value": "9.3",
+                "caption": "Config.orderStatusPossibleValue9.3"
+              },
+              {
+                "value": "9.4",
+                "caption": "Config.orderStatusPossibleValue9.4"
+              },
+              {
+                "value": "9.5",
+                "caption": "Config.orderStatusPossibleValue9.5"
+              },
+              {
+                "value": "10",
+                "caption": "Config.orderStatusPossibleValue10"
+              },
+              {
+                "value": "11",
+                "caption": "Config.orderStatusPossibleValue11"
+              },
+              {
+                "value": "11.1",
+                "caption": "Config.orderStatusPossibleValue11.1"
+              },
+              {
+                "value": "12",
+                "caption": "Config.orderStatusPossibleValue12"
+              },
+              {
+                "value": "13",
+                "caption": "Config.orderStatusPossibleValue13"
+              },
+              {
+                "value": "14",
+                "caption": "Config.orderStatusPossibleValue14"
+              }
+            ]
           }
+        }
       }
     },
     "Content" : {
