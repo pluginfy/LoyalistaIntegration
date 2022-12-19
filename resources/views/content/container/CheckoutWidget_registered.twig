@@ -14,7 +14,6 @@
                 <input name="loyalista_widget_chekcout__options"  class="loyalista_widget_chekcout_option_all" id="loyalista_widget_chekcout_option_all" type="radio" value="all">
                 {{ content_3 | raw}}
             </label>
-            <label>{{ config('LoyalistaIntegration.partial_redemption') }}</label>
             {% if config('LoyalistaIntegration.partial_redemption') == "true" %}
                 <div class="loyalista-redemption-options-custom">
                     <label class="loyalista-label">
@@ -42,6 +41,7 @@
                 </div>
             {% endif %}
             <div class="pluginfy-checkout-notify-msg"></div>
+            <button class="loyalista-apply-redemption-btn btn btn-primary btn-appearance">{{ apply_redeem_btn_label }}</button>
         </div>
     </div>
 </div>
@@ -208,8 +208,6 @@
             $('input[name=loyalista_widget_chekcout__options]').click(function() {
                 let choice = $('input[name="loyalista_widget_chekcout__options"]:checked').val();
                 let custom_input_field = $('input#loyalista_widget_chekcout_option_custom_value');
-                console.log(choice);
-                console.log(custom_input_field);
                 $('div.pluginfy-checkout-notify-msg').hide();
                 switch (choice){
                     case 'skip':
@@ -223,7 +221,7 @@
                 }
             });
 
-            $('.widget-place-order').on('click', function (event) {
+            $('.loyalista-apply-redemption-btn').on('click', function (event) {
                 doCheckOutLoyalista();
             });
             setCoPointBait();

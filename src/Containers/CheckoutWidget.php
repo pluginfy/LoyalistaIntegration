@@ -64,6 +64,7 @@ class CheckoutWidget
             $data['is_user_registered'] =  true;
 
             $data['btn_label'] = ($lang == 'de') ? 'Teilnehmen!' : 'Participate' ;
+            $data['apply_redeem_btn_label'] = ($lang == 'de') ? 'Anwenden!' : 'Apply' ;
             return $twig->render('LoyalistaIntegration::content.container.CheckoutWidget_registered', $data);
 
         } else {
