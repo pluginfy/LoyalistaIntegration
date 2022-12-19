@@ -69,10 +69,10 @@
             async: false
         }).done(function (return_data) {
             console.log(return_data)
-            return true;
+            return return_data;
         }).fail(function (data) {
             console.log(data)
-            return true;
+            return data;
         });
     }
 
@@ -183,11 +183,19 @@
         if(parseFloat(pointsToRedeem) > 0) {
             redeemPoints(pointsToRedeem, pointToValue)
                 .then(
-                    function (value) {
-                        console.log(value);
+                    function (response) {
+                        console.log(response);
+                        if(response.status === 'ERROR') {
+                            $('div.pluginfy-checkout-notify-msg').html(response.message)
+                            $('div.pluginfy-checkout-notify-msg').show();
+                        } else {
+                            $('.loyalista-apply-redemption-btn').attr("disabled", true);
+                            $('div.pluginfy-checkout-notify-msg').html('');
+                            $('div.pluginfy-checkout-notify-msg').hide();
+                        }
                     },
-                    function (error) {
-                        console.log(error);
+                    function (response) {
+                        console.log(response);
                         //event.preventDefault();
                     }
                 );

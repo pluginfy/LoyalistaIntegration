@@ -30,15 +30,11 @@ div#loyalista_error{
 
 .un-registered-label,
 .loyalista-label{
-    background-color: #fff;
+    /*background-color: #fff;*/
     text-align: left;
     color: #000;
     display: inline-block;
     cursor: pointer;
-}
-
-.loyalista-label {
-    width: 280px;
 }
 
 div.loyalista-redemption-options-custom{
