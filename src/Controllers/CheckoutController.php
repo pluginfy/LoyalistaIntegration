@@ -15,6 +15,7 @@ use Plenty\Modules\Frontend\Services\AccountService;
 
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
 use LoyalistaIntegration\Helpers\ConfigHelper;
+use LoyalistaIntegration\Helpers\CouponHelper;
 
 use Plenty\Plugin\Http\Request;
 use Plenty\Plugin\Log\Loggable;
@@ -28,6 +29,7 @@ class CheckoutController extends Controller
     public function createCoupon(Request $request)
     {
         $basketRepo = pluginApp(BasketRepositoryContract::class);
+        $couponHelper = pluginApp(CouponHelper::class);
         $customerBasket = $basketRepo->load();
         if (!empty($customerBasket->couponCode)) {
             $response = ['status' => 'OK', 'message' => 'Coupon already applied!', 'coupon' => $customerBasket->couponCode];
@@ -44,7 +46,7 @@ class CheckoutController extends Controller
         $max_points =  floatval($basket_total /  $one_point_to_value);
         $point_to_redeem = floatval($request->get('pointsToRedeem'));
 
-        if($point_to_redeem <= 0 || $point_to_redeem >  $max_points){
+        if( $point_to_redeem <= 0 || $point_to_redeem >  $max_points ){
             $data = [
                 'bt' => $basket_total
                 , 'mp' => $max_points
@@ -66,7 +68,7 @@ class CheckoutController extends Controller
         $contact = $contactRepo->findContactById($plenty_customer_id);
 
         $couponValue = floatval($point_to_redeem * $one_point_to_value);
-        $campaign = $this->createNewCampaign($contact, $couponValue);
+        $campaign = $couponHelper->createNewCampaign($contact, $couponValue);
         $this->getLogger(__FUNCTION__)->error('LoyalistaCampaign', ['campaign'=> $campaign, 'campaign_codes'=> $campaign->codes, 'campaign_references'=> $campaign->references]);
 
         if(!$campaign) {
@@ -80,7 +82,7 @@ class CheckoutController extends Controller
         $api = pluginApp(LoyalistaApiService::class);
         $response = $api->redeemPoints($plenty_customer_id, $point_to_redeem, 'coupon', $campaign->codes[0]->code);
         if(!isset($response['success']) || !$response['success']) {
-            $this->deleteCampaign($campaign->id);
+            $couponHelper->deleteCampaign($campaign->id);
             return ['status' => 'ERROR', 'message' => $response['message']];
         }
 
@@ -95,65 +97,17 @@ class CheckoutController extends Controller
         return json_encode($response);
     }
 
-    function createNewCampaign($contact, $value) {
-        $authHelper = pluginApp(AuthHelper::class);
-        $couponCampaignRepo = pluginApp(CouponCampaignRepositoryContract::class);
-        $couponCampaignRefRepo = pluginApp(CouponCampaignReferenceRepositoryContract::class);
+    public function revertUnusedPoints()
+    {
+        $api = pluginApp(LoyalistaApiService::class);
+        $response = $api->revertUnusedPoints('coupon');
 
-        $data = [
-            'name' => ConfigHelper::LOYALISTA_CAMPAIGN_NAME,
-            'minOrderValue' => 0.00,
-            'variable' => 0,
-            'codeLength' => CouponCampaign::CODE_LENGTH_MEDIUM,
-            'codeDurationWeeks' => 1,
-            'includeShipping' => TRUE,
-            'usage' => CouponCampaign::CAMPAIGN_USAGE_SINGLE,
-            'concept' => CouponCampaign::CAMPAIGN_CONCEPT_SINGLE_CODE,
-            'redeemType' => CouponCampaign::CAMPAIGN_REDEEM_TYPE_UNIQUE,
-            'discountType' => CouponCampaign::DISCOUNT_TYPE_FIXED,
-            'campaignType' => CouponCampaign::CAMPAIGN_TYPE_COUPON,  // coupon
-            'couponType' => CouponCampaign::COUPON_TYPE_SALES,
-            'description' => 'Coupon Campaign created by Loyalista to redeem the customer points',
-            'value' => (float) $value,
-            'codeAssignment' => CouponCampaign::CODE_ASSIGNMENT_GENERATE,
-            'isPermittedForExternalReferrers' => TRUE,
-            'startsAt' => date('c'),
-            'endsAt' => date('c', strtotime("+5 min")),
-        ];
-
-        $basketItemRepo = pluginApp(BasketItemRepositoryContract::class);
-        $basedItems = $basketItemRepo->all();
-
-        $campaign = $authHelper->processUnguarded(
-            function () use ($couponCampaignRepo, $couponCampaignRefRepo,$data, $contact, $basedItems) {
-                $campaign = $couponCampaignRepo->create($data);
-                $couponCampaignRefRepo->create(['campaignId' => $campaign->id,'referenceType' => CouponCampaignReference::REFERENCE_TYPE_WEBSTORE, 'value' => Utils::getWebstoreId()]);
-                $couponCampaignRefRepo->create(['campaignId' => $campaign->id,'referenceType' => CouponCampaignReference::REFERENCE_TYPE_CUSTOMER_GROUP, 'value' => $contact->classId]);
-                $couponCampaignRefRepo->create(['campaignId' => $campaign->id,'referenceType' => CouponCampaignReference::REFERENCE_TYPE_CUSTOMER_TYPE, 'value' => $contact->typeId]);
-
-                foreach ($basedItems as $basedItem) {
-                    $couponCampaignRefRepo->create(['campaignId' => $campaign->id,'referenceType' => CouponCampaignReference::REFERENCE_TYPE_ITEM, 'value' => $basedItem->itemId]);
-                }
-
-                return $campaign;
+        $couponHelper = pluginApp(CouponHelper::class);
+        if($response['success'] && !empty($response['data'])) {
+            foreach ($response['data'] as $customerPoint) {
+                $couponHelper->deleteCampaignByCoupon($customerPoint);
             }
-        );
-
-        return $campaign;
-    }
-
-    /**
-     * @param $campaignId
-     * @return mixed
-     */
-    function deleteCampaign($campaignId) {
-        $authHelper = pluginApp(AuthHelper::class);
-        $couponCampaignRepo = pluginApp(CouponCampaignRepositoryContract::class);
-        return $authHelper->processUnguarded(
-            function () use ($couponCampaignRepo, $campaignId) {
-                return $couponCampaignRepo->delete($campaignId);
-            }
-        );
+        }
     }
 
 }

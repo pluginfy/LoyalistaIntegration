@@ -78,13 +78,17 @@ class CustomerController extends Controller
             $api = pluginApp(LoyalistaApiService::class);
             $response = $api->registerCustomer($customer);
 
-            if ($response['success'] == true){
-                $return = ['status' => 'OK'];
-                return json_encode($return);
-            }else{
-                $return = ['status' => 'Error', 'message' => 'Failed' , 'response' => $response  ];
-                return json_encode($return);
+            if(!$response['success']) {
+                if (is_array($response['message'])) {
+                    $msgBag = '';
+                    foreach ($response['message'] as $error) {
+                        $msgBag .= "<span>{$error[0]}</span>";
+                    }
+                    $response['message'] = $msgBag;
+                }
             }
+
+            return json_encode($response);
         }
     }
 

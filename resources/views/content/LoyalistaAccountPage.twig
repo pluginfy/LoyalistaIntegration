@@ -21,7 +21,7 @@
                         <input type="text" id="merge_loyalista_acc_btn" >
                         <button class="btn btn-primary btn-appearance" onclick="mergeAccountButton(this)"> {{ join_btn_label }}</button>
                     </div>
-                    <div id="loyalista_error"></div>
+                    <div class="loyalista_error"></div>
                     <hr/>
                     <div style="margin-top: 15px">
                         <label class="">
@@ -31,9 +31,10 @@
                     </div>
                 {% else %}
                     <label class="">
-                        <input id="yes_rgisistered_loyalista_programme" type="checkbox" value="text">  {{ offer }}
+                        <input id="yes_register_me_loyalista_program" type="checkbox" value="text">  {{ offer }}
                     </label>
                     <button class="btn btn-primary btn-appearance" onclick="register_me(this)"> {{ btn_label }}</button>
+                    <div class="loyalista_response_msg"></div>
 
                 {% endif %}
             </div>

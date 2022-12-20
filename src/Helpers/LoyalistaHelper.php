@@ -94,7 +94,7 @@ class LoyalistaHelper
                 $txt_expiry_points = str_ireplace("[date_of_expiry]"  ,$date_of_expiry,$txt_expiry_points);
                 $txt_expiry_points = $this->replacePointsLabel($txt_expiry_points, $lang);
 
-                $disclaimer = str_ireplace("[value_of_account_balance]" ,floor($points * $point_to_conversion) ,$disclaimer);
+                $disclaimer = str_ireplace("[value_of_account_balance]" ,number_format($points * $point_to_conversion, 2) ,$disclaimer);
 
                 $disclaimer = $this->replacePointsLabel($disclaimer, $lang);
 

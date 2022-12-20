@@ -475,4 +475,19 @@ class LoyalistaApiService extends BaseApiService
         return $response;
     }
 
+    public function revertUnusedPoints($reference_type){
+        $requestURL = ConfigHelper::BASE_URL .'/v1/revert_unused_points';
+        $data = [
+            'shop_reference' => $this->configHelper->getShopID(),
+            'reference_type' => $reference_type,
+        ];
+
+        $response = $this->doCurl($requestURL ,static::REQUEST_METHOD_PUT , [], $data);
+        if (!isset($response['success']) || !$response['success']){
+            $this->getLogger(__FUNCTION__)->error($response);
+        }
+
+        return $response;
+    }
+
 }

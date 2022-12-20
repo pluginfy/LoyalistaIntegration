@@ -25,5 +25,6 @@ class LoyalistaIntegrationRouteServiceProvider extends RouteServiceProvider
         $router->get('/getCampaign/', 'LoyalistaIntegration\Controllers\LoyalistaIntegrationController@getCampaign');
         $router->get('/pushConfiguration/', 'LoyalistaIntegration\Controllers\LoyalistaIntegrationController@pushConfiguration');
         $router->get('/my-loyalista-account/', 'LoyalistaIntegration\Controllers\CustomerController@loayslistaAccountPage');
+        $router->get('/revert-unused-points/', 'LoyalistaIntegration\Controllers\CheckoutController@revertUnusedPoints');
     }
 }

@@ -21,11 +21,18 @@ div.loyalista-widget-wrapper{
     padding: 5px;
 }
 .checkbox:checked:before{
-    background-color:red;
+    background-color:#f40000;
 }
 
 div#loyalista_error{
-    color: red;
+    color: #f40000;
+}
+
+div.loyalista_response_msg{
+    display: none;
+    color: #f40000;
+    width: fit-content;
+    margin: 10px auto;
 }
 
 .un-registered-label,
@@ -48,13 +55,11 @@ div.loyalista-checkout-widget_wrapper #loyalista_widget_chekcout_option_custom_v
 div.loyalista-redemption-options{
     display: grid;
 }
-div.pluginfy-checkout-notify-msg{
-    color: red;
-    margin: auto;
-}
+
 .loyalista-apply-redemption-btn{
     width: 40%;
     margin: 7px auto;
+    display: none;
 }
 
 .loyalista-account-page{
