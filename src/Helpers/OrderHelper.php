@@ -17,13 +17,15 @@ class OrderHelper
     const ORDER_TYPE_NEW = 'new';
     const ORDER_TYPE_REFUND = 'refund';
 
+    private $authHelper;
     private $addressRepo;
     private $variationCategoryRepo;
     private $variationRepo;
 
 
-    public function __construct(AddressRepositoryContract $addressRepo, VariationRepositoryContract $variationRepo ,VariationCategoryRepositoryContract $variationCategoryRepo)
+    public function __construct(AAuthHelper $authHelper, ddressRepositoryContract $addressRepo, VariationRepositoryContract $variationRepo ,VariationCategoryRepositoryContract $variationCategoryRepo)
     {
+        $this->authHelper = $authHelper;
         $this->addressRepo = $addressRepo;
         $this->variationCategoryRepo = $variationCategoryRepo;
         $this->variationRepo = $variationRepo;
@@ -118,22 +120,13 @@ class OrderHelper
             $itemVariationId = $o_item->itemVariationId;
 
             $variation = $this->variationRepo->findById($itemVariationId);
-            $authHelper = pluginApp(AuthHelper::class);
-            $variationCategory = $authHelper->processUnguarded(
-                function () use ($itemVariationId) {
-                    return $this->variationCategoryRepo->findByVariationId($itemVariationId);
-                }
-            );
-
-//            $this->getLogger('getOrderItems_I')->error('VariationCategory', $variationCategory);
-//            $plenty_item = $this->itemRepo->show($o_item->id);
-//            $this->getLogger('getOrderItems_II')->error('Item', ['item'=> $plenty_item]);
+            $variationCategory = $this->getVariationCategory($itemVariationId);
 
             $temp_itm =  array(
                 'item_reference_id' => $variation->itemId,
                 'variation_reference_id' => $o_item->itemVariationId,
-                'item_category_reference_id' => $variationCategory[0]->categoryId,
-                'variation_category_reference_id' => $variationCategory[0]->categoryId,
+                'item_category_reference_id' => $variationCategory->categoryId,
+                'variation_category_reference_id' => $variationCategory->categoryId,
                 'item_name' => $o_item->orderItemName,
                 'item_description' => '',
                 'item_extra_info' => json_encode($variation),
@@ -158,5 +151,15 @@ class OrderHelper
         }
 
         return $items;
+    }
+
+    public function getVariationCategory($itemVariationId) {
+        $variationCategory =  $this->authHelper->processUnguarded(
+            function () use ($itemVariationId) {
+                return $this->variationCategoryRepo->findByVariationId($itemVariationId);
+            }
+        );
+
+        return $variationCategory[0];
     }
 }

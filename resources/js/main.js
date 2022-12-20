@@ -151,10 +151,7 @@ function setPointBaitUnRegistered(){
             else data = $.parseJSON(return_data);
 
             if (data.status === "OK") {
-                let basket_total = data.basket_total;
-                let conversion = target_span.data('checkout_revenue_to_point');
-                let points = Math.round(basket_total /  conversion);
-                target_span.html(points);
+                target_span.html(data.total_cart_points);
             } else {
                 $(_obj).attr('disabled' , false);
                 alert(data.message);
@@ -183,7 +180,7 @@ function setCoPointBait(){
             else data = $.parseJSON(return_data);
 
             if (data.status === "OK") {
-
+                target_span.html(data.total_cart_points);
                 let basket_total = data.basket_total;
                 // Set Basket Total Val
                 target_span.data("basket_total" ,  basket_total);
@@ -193,10 +190,6 @@ function setCoPointBait(){
                 $('#loyalista_widget_chekcout_option_custom_value').attr('max',account_balance );
 
                 target_span.data("max_points" ,  account_balance);
-
-                let conversion = target_span.data('revenue_to_point');
-                let points = Math.round( basket_total /  conversion );
-                // $('span.cow_points_label').html(points);
 
                 let point_to_val = target_span.data('point_to_value');
 
@@ -210,8 +203,6 @@ function setCoPointBait(){
                 $('span.cow_points_label').html((target_span.data("max_points") *  point_to_val ).toFixed(2));
 
                 // Set current points gain hint
-                target_span.html(points);
-
             } else {
                 console.error(data);
                 // location.reload();

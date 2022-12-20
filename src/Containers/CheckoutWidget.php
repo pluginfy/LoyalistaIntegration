@@ -52,8 +52,6 @@ class CheckoutWidget
 
             $text_redeem_full = str_ireplace("[value_of_account_balance]" ,'<span class="cow_points_label">'.$Point_value.'</span>' , $text_redeem_full);
 
-                    // Partial redeem.
-            $html = '<span data-total_redeemable_points="'. $widgetdata['total_redeemable_points'] .'" data-revenue_to_point="'. $widgetdata['revenue_to_point'] .'" data-point_to_value="'. $widgetdata['point_to_value'] .'" class="loyalista_co_num_of_points">[number_of_points]</span>';
             $text_redeem_partial = $helper->replacePointsLabel($text_redeem_partial, $lang);
 
 
