@@ -246,9 +246,15 @@ async function redeemPoints(pointsToRedeem, pointToValue) {
         dataType: "json",
         cache: true,
         async: false
-    }).done(function (return_data) {
-        console.log(return_data)
-        return return_data;
+    }).done(function (response) {
+        console.log(response)
+        if (response.status === 'ERROR') {
+            showResponse(response.message);
+        } else {
+            location.reload();
+        }
+
+        return response;
     }).fail(function (data) {
         console.log(data)
         return data;
@@ -300,17 +306,6 @@ function doCheckOutLoyalista() {
 
     if(parseFloat(pointsToRedeem) > 0) {
         redeemPoints(pointsToRedeem, pointToValue)
-            .then(response => {
-                if (response) {
-                    console.log(response);
-                    if (response.status === 'ERROR') {
-                        showResponse(response.message);
-                    } else {
-                        location.reload();
-                        $('.loyalista-apply-redemption-btn').attr("disabled", true);
-                        hideResponse();
-                    }
-                }
-            });
+            .then(response => {});
     }
 }

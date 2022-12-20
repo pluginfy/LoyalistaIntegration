@@ -487,6 +487,8 @@ class LoyalistaApiService extends BaseApiService
             $this->getLogger(__FUNCTION__)->error($response);
         }
 
+        $this->getLogger(__FUNCTION__)->error('Api-Response', $response);
+
         return $response;
     }
 

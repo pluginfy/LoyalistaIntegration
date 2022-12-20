@@ -33,7 +33,5 @@ class RevertRedeemCron extends Cron
                 $couponHelper->deleteCampaignByCoupon($customerPoint);
             }
         }
-
-        $this->getLogger('RevertRedeemCron')->error(__FUNCTION__, $response);
     }
 }
