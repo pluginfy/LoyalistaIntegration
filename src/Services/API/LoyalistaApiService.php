@@ -187,7 +187,7 @@ class LoyalistaApiService extends BaseApiService
                 $logResponse = ['order_original' => $order , 'out' => json_encode($out), 'api_response' => $responses];
                 $logResponse['preSynced'] = $OrderSynced;
 
-                if (is_array($responses) && $responses['success'] == true ){
+                if (is_array($responses) && $responses['success']){
                     // Update Sync
                     $MarkedOrderSynced = $OrderSyncedRepo->markSyncedOrder($OrderSynced->id);
                     $logResponse['postSynced'] = $MarkedOrderSynced;
