@@ -1,7 +1,6 @@
 <?php
 
 namespace LoyalistaIntegration\Helpers;
-use LoyalistaIntegration\Services\API\LoyalistaApiService;
 use Plenty\Modules\Account\Address\Contracts\AddressRepositoryContract;
 use Plenty\Modules\Authorization\Services\AuthHelper;
 use Plenty\Modules\Item\Item\Contracts\ItemRepositoryContract;
@@ -16,14 +15,13 @@ class OrderHelper
 
     const ORDER_TYPE_NEW = 'new';
     const ORDER_TYPE_REFUND = 'refund';
-
     private $authHelper;
     private $addressRepo;
     private $variationCategoryRepo;
     private $variationRepo;
 
 
-    public function __construct(AAuthHelper $authHelper, ddressRepositoryContract $addressRepo, VariationRepositoryContract $variationRepo ,VariationCategoryRepositoryContract $variationCategoryRepo)
+    public function __construct(AuthHelper $authHelper, AddressRepositoryContract $addressRepo, VariationRepositoryContract $variationRepo ,VariationCategoryRepositoryContract $variationCategoryRepo)
     {
         $this->authHelper = $authHelper;
         $this->addressRepo = $addressRepo;

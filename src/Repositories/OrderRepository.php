@@ -13,11 +13,13 @@ class OrderRepository
 {
     use Loggable;
 
+    private $orderRepo;
     /**
      * OrderRepository constructor.
      */
-    public function __construct()
+    public function __construct(OrderRepositoryContract $orderRepo)
     {
+        $this->orderRepo = $orderRepo;
     }
 
     /**
@@ -30,17 +32,19 @@ class OrderRepository
      */
     public function getOrders($pageNum = 1, $filters = 1)
     {
-        $orderRepo = pluginApp(OrderRepositoryContract::class);
-
-        if ($orderRepo instanceof OrderRepositoryContract) {
-           // $orderRepo->setFilters($filters);
-            $paginatedResult = $orderRepo->searchOrders($pageNum, 50, $with = ['addresses', 'relation', 'reference']);
+            $this->orderRepo->setFilters($filters);
+            $paginatedResult = $this->orderRepo->searchOrders($pageNum, 50);
             if ($paginatedResult instanceof PaginatedResult) {
                 if ($paginatedResult->getTotalCount() > 0) {
                     return $paginatedResult->getResult();
                 }
             }
-        }
+
         return array();
+    }
+
+    public function getSingleOrder($id)
+    {
+        return $this->orderRepo->findOrderById($id);
     }
 }

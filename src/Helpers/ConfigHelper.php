@@ -59,25 +59,45 @@ class ConfigHelper extends AbstractConfigHelper
     }
 
     public function getVendorID(){
-        return $this->config->get(self::PLUGIN_NAME . '.vendor_id');
+        return trim($this->config->get(self::PLUGIN_NAME . '.vendor_id'));
 
     }
     public function getVendorHash(){
-        return $this->config->get(self::PLUGIN_NAME . '.vendor_hash');
+        return trim($this->config->get(self::PLUGIN_NAME . '.vendor_hash'));
     }
 
     public  function getVendorSecret(){
-        return $this->config->get(self::PLUGIN_NAME .'.api_access_token');
+        return trim($this->config->get(self::PLUGIN_NAME .'.api_access_token'));
     }
 
     public  function getShopID(){
-        return $this->config->get(self::PLUGIN_NAME .'.shop_id');
+        return trim($this->config->get(self::PLUGIN_NAME .'.shop_id'));
+    }
+
+    public  function getCategoryIds(){
+        return explode(',', trim($this->config->get(self::PLUGIN_NAME .'.category_ids')));
+    }
+
+    public  function getProductIds(){
+        return explode(',', trim($this->config->get(self::PLUGIN_NAME .'.product_ids')));
+    }
+
+    public  function getOrderIds(){
+        return explode(',', trim($this->config->get(self::PLUGIN_NAME .'.order_ids')));
+    }
+
+    public  function getOrderTypes(){
+        return explode(',', trim($this->config->get(self::PLUGIN_NAME .'.order_types')));
+    }
+
+    public  function getOrderStatuses(){
+        return explode(',', trim($this->config->get(self::PLUGIN_NAME .'.order_statuses')));
     }
 
 
     public function getVar($var){
 
-        return $this->config->get(self::PLUGIN_NAME   .'.'  .$var);
+        return trim($this->config->get(self::PLUGIN_NAME   .'.'  .$var));
     }
 
     public function setVar($var, $value){

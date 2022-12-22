@@ -98,7 +98,13 @@ class LoyalistaApiService extends BaseApiService
 
                 // Insert Into OrderSyncedDataTable in any case token verified or not.
                 $OrderSyncedRepo = pluginApp(OrderSyncedRepositoryContract::class);
-                $OrderSynced = $OrderSyncedRepo->createOrderSync(['orderId' => $order->id]);
+                $orderSync = $OrderSyncedRepo->getOrderSync($order->id);
+                if(empty($orderSync)) {
+                    $OrderSynced = $OrderSyncedRepo->createOrderSync(['orderId' => $order->id]);
+                } else if($orderSync->isSynced) {
+                    $this->getLogger('LoyalistaApiService')->error(__FUNCTION__, $orderSync);
+                    return true;
+                }
 
                 // Get customer/contact
                 $customer_id = NULL;
@@ -186,18 +192,18 @@ class LoyalistaApiService extends BaseApiService
                     $MarkedOrderSynced = $OrderSyncedRepo->markSyncedOrder($OrderSynced->id);
                     $logResponse['postSynced'] = $MarkedOrderSynced;
                     // Report save case
-                    $this->getLogger(__FUNCTION__ . '-' . $type)->error('Export Order Passed successfully', $logResponse);
+                    $this->getLogger( 'LoyalistaApiService-' . $type)->error('Export Order Passed successfully', $logResponse);
 
                 }else{
-                    $this->getLogger(__FUNCTION__ . '-' . $type)->error('Export Order Failed', $logResponse);
+                    $this->getLogger('LoyalistaApiService-' . $type)->error('Export Order Failed', $logResponse);
                 }
             }else{
-                $this->getLogger(__FUNCTION__ . '-' . $type)->error('Order not get');
+                $this->getLogger('LoyalistaApiService')->error('Order not get');
             }
         }
         catch (\Exception $e)
         {
-            $this->getLogger(__FUNCTION__ . '-' . $type)->error('Exception Error while get order', ['message'=> $e->getMessage() ]);
+            $this->getLogger('LoyalistaApiService')->error('Exception', ['message'=> $e->getMessage() ]);
 
         }
         finally {}

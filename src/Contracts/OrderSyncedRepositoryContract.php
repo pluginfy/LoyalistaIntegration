@@ -27,6 +27,7 @@ interface OrderSyncedRepositoryContract
 
 
     public function getOrderSyncedList(): array;
+    public function getOrderSync($id): OrderSynced;
 
 
 }

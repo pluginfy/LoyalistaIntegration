@@ -2,6 +2,7 @@
 
 namespace LoyalistaIntegration\Controllers;
 
+use LoyalistaIntegration\Services\ExportServices;
 use Plenty\Modules\Authorization\Services\AuthHelper;
 use Plenty\Modules\Order\Coupon\Campaign\Contracts\CouponCampaignRepositoryContract;
 use Plenty\Plugin\Controller;
@@ -68,5 +69,16 @@ class LoyalistaIntegrationController extends Controller
 
         echo json_encode(['status' => 'success', 'data' => $data]);
     }
+
+    function exportOrders(Request $request)
+    {
+        $exportService = pluginApp(ExportServices::class);
+        $response = $exportService->exportPreviousOrders();
+
+        $this->getLogger('LoyalistaIntegrationController')->error(__FUNCTION__, $response);
+
+        echo json_encode($response);
+    }
+
 }
 

@@ -3,6 +3,7 @@ namespace LoyalistaIntegration\Cron;
 
 
 use LoyalistaIntegration\Helpers\ConfigHelper;
+use LoyalistaIntegration\Services\ExportServices;
 use Plenty\Modules\Cron\Contracts\CronHandler as Cron;
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
 
@@ -28,13 +29,9 @@ class OrdersCron extends Cron
      */
     public function handle()
     {
-        $config = [
-            $this->configHelper->getVar('order_ids'),
-            $this->configHelper->getVar('date_from'),
-            $this->configHelper->getVar('order_types'),
-            $this->configHelper->getVar('order_statuses'),
-        ];
+        $exportService = pluginApp(ExportServices::class);
+        $response = $exportService->exportPreviousOrders();
 
-        $this->getLogger('OrdersCron')->error(__FUNCTION__, $config);
+        $this->getLogger('OrdersCron')->error(__FUNCTION__, $response);
     }
 }

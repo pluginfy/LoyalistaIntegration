@@ -6,7 +6,7 @@
         "en": "Loyalista"
     },
     "type"              :   "general",
-    "version"           :   "2.0.0",
+    "version"           :   "1.3.0",
     "pluginIcon"        :   "icon_plugin_xs.png",
     "description"       :   "Allows you to easily integrate your Plentymarkets Shop with Loyalista.",
     "shortDescription": {
@@ -52,5 +52,8 @@
             "description": "Widget für Mein Konto-Seite. Gibt dem Kunden u.a. Auskunft über aktuellen Punktestand.",
             "defaultLayoutContainer": "Ceres::MyAccount.OrderHistoryPaymentInformation"
         }
-    ]
+    ],
+    "platform": {
+        "php": ">=7.3 <8.1"
+    }
 }

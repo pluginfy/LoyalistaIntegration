@@ -1,13 +1,7 @@
 <?php
 namespace LoyalistaIntegration\Controllers;
 
-use IO\Helper\Utils;
-use Plenty\Modules\Authorization\Services\AuthHelper;
-use Plenty\Modules\Basket\Contracts\BasketItemRepositoryContract;
 use Plenty\Modules\Basket\Contracts\BasketRepositoryContract;
-use Plenty\Modules\Order\Coupon\Campaign\Models\CouponCampaign;
-use Plenty\Modules\Order\Coupon\Campaign\Reference\Contracts\CouponCampaignReferenceRepositoryContract;
-use Plenty\Modules\Order\Coupon\Campaign\Reference\Models\CouponCampaignReference;
 use Plenty\Plugin\Controller;
 
 use Plenty\Modules\Account\Contact\Contracts\ContactRepositoryContract;
@@ -19,8 +13,6 @@ use LoyalistaIntegration\Helpers\CouponHelper;
 
 use Plenty\Plugin\Http\Request;
 use Plenty\Plugin\Log\Loggable;
-use Plenty\Modules\Order\Coupon\Campaign\Contracts\CouponCampaignRepositoryContract;
-
 
 class CheckoutController extends Controller
 {

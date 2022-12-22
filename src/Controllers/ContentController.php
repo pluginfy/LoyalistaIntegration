@@ -27,13 +27,13 @@ class ContentController extends Controller
      * @param ToDoRepositoryContract $toDoRepo
      * @return string
      */
-    public function showToDo(Twig $twig, ToDoRepositoryContract $toDoRepo, OrderSyncedRepositoryContract $osr): string
+    public function showSyncOrder(Twig $twig, ToDoRepositoryContract $toDoRepo, OrderSyncedRepositoryContract $osr): string
     {
-       $toDoList = $toDoRepo->getToDoList();
-       $a = $osr->getOrderSyncedList();
+       $orderSyncList = $osr->getOrderSyncedList();
 
-        $templateData = array("tasks" => $toDoList);
-        return $twig->render('LoyalistaIntegration::content.todo', $templateData);
+       return json_encode($orderSyncList);
+
+        return $twig->render('LoyalistaIntegration::content.todo', $orderSyncList);
     }
 
     /**
