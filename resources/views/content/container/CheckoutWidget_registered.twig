@@ -49,8 +49,7 @@
 </div>
 
 <script type="application/javascript">
-    $(function(){
-        setTimeout(function(){
+    function onDocumentReady() {
             $('.totalSum dd[data-testing="basket-amount"]').bind('DOMSubtreeModified', function(){
                 setCoPointBait();
             });
@@ -92,6 +91,14 @@
                 doCheckOutLoyalista();
             });
             setCoPointBait();
+    }
+
+    $(function(){
+        setTimeout(function(){
+            onDocumentReady();
+            $('.toggle-basket-preview').on("click", function() {
+                onDocumentReady();
+            });
         }, 1000);
     });
 </script>

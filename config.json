@@ -372,7 +372,7 @@
           "required": true,
           "label": "Config.label_widget_border_color",
           "options": {
-            "defaultValue": "#666"
+            "defaultValue": "#e0e0e0"
           }
         },
 

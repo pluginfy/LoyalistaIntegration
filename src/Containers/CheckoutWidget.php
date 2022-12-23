@@ -61,7 +61,7 @@ class CheckoutWidget
             $data['content_4'] =  $text_redeem_partial;
             $data['is_user_registered'] =  true;
 
-            $data['btn_label'] = ($lang == 'de') ? 'Teilnehmen!' : 'Participate' ;
+            $data['btn_label'] = ($lang == 'de') ? 'Teilnehmen' : 'Participate' ;
             $data['apply_redeem_btn_label'] = ($lang == 'de') ? 'Anwenden' : 'Apply' ;
             return $twig->render('LoyalistaIntegration::content.container.CheckoutWidget_registered', $data);
 
@@ -77,7 +77,7 @@ class CheckoutWidget
 
             $data['is_user_registered'] =  false;
             $data['contents'] = $disclaimer;
-            $data['btn_label'] = ($lang == 'de') ? 'Teilnehmen!' : 'Participate' ;
+            $data['btn_label'] = ($lang == 'de') ? 'Teilnehmen' : 'Participate' ;
 
             return $twig->render('LoyalistaIntegration::content.container.CheckoutWidget_unregistered', $data);
         }

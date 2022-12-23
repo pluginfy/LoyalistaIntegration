@@ -104,13 +104,13 @@ class LoyalistaHelper
                 $data['txt_expiry_points'] = $txt_expiry_points;
                 $data['txt_merge_account'] = $txt_merge_account;
                 $data['loyalista_customer_id'] = $customer['id'];
-                $data['join_btn_label'] = ($lang == 'de') ? 'Verschmelzen' : 'Merge' ;
-                $data['btn_label'] = ($lang == 'de') ? 'Benutzer löschen!' : 'Delete user!' ;
+                $data['join_btn_label'] = ($lang == 'de') ? 'Verbinden' : 'Merge' ;
+                $data['btn_label'] = ($lang == 'de') ? 'Löschen' : 'Delete' ;
                 $data['lang'] = $lang;
 
         } else {
             $data['offer'] = $this->configHelper->getVar('my_account_text_for_unregistered_user_' .$lang);
-            $data['btn_label'] = ($lang == 'de') ? 'Teilnehmen!' : 'Participate' ;
+            $data['btn_label'] = ($lang == 'de') ? 'Teilnehmen' : 'Participate' ;
             $data['lang'] = $lang;
 
             $data['offer'] = $this->replacePointsForSignup($data['offer']);
