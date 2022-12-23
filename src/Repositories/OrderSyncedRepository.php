@@ -51,12 +51,12 @@ class OrderSyncedRepository implements OrderSyncedRepositoryContract
         return $orderSyncedList;
     }
 
-    public function getOrderSync($id): OrderSynced
+    public function getOrderSync($id): array
     {
         $database = pluginApp(DataBase::class);
-        $order = $database->query(OrderSynced::class)->where('orderId', '=', $id)->where('isSynced', '=', true)->first();
+        $order = $database->query(OrderSynced::class)->where('orderId', '=', $id)->where('isSynced', '=', true)->get();
 
-        return $order;
+        return $order[0] ?? [];
     }
 
 }

@@ -100,7 +100,7 @@ class LoyalistaApiService extends BaseApiService
                 $OrderSyncedRepo = pluginApp(OrderSyncedRepositoryContract::class);
                 $orderSync = $OrderSyncedRepo->getOrderSync($order->id);
                 if(empty($orderSync)) {
-                    $OrderSynced = $OrderSyncedRepo->createOrderSync(['orderId' => $order->id]);
+                    $orderSync = $OrderSyncedRepo->createOrderSync(['orderId' => $order->id]);
                 } else if($orderSync->isSynced) {
                     $this->getLogger('LoyalistaApiService')->error(__FUNCTION__, $orderSync);
                     return true;
@@ -119,7 +119,7 @@ class LoyalistaApiService extends BaseApiService
                 $contact = $contactRepo->findContactById($customer_id);
 
                 $customer = array(
-                    'OrderSyncedID' => $OrderSynced->id,
+                    'OrderSyncedID' => $orderSync->id,
                     'reference_id'=> $contact->id,
                     'shop_reference' => $shop_reference,
                     'name' => $contact->fullName,
@@ -185,12 +185,10 @@ class LoyalistaApiService extends BaseApiService
                 $responses = $this->doCurl($requestURL ,self::REQUEST_METHOD_POST , [], $out);
 
                 $logResponse = ['order_original' => $order , 'out' => json_encode($out), 'api_response' => $responses];
-                $logResponse['preSynced'] = $OrderSynced;
+                $logResponse['preOrderSync'] = $orderSync;
 
                 if (is_array($responses) && $responses['success']){
-                    // Update Sync
-                    $MarkedOrderSynced = $OrderSyncedRepo->markSyncedOrder($OrderSynced->id);
-                    $logResponse['postSynced'] = $MarkedOrderSynced;
+                    $logResponse['postOrderSync'] = $OrderSyncedRepo->markSyncedOrder($orderSync->id);;
                     // Report save case
                     $this->getLogger( 'LoyalistaApiService-' . $type)->error('Export Order Passed successfully', $logResponse);
 
