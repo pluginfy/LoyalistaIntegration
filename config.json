@@ -48,7 +48,7 @@
           "required": false,
           "label": "Config.revenueToOnePointLabel",
           "options": {
-            "defaultValue": ""
+            "defaultValue": "1"
           }
         },
         "one_point_to_value": {
@@ -56,7 +56,7 @@
           "required": false,
           "label": "Config.onePointToValueLabel",
           "options": {
-            "defaultValue": ""
+            "defaultValue": "0.1"
           }
         },
         "redeemable_after": {
@@ -72,7 +72,7 @@
           "required": false,
           "label": "Config.expiryPeriodLabel",
           "options": {
-            "defaultValue": ""
+            "defaultValue": "30"
           }
         },
         "signup_points": {
@@ -80,7 +80,7 @@
           "required": false,
           "label": "Config.signupPointsLabel",
           "options": {
-            "defaultValue": ""
+            "defaultValue": "200"
           }
         },
         "order_created_points": {
@@ -88,7 +88,7 @@
           "required": false,
           "label": "Config.orderCreatedPointsLabel",
           "options": {
-            "defaultValue": ""
+            "defaultValue": "50"
           }
         },
         "category_extra_points": {
@@ -96,7 +96,7 @@
           "required": false,
           "label": "Config.categoryExtraPointsLabel",
           "options": {
-            "defaultValue": ""
+            "defaultValue": "40"
           }
         },
         "category_ids": {
@@ -112,7 +112,7 @@
           "required": false,
           "label": "Config.productExtraPointsLabel",
           "options": {
-            "defaultValue": ""
+            "defaultValue": "20"
           }
         },
         "product_ids": {
@@ -372,7 +372,7 @@
           "required": true,
           "label": "Config.label_widget_border_color",
           "options": {
-            "defaultValue": "#e0e0e0"
+            "defaultValue": "#dfdfdf"
           }
         },
 
@@ -382,7 +382,7 @@
           "required": false,
           "label": "Config.label_checkout_widget_heading_text_de",
           "options": {
-            "defaultValue": "Bonusprogramm - Checkout"
+            "defaultValue": "Bonusprogramm"
           }
         },
 
@@ -391,7 +391,7 @@
           "required": false,
           "label": "Config.label_checkout_widget_heading_text_en",
           "options": {
-            "defaultValue": "Bonusprogramm - Checkout"
+            "defaultValue": "Loyalty Program"
           }
         },
 
@@ -409,7 +409,7 @@
           "required": false,
           "label": "Config.label_checkout_text_unregistered_user_en",
           "options": {
-            "defaultValue": "I would like to join the loyalty program and benefit from great discounts and promotions in the future. I start directly with [points_for_signup] [points_label] and additionally receive [number_of_points_shopping_cart] [points_label] for my first purchase. I can cancel my participation in the program at any time."
+            "defaultValue": "I want to join the loyalty program and benefit from great discounts and promotions in the future. I start directly with [points_for_signup] [points_label] and additionally receive [number_of_points_shopping_cart] [points_label] for my first purchase. I can cancel my participation in the program at any time."
           }
         },
 
@@ -418,7 +418,7 @@
           "required": false,
           "label": "Config.label_checkout_text_for_registered_user_de",
           "options": {
-            "defaultValue": "Sie haben aktuell [account_balance] [points_label] und Sie erhalten [number_of_points_shopping_cart] [points_label] für den aktuellen Einkauf."
+            "defaultValue": "Du hast aktuell [account_balance] [points_label] und du erhältst [number_of_points_shopping_cart] [points_label] für den aktuellen Einkauf."
           }
         },
         "checkout_text_for_registered_user_en": {
@@ -452,7 +452,7 @@
           "required": false,
           "label": "Config.label_checkout_text_for_full_redeeming_points_de",
           "options": {
-            "defaultValue": "Löse [account_balance] [points_label] ein und spare [value_of_account_balance]."
+            "defaultValue": "Löse [account_balance] [points_label] ein und spare [value_of_account_balance] €"
           }
         },
         "checkout_text_for_full_redeeming_points_en": {
@@ -460,7 +460,7 @@
           "required": false,
           "label": "Config.label_checkout_text_for_full_redeeming_points_en",
           "options": {
-            "defaultValue": "Redeem [account_balance] [points_label] and save [value_of_account_balance]."
+            "defaultValue": "Redeem [account_balance] [points_label] and save [value_of_account_balance] €"
           }
         },
 
@@ -490,7 +490,7 @@
           "required": false,
           "label": "Config.label_my_account_widget_heading_text_de",
           "options": {
-            "defaultValue": "Bonusprogramm - My Account"
+            "defaultValue": "Bonusprogramm"
           }
         },
 
@@ -499,7 +499,7 @@
           "required": false,
           "label": "Config.label_my_account_widget_heading_text_en",
           "options": {
-            "defaultValue": "Bonusprogramm - My Account"
+            "defaultValue": "Loyalty Program"
           }
         },
 
@@ -508,7 +508,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_unregistered_user_de",
           "options": {
-            "defaultValue": "Ich möchte an dem Treueprogramm teilnehmen und in Zukunft von tollen Rabatten und Aktionen profitieren. Meine Teilnahme an dem Programm kann ich jederzeit widerrufen."
+            "defaultValue": "Ich möchte an dem Treueprogramm teilnehmen und in Zukunft von tollen Rabatten und Aktionen profitieren. Ich starte direkt mit [points_for_signup] [points_label]. Meine Teilnahme an dem Programm kann ich jederzeit kündigen."
           }
         },
         "my_account_text_for_unregistered_user_en": {
@@ -516,7 +516,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_unregistered_user_en",
           "options": {
-            "defaultValue": "I would like to join the loyalty program and benefit from great discounts and promotions in the future. I can revoke my participation in the program at any time."
+            "defaultValue": "I want to join the loyalty program and benefit from great discounts and promotions in the future. I start directly with [points_for_signup] [points_label]. I can cancel my participation in the program at any time."
           }
         },
         "my_account_text_for_exiting_the_participation_de": {
@@ -524,7 +524,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_de",
           "options": {
-            "defaultValue": "Ich möchte meine Teilnahme an dem Bonus Programm beenden. Mir ist bewusst, dass damit alle meine gesammelten [points_label] im Wert von [value_of_account_balance] unwiderruflich gelöscht werden."
+            "defaultValue": "Ich möchte meine Teilnahme an dem Bonusprogramm beenden. Mir ist bewusst, dass damit alle meine gesammelten [points_label] im Wert von [value_of_account_balance] € unwiderruflich gelöscht werden."
           }
         },
         "my_account_text_for_exiting_the_participation_en": {
@@ -532,7 +532,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_en",
           "options": {
-            "defaultValue": "I want to end my participation in the bonus program. I understand that this will permanently delete all my accumulated [points_label] worth [value_of_account_balance]."
+            "defaultValue": "I want to end my participation in the bonus program. I understand that this will permanently delete all my accumulated [points_label] worth [value_of_account_balance] €"
           }
         },
         "my_account_text_for_exiting_the_participation_redeem_hint_text_de": {
@@ -556,7 +556,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_locked_hint_text_de",
           "options": {
-            "defaultValue": "Gesperrt [points_label]: [total_number_of_locked_points]"
+            "defaultValue": "Gesperrte [points_label]: [total_number_of_locked_points]"
           }
         },
         "my_account_text_for_exiting_the_participation_locked_hint_text_en": {
@@ -573,7 +573,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_expiry_hint_de",
           "options": {
-            "defaultValue": "Am [date_of_expiry] verfallen [amount_of_points] [points_label]"
+            "defaultValue": "In den nächsten [date_of_expiry] Tagen verfallen [amount_of_points] [points_label]."
           }
         },
         "my_account_text_for_exiting_the_participation_expiry_hint_text_en": {
@@ -581,7 +581,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_expiry_hint_en",
           "options": {
-            "defaultValue": "On [date_of_expiry] expired [amount_of_points] [points_label]"
+            "defaultValue": "In next [date_of_expiry] days [amount_of_points] [points_label] will expire."
           }
         },
         "my_account_text_for_exiting_the_participation_join_request_hint_text_de": {
@@ -589,7 +589,7 @@
           "required": false,
           "label": "Config.label_my_account_text_for_exiting_the_participation_join_request_hint_de",
           "options": {
-            "defaultValue": "Bitte das konto mit folgender E-Mail-Addresse mit diesem konto zusammenfugen."
+            "defaultValue": "Bitte das Konto mit folgender E-Mail-Adresse mit diesem Konto zusammenfügen."
           }
         },
         "my_account_text_for_exiting_the_participation_join_request_hint_text_en": {
@@ -611,7 +611,7 @@
           "required": false,
           "label": "Config.label_product_page_widget_heading_text_de",
           "options": {
-            "defaultValue": "Bonusprogramm - Product"
+            "defaultValue": "Bonusprogramm"
           }
         },
 
@@ -620,7 +620,7 @@
           "required": false,
           "label": "Config.label_product_page_widget_heading_text_en",
           "options": {
-            "defaultValue": "Bonusprogramm - Product"
+            "defaultValue": "Loyalty Program"
           }
         },
 
@@ -629,7 +629,7 @@
           "required": false,
           "label": "Config.label_text_for_unregistered_users_for_product_page_de",
           "options": {
-            "defaultValue": "Nehmen Sie jetzt an unserem Treueprogramm teil und sammeln Sie direkt [points_for_signup] [points_label] und erhalten Sie zusätzlich [number_of_points] [points_label] für aktuelles Produkt."
+            "defaultValue": "Nehme jetzt an unserem Treueprogramm teil und starte direkt mit [points_for_signup] [points_label]. Erhalte zusätzlich [number_of_points] [points_label] für das aktuelle Produkt."
           }
         },
         "text_for_unregistered_users_for_product_page_en": {
@@ -637,7 +637,7 @@
           "required": false,
           "label": "Config.label_text_for_unregistered_users_for_product_page_en",
           "options": {
-            "defaultValue": "Join our loyalty program now and collect [points_for_signup] [points_label] directly and receive an additional [number_of_points] [points_label] for current product."
+            "defaultValue": "Join our loyalty program now and collect [points_for_signup] [points_label] directly. Receive an additional [number_of_points] [points_label] for the current product."
           }
         },
 
@@ -646,7 +646,7 @@
           "required": false,
           "label": "Config.label_text_for_registered_users_for_the_product_page_de",
           "options": {
-            "defaultValue": "Erhalten Sie [points_for_product] [points_label] auf dieses Produkt."
+            "defaultValue": "Erhalte [points_for_product] [points_label] auf dieses Produkt."
           }
         },
         "text_for_registered_users_for_the_product_page_en": {
@@ -654,7 +654,7 @@
           "required": false,
           "label": "Config.label_text_for_registered_users_for_the_product_page_en",
           "options": {
-            "defaultValue": "Erhalten Sie [points_for_product] [points_label] auf dieses Produkt."
+            "defaultValue": "Receive [points_for_product] [points_label] on this product."
           }
         },
 
@@ -663,7 +663,7 @@
           "required": false,
           "label": "Config.label_text_for_registered_users_for_extra_points_for_the_product_page_de",
           "options": {
-            "defaultValue": "Erhalten Sie [number_of_extra_points] [points_label] auf dieses Produkt."
+            "defaultValue": "Sammle zusätzlich [number_of_extra_points] Extra-[points_label]."
           }
         },
         "text_for_registered_users_for_extra_points_for_the_product_page_en": {
@@ -671,12 +671,9 @@
           "required": false,
           "label": "Config.label_text_for_registered_users_for_extra_points_for_the_product_page_en",
           "options": {
-            "defaultValue": "Receive [number_of_extra_points] [points_label] on this product."
+            "defaultValue": "Collect additional [number_of_extra_points] Extra-[points_label]."
           }
         }
-
-
-
       }
     }
   }
