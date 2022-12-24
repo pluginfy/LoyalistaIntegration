@@ -37,13 +37,13 @@ class LoyalistaHelper
             $out = $this->replacePointsForSignup($out);
         };
 
-        $earningPoints = intval(floor($itemPrice / $this->configHelper->getVar('revenue_to_one_point')));
+        $earningPoints = number_format(round($itemPrice / $this->configHelper->getVar('revenue_to_one_point')), 0, ',', '.');
         $out = str_ireplace("[points_for_product]", $earningPoints ,$out);
         $out = str_ireplace("[number_of_points]", $earningPoints ,$out);
 
         if(in_array($itemIdentifier, explode(',',$this->configHelper->getVar('product_ids')))) {
             $out .= ' ' .$this->configHelper->getVar('text_for_registered_users_for_extra_points_for_the_product_page_' .$lang );
-            $out = str_ireplace("[number_of_extra_points]" ,$this->configHelper->getVar('product_extra_points') ,$out);
+            $out = str_ireplace("[number_of_extra_points]" ,number_format($this->configHelper->getVar('product_extra_points'), 0, ',', '.') ,$out);
         }
 
         $out = $this->replacePointsLabel($out, $lang);
@@ -84,17 +84,17 @@ class LoyalistaHelper
                 $disclaimer = $this->configHelper->getVar('my_account_text_for_exiting_the_participation_' .$lang);
 
 
-                $txt_redeem_points = str_ireplace("[total_number_of_redeemable_points]" , $widgetdata['total_number_of_redeemable_points'],$txt_redeem_points);
+                $txt_redeem_points = str_ireplace("[total_number_of_redeemable_points]" , number_format($widgetdata['total_number_of_redeemable_points'], 0, ',', '.'), $txt_redeem_points);
                 $txt_redeem_points = $this->replacePointsLabel($txt_redeem_points, $lang);
 
-                $txt_locked_points = str_ireplace("[total_number_of_locked_points]" , $widgetdata['total_number_of_locked_points'],$txt_locked_points);
+                $txt_locked_points = str_ireplace("[total_number_of_locked_points]" , number_format($widgetdata['total_number_of_locked_points'], 0, ',', '.'), $txt_locked_points);
                 $txt_locked_points = $this->replacePointsLabel($txt_locked_points, $lang);
 
-                $txt_expiry_points = str_ireplace("[amount_of_points]"  ,$widgetdata['expired_amount_of_points'],$txt_expiry_points);
-                $txt_expiry_points = str_ireplace("[date_of_expiry]"  ,$date_of_expiry,$txt_expiry_points);
+                $txt_expiry_points = str_ireplace("[amount_of_points]"  ,number_format($widgetdata['expired_amount_of_points'], 0, ',', '.'), $txt_expiry_points);
+                $txt_expiry_points = str_ireplace("[date_of_expiry]"  ,$date_of_expiry, $txt_expiry_points);
                 $txt_expiry_points = $this->replacePointsLabel($txt_expiry_points, $lang);
 
-                $disclaimer = str_ireplace("[value_of_account_balance]" ,number_format($points * $point_to_conversion, 2) ,$disclaimer);
+                $disclaimer = str_ireplace("[value_of_account_balance]" ,number_format($points * $point_to_conversion, 2, ',', '.'), $disclaimer);
 
                 $disclaimer = $this->replacePointsLabel($disclaimer, $lang);
 
@@ -127,7 +127,7 @@ class LoyalistaHelper
 
     public function replacePointsForSignup($content): array|string
     {
-        $signupPoints = $this->configHelper->getVar('signup_points');
+        $signupPoints = number_format($this->configHelper->getVar('signup_points'), 0, ',', '.');
         return str_ireplace("[points_for_signup]" ,$signupPoints ,$content);
     }
 

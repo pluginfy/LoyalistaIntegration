@@ -16,12 +16,22 @@
 </div>
 
 <script type="application/javascript">
-    $(function() {
-        setTimeout(function(){
-            $('.totalSum dd[data-testing="basket-amount"]').bind('DOMSubtreeModified', function(){
-                setPointBaitUnRegistered();
-            });
+    function doCheckOutWidgetUnReg() {
+        $('.totalSum dd[data-testing="basket-amount"]').bind('DOMSubtreeModified', function(){
             setPointBaitUnRegistered();
+        });
+        setPointBaitUnRegistered();
+    }
+    $(function() {
+        setTimeout(function() {
+            doCheckOutWidgetUnReg();
+
+            $('.toggle-basket-preview').on("click", function() {
+                setTimeout(function(){
+                    doCheckOutWidgetUnReg();
+                }, 1000);
+            });
+
         }, 1000);
     });
 </script>

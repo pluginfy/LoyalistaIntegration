@@ -72,7 +72,9 @@ class BasketController extends Controller
         $return['total_cart_points'] = round($return['basket_total'] / $config_helper->getVar('revenue_to_one_point'));
         $return['total_cart_points'] += $return['order_created_points'];
         $return['total_cart_points'] += $return['cat_extra_points'];
-        $return['total_cart_points'] += $return['item_extra_points'] ;
+        $return['total_cart_points'] += $return['item_extra_points'];
+
+        $return['total_cart_points'] = number_format($return['total_cart_points'], 0, ',', '.');
 
         return $return;
     }

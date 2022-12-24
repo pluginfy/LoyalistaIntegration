@@ -186,7 +186,7 @@ function setCoPointBait(){
                 target_span.data("basket_total" ,  basket_total);
                 // get current points gain
                 let account_balance = target_span.data('total_redeemable_points');
-                $('span.cow_account_balance').html(account_balance);
+                $('span.cow_account_balance').html(format(account_balance));
                 $('#loyalista_widget_chekcout_option_custom_value').attr('max',account_balance );
 
                 target_span.data("max_points" ,  account_balance);
@@ -197,10 +197,10 @@ function setCoPointBait(){
                 if(parseFloat(max_points) < parseFloat(account_balance)){
                     target_span.data("max_points" ,  max_points);
                     $('#loyalista_widget_chekcout_option_custom_value').attr('max',max_points )
-                    $('span.cow_account_balance').html(max_points);
+                    $('span.cow_account_balance').html(format(max_points));
                 }
 
-                $('span.cow_points_label').html((target_span.data("max_points") *  point_to_val ).toFixed(2));
+                $('span.cow_points_label').html(format((target_span.data("max_points") *  point_to_val )));
 
                 // Set current points gain hint
             } else {
@@ -215,6 +215,10 @@ function setCoPointBait(){
         console.error(data)
         location.reload();
     });
+}
+
+function format(num) {
+    return parseFloat(num).toLocaleString("de-DE")
 }
 
 function isNumber(evt) {

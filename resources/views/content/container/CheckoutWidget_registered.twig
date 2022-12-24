@@ -49,7 +49,7 @@
 </div>
 
 <script type="application/javascript">
-    function onDocumentReady() {
+    function callCheckOutWidgetReg() {
             $('.totalSum dd[data-testing="basket-amount"]').bind('DOMSubtreeModified', function(){
                 setCoPointBait();
             });
@@ -95,9 +95,11 @@
 
     $(function(){
         setTimeout(function(){
-            onDocumentReady();
+            callCheckOutWidgetReg();
             $('.toggle-basket-preview').on("click", function() {
-                onDocumentReady();
+                setTimeout(function(){
+                    callCheckOutWidgetReg();
+                }, 1000);
             });
         }, 1000);
     });

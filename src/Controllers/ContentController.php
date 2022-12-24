@@ -27,9 +27,23 @@ class ContentController extends Controller
      * @param ToDoRepositoryContract $toDoRepo
      * @return string
      */
-    public function showSyncOrder(Twig $twig, ToDoRepositoryContract $toDoRepo, OrderSyncedRepositoryContract $osr): string
+    public function showSyncOrder(Request $request, Twig $twig, ToDoRepositoryContract $toDoRepo, OrderSyncedRepositoryContract $osr): string
     {
-       $orderSyncList = $osr->getOrderSyncedList();
+        $orderSyncList = $osr->getOrderSyncedList();
+        $this->getLogger(__FUNCTION__)->error('getOrderSyncedList', $orderSyncList);
+
+//        $order = $osr->getOrderSync($request->get('order_id'));
+//        $this->getLogger(__FUNCTION__)->error('getOrderSync', $order);
+//        echo json_encode($order);
+//
+//
+//        $order = $osr->createOrderSync(['orderId' => $request->get('new_order_id')]);
+//        $this->getLogger(__FUNCTION__)->error('getOrderSync2', $order);
+//        echo json_encode($order);
+//
+//        $order = $osr->markSyncedOrder($order->id);
+//        $this->getLogger(__FUNCTION__)->error('markSyncedOrder', $order);
+//        echo json_encode($order);
 
        return json_encode($orderSyncList);
 
@@ -43,7 +57,6 @@ class ContentController extends Controller
      */
     public function createToDo(Request $request, ToDoRepositoryContract $toDoRepo): string
     {
-
         $newToDo = $toDoRepo->createTask($request->all());
         $additionalInfo = ['toDoId' => $newToDo->id , 'desc' => $newToDo->taskDescription];
         $this->getLogger('ContentController_createToDo')

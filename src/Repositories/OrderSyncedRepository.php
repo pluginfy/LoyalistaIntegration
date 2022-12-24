@@ -5,13 +5,14 @@ use Plenty\Modules\Plugin\DataBase\Contracts\DataBase;
 
 use LoyalistaIntegration\Contracts\OrderSyncedRepositoryContract;
 use LoyalistaIntegration\Models\OrderSynced;
+use Plenty\Plugin\Log\Loggable;
 
 class OrderSyncedRepository implements OrderSyncedRepositoryContract
 {
+    use Loggable;
 
     public function createOrderSync(array $data): OrderSynced
     {
-
         /**
          * @var DataBase $database
          */
@@ -24,8 +25,6 @@ class OrderSyncedRepository implements OrderSyncedRepositoryContract
         return $orderSynced;
 
     }
-
-
 
     public function markSyncedOrder($id): OrderSynced
     {
@@ -46,17 +45,24 @@ class OrderSyncedRepository implements OrderSyncedRepositoryContract
         /**
          * @var OrderSynced[] $orderSyncedList
          */
-        $orderSyncedList = $database->query(OrderSynced::class)->where('isSynced', '=', FALSE)->orderBy('id','DESC')->get();
+        $orderSyncedList = $database->query(OrderSynced::class)->orderBy('id','DESC')->get();
 
         return $orderSyncedList;
     }
 
-    public function getOrderSync($id): array
+    public function getOrderSync($orderId)
     {
         $database = pluginApp(DataBase::class);
-        $order = $database->query(OrderSynced::class)->where('orderId', '=', $id)->where('isSynced', '=', true)->get();
+        $order = $database->query(OrderSynced::class)->where('orderId', '=', $orderId)->get();
 
-        return $order[0] ?? [];
+        $this->getLogger('OrderSyncedRepository')->error(__FUNCTION__, $order);
+
+        if(isset($order[0])) {
+            return $order[0];
+        }
+
+
+        return false;
     }
 
 }
