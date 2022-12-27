@@ -14,8 +14,6 @@ class ProductWidget
 
     public function call(Twig $twig, $arg)
     {
-        $this->getLogger('ProductWidget')->error('item', $arg);
-
         $helper = pluginApp(LoyalistaHelper::class);
         $user_account = pluginApp(AccountService::class);
         $loggedin_user_id  = $user_account->getAccountContactId();

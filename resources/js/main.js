@@ -119,7 +119,7 @@ function register_me(_obj) {
             var data;
             if (typeof return_data === 'object') data = return_data;
             else data = $.parseJSON(return_data);
-            if (data.success === "true") {
+            if (data.success) {
                 location.reload();
             } else {
                 showResponse(data.message)
@@ -130,8 +130,11 @@ function register_me(_obj) {
             console.log(error);
             $(_obj).attr('disabled' , false);
         }
-    }).fail(function (data) {
+    }).fail(function (jqXHR, textStatus, error){
         $(_obj).attr('disabled' , false);
+        if (jqXHR.status == 403) {
+            window.location.href = '/login/';
+        }
     });
 }
 

@@ -367,7 +367,6 @@
         },
 
         "widget_border_color": {
-          "deprecated": true,
           "type": "colorPicker",
           "required": true,
           "label": "Config.label_widget_border_color",
@@ -375,7 +374,6 @@
             "defaultValue": "#dfdfdf"
           }
         },
-
 
         "checkout_widget_heading_text_de": {
           "type": "inputTextArea",
@@ -394,7 +392,6 @@
             "defaultValue": "Loyalty Program"
           }
         },
-
 
         "checkout_text_unregistered_user_de": {
           "type": "inputTextArea",

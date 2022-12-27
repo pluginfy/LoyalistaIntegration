@@ -82,7 +82,6 @@ class LoyalistaHelper
         if (isset($response['success']) && $response['success'] && $response['data']['user_registered']) {
             $data['is_user_registered'] = true;
             $widgetdata = $response['data'];
-                $point_label  =   $this->configHelper->getVar('account_points_label_text_' .$lang);
                 $customer = $widgetdata['customer'];
                 $points =  $widgetdata['points'];
                 $point_to_conversion = $widgetdata['point_to_conversion'];
@@ -123,6 +122,7 @@ class LoyalistaHelper
             $data['lang'] = $lang;
 
             $data['offer'] = $this->replacePointsForSignup($data['offer']);
+            $data['offer'] = $this->replacePointsLabel($data['offer']);
         }
 
         return $data;
