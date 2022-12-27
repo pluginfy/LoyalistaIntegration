@@ -133,7 +133,8 @@ function register_me(_obj) {
     }).fail(function (jqXHR, textStatus, error){
         $(_obj).attr('disabled' , false);
         if (jqXHR.status == 403) {
-            window.location.href = '/login/';
+            let redirectLink = window.location.origin + '/login/?backlink='+window.location.href;
+            window.location.href = redirectLink;
         }
     });
 }
