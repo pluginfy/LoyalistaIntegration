@@ -3,6 +3,7 @@
 namespace LoyalistaIntegration\Services;
 
 use LoyalistaIntegration\Helpers\ConfigHelper;
+use LoyalistaIntegration\Helpers\OrderHelper;
 use LoyalistaIntegration\Repositories\OrderRepository;
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
 use Plenty\Plugin\ConfigRepository;
@@ -49,7 +50,7 @@ class ExportServices
         if(!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
                 $order = $this->orderRepository->getSingleOrder($orderId);
-                $this->api->exportOrder($order);
+                $this->api->exportOrder($order, OrderHelper::ORDER_TYPE_NEW);
                 $response[$order->id] = [
                     'typeId' => $order->typeId,
                     'statusId' => $order->statusId,
@@ -114,7 +115,7 @@ class ExportServices
             return false;
         }
 
-        $this->api->exportOrder($this->orderRepository->getSingleOrder($orderId));
+        $this->api->exportOrder($this->orderRepository->getSingleOrder($orderId), OrderHelper::ORDER_TYPE_NEW);
     }
 
     /**

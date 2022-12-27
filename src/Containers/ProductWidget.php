@@ -30,7 +30,7 @@ class ProductWidget
 
         $widget_contents  = $helper->hydrate_product_contents(
             $isRegistered,
-            $this->getItemId($arg),
+            $this->getItemIdentifiers($arg),
             $this->getItemPrice($arg),
         );
 
@@ -45,20 +45,26 @@ class ProductWidget
         return $twig->render('LoyalistaIntegration::content.container.ProductWidget', $data);
     }
 
-    private function getItemId($arg, $identifier = 'id')
+    private function getItemIdentifiers($arg, $identifier = 'id'): array
     {
+        $identifiers = [
+            'variation' => 0,
+            'category' => 0
+        ];
         if(isset($arg[0])) {
             $item = $arg[0];
             if ($identifier == 'number') {
-                $productIdentifier = trim($item['variation']['number']);
+                $identifiers['variation'] = trim($item['variation']['number']);
             } else{
-                $productIdentifier = trim($item['variation']['id']);
+                $identifiers['variation'] = trim($item['variation']['id']);
             }
 
-            return $productIdentifier;
+            $identifiers['category'] = $item['defaultCategories'][0]['id'];
+
+            return $identifiers;
         }
 
-        return false;
+        return $identifiers;
     }
 
     private function getItemPrice($arg)

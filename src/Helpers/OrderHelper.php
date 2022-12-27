@@ -114,11 +114,14 @@ class OrderHelper
             if($o_item->typeId != 1){
                 continue;
             }
-
             $itemVariationId = $o_item->itemVariationId;
 
             $variation = $this->variationRepo->findById($itemVariationId);
-            $variationCategory = $this->getVariationCategory($itemVariationId);
+            $variationCategory = $this->getVariationCategory($variation->categoryVariationId);
+
+            $this->getLogger( __FUNCTION__)->error('o_item', $o_item);
+            $this->getLogger( __FUNCTION__)->error('variation', $variation);
+            $this->getLogger( __FUNCTION__)->error('variationCategory', $variationCategory);
 
             $temp_itm =  array(
                 'item_reference_id' => $variation->itemId,
@@ -143,7 +146,6 @@ class OrderHelper
             $temp_itm['tax_type'] = 'VAT';
             $temp_itm['currency'] = $item_amount->currency;
             $temp_itm['exchange_rate'] = $item_amount->exchangeRate;
-
 
             $items[] = $temp_itm;
         }

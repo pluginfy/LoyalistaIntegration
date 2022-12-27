@@ -43,8 +43,8 @@ class LoyalistaIntegrationServiceProvider extends ServiceProvider
             'exportOrder',
             ProcedureEntry::EVENT_TYPE_ORDER,
             [
-                'de' => 'Loyalista - Export/Send Order',
-                'en' => 'Loyalista - Export/Send Order'
+                'de' => 'Loyalista: Auftrag an Loyalista senden',
+                'en' => 'Loyalista: Send order to Loyalista'
             ],
             LoyalistaProcedures::class . '@exportOrder'
         );
@@ -53,8 +53,8 @@ class LoyalistaIntegrationServiceProvider extends ServiceProvider
             'refundOrder',
             ProcedureEntry::EVENT_TYPE_ORDER,
             [
-                'de' => 'Loyalista - Refund Order / Revert Points',
-                'en' => 'Loyalista - Refund Order / Revert Points'
+                'de' => 'Loyalista: Gutschrift an Loyalista senden',
+                'en' => 'Loyalista: Send credit to Loyalista'
             ],
             LoyalistaProcedures::class . '@refundOrder'
         );

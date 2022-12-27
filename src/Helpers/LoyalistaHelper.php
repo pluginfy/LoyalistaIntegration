@@ -25,7 +25,7 @@ class LoyalistaHelper
     }
 
 
-    public function hydrate_product_contents($isRegistered, $itemIdentifier, $itemPrice, $data = [])
+    public function hydrate_product_contents($isRegistered, $itemIdentifiers, $itemPrice, $data = [])
     {
         $lang = $this->configHelper->getCurrentLocale();
 
@@ -41,9 +41,18 @@ class LoyalistaHelper
         $out = str_ireplace("[points_for_product]", $earningPoints ,$out);
         $out = str_ireplace("[number_of_points]", $earningPoints ,$out);
 
-        if(in_array($itemIdentifier, explode(',',$this->configHelper->getVar('product_ids')))) {
+        $extraPoints = 0;
+        if(in_array($itemIdentifiers['variation'], explode(',',$this->configHelper->getVar('product_ids')))) {
+            $extraPoints = trim($this->configHelper->getVar('product_extra_points'));
+        }
+
+        if(in_array($itemIdentifiers['category'], explode(',',$this->configHelper->getVar('category_ids')))) {
+            $extraPoints += trim($this->configHelper->getVar('category_extra_points'));
+        }
+
+        if($extraPoints > 0) {
             $out .= ' ' .$this->configHelper->getVar('text_for_registered_users_for_extra_points_for_the_product_page_' .$lang );
-            $out = str_ireplace("[number_of_extra_points]" ,number_format($this->configHelper->getVar('product_extra_points'), 0, ',', '.') ,$out);
+            $out = str_ireplace("[number_of_extra_points]" ,number_format($extraPoints, 0, ',', '.') ,$out);
         }
 
         $out = $this->replacePointsLabel($out, $lang);
