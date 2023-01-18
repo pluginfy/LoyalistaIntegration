@@ -200,14 +200,6 @@
                 {
                   "value": "10",
                   "caption": "Config.order_type_MULTI_CREDIT_ORDER"
-                },
-                {
-                  "value": "11",
-                  "caption": "Config.order_type_REORDER"
-                },
-                {
-                  "value": "12",
-                  "caption": "Config.order_type_PARTIAL_DELIVERY"
                 }
               ]
             }
@@ -224,32 +216,12 @@
                 "caption": "Config.orderStatusPossibleValue1"
               },
               {
-                "value": "1.1",
-                "caption": "Config.orderStatusPossibleValue1.1"
-              },
-              {
-                "value": "1.2",
-                "caption": "Config.orderStatusPossibleValue1.2"
-              },
-              {
                 "value": "2",
                 "caption": "Config.orderStatusPossibleValue2"
               },
               {
                 "value": "3",
                 "caption": "Config.orderStatusPossibleValue3"
-              },
-              {
-                "value": "3.2",
-                "caption": "Config.orderStatusPossibleValue3.2"
-              },
-              {
-                "value": "3.3",
-                "caption": "Config.orderStatusPossibleValue3.3"
-              },
-              {
-                "value": "3.4",
-                "caption": "Config.orderStatusPossibleValue3.4"
               },
               {
                 "value": "4",
@@ -260,10 +232,6 @@
                 "caption": "Config.orderStatusPossibleValue5"
               },
               {
-                "value": "5.1",
-                "caption": "Config.orderStatusPossibleValue5.1"
-              },
-              {
                 "value": "6",
                 "caption": "Config.orderStatusPossibleValue6"
               },
@@ -272,40 +240,12 @@
                 "caption": "Config.orderStatusPossibleValue7"
               },
               {
-                "value": "7.1",
-                "caption": "Config.orderStatusPossibleValue7.1"
-              },
-              {
                 "value": "8",
                 "caption": "Config.orderStatusPossibleValue8"
               },
               {
-                "value": "8.1",
-                "caption": "Config.orderStatusPossibleValue8.1"
-              },
-              {
                 "value": "9",
                 "caption": "Config.orderStatusPossibleValue9"
-              },
-              {
-                "value": "9.1",
-                "caption": "Config.orderStatusPossibleValue9.1"
-              },
-              {
-                "value": "9.2",
-                "caption": "Config.orderStatusPossibleValue9.2"
-              },
-              {
-                "value": "9.3",
-                "caption": "Config.orderStatusPossibleValue9.3"
-              },
-              {
-                "value": "9.4",
-                "caption": "Config.orderStatusPossibleValue9.4"
-              },
-              {
-                "value": "9.5",
-                "caption": "Config.orderStatusPossibleValue9.5"
               },
               {
                 "value": "10",
@@ -314,10 +254,6 @@
               {
                 "value": "11",
                 "caption": "Config.orderStatusPossibleValue11"
-              },
-              {
-                "value": "11.1",
-                "caption": "Config.orderStatusPossibleValue11.1"
               },
               {
                 "value": "12",

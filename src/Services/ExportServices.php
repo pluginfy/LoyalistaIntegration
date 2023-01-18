@@ -50,7 +50,11 @@ class ExportServices
         if(!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
                 $order = $this->orderRepository->getSingleOrder($orderId);
-                $this->api->exportOrder($order, OrderHelper::ORDER_TYPE_NEW);
+                if($order->typeId == 1) {
+                    $this->api->exportOrder($order, OrderHelper::ORDER_TYPE_NEW);
+                } else {
+                    $this->api->exportOrder($order, OrderHelper::ORDER_TYPE_REFUND);
+                }
                 $response[$order->id] = [
                     'typeId' => $order->typeId,
                     'statusId' => $order->statusId,
