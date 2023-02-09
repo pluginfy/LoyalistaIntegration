@@ -71,14 +71,14 @@
                     case 'all':
                         custom_input_field.val(0).hide();
                         if($('.cow_account_balance').text() <= 0) {
-                            showResponse('You can\'t apply this without having any points.');
+                            showResponse('Du kannst diese Aktion nicht ohne [points_label] ausführen');
                         } else {
                             $('.loyalista-apply-redemption-btn').show();
                         }
                         break;
                     case 'custom':
                         if($('.cow_account_balance').text() <= 0) {
-                            showResponse('You can\'t apply this without having any points.');
+                            showResponse('Du kannst diese Aktion nicht ohne [points_label] ausführen');
                         } else {
                             custom_input_field.show();
                             $('.loyalista-apply-redemption-btn').show();

@@ -73,7 +73,7 @@ function mergeAccountButton(_obj){
             else data = $.parseJSON(return_data);
 
             if (data.status === "OK") {
-                $('div.loyalista_error').html( '<span style="color:#22bf1c">Request created successfully</span>');
+                $('div.loyalista_error').html( '<span style="color:#22bf1c">Anfrage erfolgreich erstellt.</span>');
             } else {
                 $(_obj).attr('disabled' , false);
                 $('div.loyalista_error').html( '<span style="color:#f40000">' + data.message  + '</span>');
@@ -267,11 +267,11 @@ function validateCustomOption(){
     let max_points = current_widget.find('span.loyalista_co_num_of_points').data('max_points');
 
     if(parseFloat(custom_value) > parseFloat(max_points) ){
-        showResponse('You can\'t enter more than ' + max_points);
+        showResponse('Du kannst nicht mehr als '+max_points);
         $(this).val(max_points);
         $(this).focus();
     } else if(parseFloat(custom_value) <= 0) {
-        showResponse('Please enter more than 0 points.')
+        showResponse('Bitte gebe mehr als 0 an')
         $(this).val(max_points);
         $(this).focus();
     }else{
