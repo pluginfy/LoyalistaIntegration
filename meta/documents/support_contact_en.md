@@ -1,1 +1,5 @@
-[Further information](https://developers.plentymarkets.com/marketplace/plugin-requirements#marketplace-support-contact)
+## Documentation on Website
+[Documentation](https://www.loyalista.de/en/dokumenation)
+
+## Support via E-Mail
+[info@loyalista.de](info@loyalista.de)
