@@ -35,7 +35,8 @@
     ],
     "require": {
         "IO": ">=5.0.0",
-        "Ceres":">=5.0.0"
+        "Ceres": ">=5.0.0"
+    },
     "serviceProvider"  :  "LoyalistaIntegration\\Providers\\LoyalistaIntegrationServiceProvider",
     "runOnBuild":[
         "LoyalistaIntegration\\Migrations\\CreateOrderSyncedTable"
