@@ -28,7 +28,7 @@ class ConfigHelper extends AbstractConfigHelper
     const VALUE_0 = '0';
     const VALUE_YES = 1;
     const VALUE_NO = 0;
-    const BASE_URL = 'https://api.loyalista.de';
+    const BASE_URL = 'https://api.staging.loyalista.de';
 
     /**
      * @var ConfigRepository
