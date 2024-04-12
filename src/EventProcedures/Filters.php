@@ -3,6 +3,9 @@ namespace LoyalistaIntegration\EventProcedures;
 
 use Plenty\Modules\EventProcedures\Events\EventProceduresTriggered;
 
+/**
+ * Filters Class
+ */
 class Filters
 {
     /**

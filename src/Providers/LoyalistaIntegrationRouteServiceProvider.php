@@ -5,7 +5,6 @@ namespace LoyalistaIntegration\Providers;
 use Plenty\Plugin\RouteServiceProvider;
 use Plenty\Plugin\Routing\Router;
 
-
 /**
  * Class LoyalistaIntegrationRouteServiceProvider
  * @package LoyalistaIntegration\Providers

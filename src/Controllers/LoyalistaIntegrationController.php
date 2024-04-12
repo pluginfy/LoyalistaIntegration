@@ -6,15 +6,16 @@ use LoyalistaIntegration\Services\ExportServices;
 use Plenty\Modules\Authorization\Services\AuthHelper;
 use Plenty\Modules\Order\Coupon\Campaign\Contracts\CouponCampaignRepositoryContract;
 use Plenty\Plugin\Controller;
-use Plenty\Plugin\Log\Loggable;
 use Plenty\Plugin\Templates\Twig;
 use Plenty\Modules\Plugin\Libs\Contracts\LibraryCallContract;
 use Plenty\Plugin\Http\Request;
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
 
+/**
+ * Integration Controller
+ */
 class LoyalistaIntegrationController extends Controller
 {
-    use Loggable;
 
     /**
      * @param Twig $twig
@@ -41,6 +42,10 @@ class LoyalistaIntegrationController extends Controller
         return $twig->render('LoyalistaIntegration::content.hello' , $data);
     }
 
+    /**
+     * @param Request $request
+     * @return false|string
+     */
     function getCampaign(Request $request) {
         $authHelper = pluginApp(AuthHelper::class);
         $couponCampRepo = pluginApp(CouponCampaignRepositoryContract::class);
@@ -54,7 +59,10 @@ class LoyalistaIntegrationController extends Controller
         return json_encode($campaign->toArray());
     }
 
-
+    /**
+     * @param Request $request
+     * @return void
+     */
     function pushConfiguration(Request $request)
     {
         $authHelper = pluginApp(AuthHelper::class);
@@ -70,12 +78,14 @@ class LoyalistaIntegrationController extends Controller
         echo json_encode(['status' => 'success', 'data' => $data]);
     }
 
+    /**
+     * @param Request $request
+     * @return void
+     */
     function exportOrders(Request $request)
     {
         $exportService = pluginApp(ExportServices::class);
         $response = $exportService->exportPreviousOrders();
-
-        $this->getLogger('LoyalistaIntegrationController')->error(__FUNCTION__, $response);
 
         echo json_encode($response);
     }

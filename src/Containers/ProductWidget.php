@@ -1,7 +1,6 @@
 <?php
 namespace LoyalistaIntegration\Containers;
 
-use Plenty\Plugin\Log\Loggable;
 use Plenty\Plugin\Templates\Twig;
 
 use Plenty\Modules\Frontend\Services\AccountService;
@@ -10,7 +9,6 @@ use LoyalistaIntegration\Helpers\LoyalistaHelper;
 
 class ProductWidget
 {
-    use Loggable;
 
     public function call(Twig $twig, $arg)
     {

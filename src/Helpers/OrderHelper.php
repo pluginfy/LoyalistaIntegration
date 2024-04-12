@@ -6,12 +6,12 @@ use Plenty\Modules\Authorization\Services\AuthHelper;
 use Plenty\Modules\Item\Item\Contracts\ItemRepositoryContract;
 use Plenty\Modules\Item\Variation\Contracts\VariationRepositoryContract;
 use Plenty\Modules\Item\VariationCategory\Contracts\VariationCategoryRepositoryContract;
-use Plenty\Plugin\Log\Loggable;
 
-
+/**
+ * Order Helper Class
+ */
 class OrderHelper
 {
-    use Loggable;
 
     const ORDER_TYPE_NEW = 'new';
     const ORDER_TYPE_REFUND = 'refund';
@@ -20,7 +20,12 @@ class OrderHelper
     private $variationCategoryRepo;
     private $variationRepo;
 
-
+    /**
+     * @param AuthHelper $authHelper
+     * @param AddressRepositoryContract $addressRepo
+     * @param VariationRepositoryContract $variationRepo
+     * @param VariationCategoryRepositoryContract $variationCategoryRepo
+     */
     public function __construct(AuthHelper $authHelper, AddressRepositoryContract $addressRepo, VariationRepositoryContract $variationRepo ,VariationCategoryRepositoryContract $variationCategoryRepo)
     {
         $this->authHelper = $authHelper;
@@ -29,6 +34,10 @@ class OrderHelper
         $this->variationRepo = $variationRepo;
     }
 
+    /**
+     * @param $order
+     * @return mixed|null
+     */
     public function getOrderReferenceId($order) {
         $orderReference = $order->orderReferences;
         if(isset($orderReference[0])) {
@@ -38,6 +47,10 @@ class OrderHelper
         return NULL;
     }
 
+    /**
+     * @param $order
+     * @return array
+     */
     public function getBillingAddress($order){
         $billingAddress = [] ;
         $addressRelations = $order->addressRelations;
@@ -51,6 +64,10 @@ class OrderHelper
         return $billingAddress;
     }
 
+    /**
+     * @param $order
+     * @return array
+     */
     public function getShippingAddress($order){
         $shippingAddress = [];
         $addressRelations = $order->addressRelations;
@@ -64,6 +81,10 @@ class OrderHelper
         return $shippingAddress;
     }
 
+    /**
+     * @param $address
+     * @return array
+     */
     function getAddress($address) {
         $data['company_title'] = $address->name1;
         $data['fname'] = $address->name2;
@@ -90,6 +111,10 @@ class OrderHelper
         return $data;
     }
 
+    /**
+     * @param $order
+     * @return array
+     */
     public function getCoupon($order){
         $coupon = [];
 
@@ -108,6 +133,11 @@ class OrderHelper
 
         return $coupon;
     }
+
+    /**
+     * @param $order
+     * @return array
+     */
     public function getOrderItems($order) {
         $items = [] ;
         foreach ($order->orderItems as $o_item) {
@@ -118,11 +148,6 @@ class OrderHelper
 
             $variation = $this->variationRepo->findById($itemVariationId);
             $variationCategory = $this->getVariationCategory($variation->categoryVariationId);
-
-            $this->getLogger( __FUNCTION__)->error('o_item', $o_item);
-            $this->getLogger( __FUNCTION__)->error('variation', $variation);
-            $this->getLogger( __FUNCTION__)->error('variationCategory', $variationCategory);
-
             $temp_itm =  array(
                 'item_reference_id' => $variation->itemId,
                 'variation_reference_id' => $o_item->itemVariationId,
@@ -153,6 +178,10 @@ class OrderHelper
         return $items;
     }
 
+    /**
+     * @param $itemVariationId
+     * @return mixed
+     */
     public function getVariationCategory($itemVariationId) {
         $variationCategory =  $this->authHelper->processUnguarded(
             function () use ($itemVariationId) {

@@ -4,27 +4,39 @@ namespace LoyalistaIntegration\Helpers;
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
 use Plenty\Modules\Frontend\Services\AccountService;
 
-
+/**
+ * Loyalista Helper CL=lass
+ */
 class LoyalistaHelper
 {
-
-
     private $accountService;
     private $configHelper;
 
-
+    /**
+     * @param AccountService $accountService
+     * @param ConfigHelper $configHelper
+     */
     public function __construct(AccountService $accountService ,ConfigHelper $configHelper )
     {
         $this->accountService = $accountService;
         $this->configHelper = $configHelper;
     }
 
+    /**
+     * @return int
+     */
     public function getCurrentContactId(): int
     {
         return $this->accountService->getAccountContactId();
     }
 
-
+    /**
+     * @param $isRegistered
+     * @param $itemIdentifiers
+     * @param $itemPrice
+     * @param $data
+     * @return array|string
+     */
     public function hydrate_product_contents($isRegistered, $itemIdentifiers, $itemPrice, $data = [])
     {
         $lang = $this->configHelper->getCurrentLocale();
@@ -60,7 +72,9 @@ class LoyalistaHelper
         return $out;
     }
 
-
+    /**
+     * @return array
+     */
     public function hydrate_my_account_data()
     {
         $date_of_expiry = 30;
@@ -128,29 +142,48 @@ class LoyalistaHelper
         return $data;
     }
 
+    /**
+     * @param $content
+     * @param $lang
+     * @return array|string
+     */
     public function replacePointsLabel($content, $lang = 'de'): array|string
     {
         $point_label = $this->configHelper->getVar('account_points_label_text_' .$lang);
         return str_ireplace("[points_label]" ,$point_label ,$content);
     }
 
+    /**
+     * @param $content
+     * @return array|string
+     */
     public function replacePointsForSignup($content): array|string
     {
         $signupPoints = number_format($this->configHelper->getVar('signup_points'), 0, ',', '.');
         return str_ireplace("[points_for_signup]" ,$signupPoints ,$content);
     }
 
+    /**
+     * @param $widget
+     * @return string
+     */
     public function getWidgetHeading($widget): string
     {
         $lang = $this->configHelper->getCurrentLocale();
         return $this->configHelper->getVar($widget . $lang);
     }
 
+    /**
+     * @return string
+     */
     public function getWidgetBorderWidth(): string
     {
         return $this->configHelper->getVar('widget_border_width');
     }
 
+    /**
+     * @return string
+     */
     public function getWidgetBorderColor(): string
     {
         return $this->configHelper->getVar('widget_border_color');

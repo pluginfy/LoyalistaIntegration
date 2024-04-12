@@ -5,15 +5,16 @@ use LoyalistaIntegration\Helpers\CouponHelper;
 use Plenty\Modules\Cron\Contracts\CronHandler as Cron;
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
 
-use Plenty\Plugin\Log\Loggable;
-
 /**
  * Class ConfigurationCron.
  */
 class RevertRedeemCron extends Cron
 {
-     use Loggable;
     public $apiService;
+
+    /**
+     * @param LoyalistaApiService $apiService
+     */
     public function __construct(LoyalistaApiService $apiService)
     {
         $this->apiService = $apiService;

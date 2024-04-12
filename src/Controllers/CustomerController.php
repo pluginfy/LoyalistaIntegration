@@ -11,22 +11,23 @@ use LoyalistaIntegration\Helpers\ConfigHelper;
 
 use Plenty\Plugin\Http\Request;
 use Plenty\Plugin\Templates\Twig;
-use Plenty\Plugin\Log\Loggable;
 
+/**
+ * Customer Controller Class
+ */
 class CustomerController extends Controller
 {
-    use Loggable;
-
+    /**
+     * @return false|string|void
+     */
     public function unRegisterCustomer()
     {
-
         $account_service = pluginApp(AccountService::class);
         $plenty_customer_id  = $account_service->getAccountContactId();
 
         $contactRepo = pluginApp(ContactRepositoryContract::class);
         $contact = $contactRepo->findContactById($plenty_customer_id);
 
-        // user login
         if ($contact->id > 0){
 
             $configHelper = pluginApp(configHelper::class);
@@ -38,7 +39,6 @@ class CustomerController extends Controller
                 'reference_id'=> $contact->id,
             );
 
-            // Register in loyalista
             $api = pluginApp(LoyalistaApiService::class);
             $response = $api->unRegisterCustomer($customer);
 
@@ -52,6 +52,9 @@ class CustomerController extends Controller
         }
     }
 
+    /**
+     * @return false|string|void
+     */
     public function registerCustomer()
     {
         $account_service = pluginApp(AccountService::class);
@@ -60,13 +63,11 @@ class CustomerController extends Controller
         $contactRepo = pluginApp(ContactRepositoryContract::class);
         $contact = $contactRepo->findContactById($plenty_customer_id);
 
-        // user login
         if ($contact->id > 0){
 
             $configHelper = pluginApp(configHelper::class);
             $shopReference = $configHelper->getShopID();
 
-            // data to send api
             $customer = array(
                 'shop_reference' => $shopReference,
                 'reference_id'=> $contact->id,
@@ -74,7 +75,6 @@ class CustomerController extends Controller
                 'email' => $contact->email
             );
 
-            // Register in loyalista
             $api = pluginApp(LoyalistaApiService::class);
             $response = $api->registerCustomer($customer);
 
@@ -92,29 +92,12 @@ class CustomerController extends Controller
         }
     }
 
-
+    /**
+     * @param Request $request
+     * @return false|string|void
+     */
     public function mergeCustomer(Request $request)
     {
-/*
-        $rules = [
-            'customer_email_address' => 'required|email',
-
-        ];
-
-        $messages = array(
-            'required' => 'The :attribute field is required',
-            'email' => 'The :attribute field must be valid email',
-        );
-
-        $validator = Validator::make(Input::all(), $rules, $messages);
-
-        if ($validator->fails()) {
-
-            $return = ['status' => 'Error', 'message' => 'Failed' , 'response' => $this->errorResponse($validator->errors()->all())];
-            return json_encode($return);
-        }*/
-
-
         $post_data = $request->all();
 
         $account_service = pluginApp(AccountService::class);
@@ -123,20 +106,17 @@ class CustomerController extends Controller
         $contactRepo = pluginApp(ContactRepositoryContract::class);
         $contact = $contactRepo->findContactById($plenty_customer_id);
 
-        // user login
         if ($contact->id > 0){
 
             $configHelper = pluginApp(configHelper::class);
             $shopReference = $configHelper->getShopID();
 
-            // data to send api
             $customer = array(
                 'shop_reference' => $shopReference,
                 'reference_id'=> $contact->id,
                 'customer_email_address' => $post_data['customer_email_address'],
             );
 
-            // Register in loyalista
             $api = pluginApp(LoyalistaApiService::class);
 
             $response = $api->mergeCustomr($customer);
@@ -151,7 +131,11 @@ class CustomerController extends Controller
         }
     }
 
-
+    /**
+     * @param Request $request
+     * @param Twig $twig
+     * @return mixed
+     */
     public function loayslistaAccountPage(Request $request, Twig $twig)
     {
         $helper = pluginApp(LoyalistaHelper::class);

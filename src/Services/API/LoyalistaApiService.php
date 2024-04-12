@@ -16,18 +16,26 @@ use Plenty\Plugin\Log\Reportable;
 use Plenty\Modules\Account\Address\Contracts\AddressRepositoryContract;
 use Plenty\Modules\Item\Item\Contracts\ItemRepositoryContract;
 
-
+/**
+ * API Service Class
+ */
 class LoyalistaApiService extends BaseApiService
 {
     use Loggable;
     use Reportable;
 
+    /**
+     * @param ConfigHelper $configHelper
+     * @param LoggerContract $loggerContract
+     */
     public function __construct(ConfigHelper $configHelper, LoggerContract $loggerContract)
     {
         parent::__construct($configHelper, $loggerContract);
     }
 
-
+    /**
+     * @return mixed|string
+     */
     public function verifyApiToken()
     {
         $requestURL = ConfigHelper::BASE_URL .'/v1/validate_user_token';
@@ -47,37 +55,6 @@ class LoyalistaApiService extends BaseApiService
         return $response;
     }
 
-    public function getCustomerPoints($loggedin_customer_id)
-    {
-        //Todo
-    }
-
-    /**
-     * @param $customer_id
-     * @return mixed|string
-     */
-    public function getCustomerTotalPoints($customer_id)
-    {
-        $data = array(
-            'customer_reference_id'=> $customer_id,
-        );
-
-        $requestURL = ConfigHelper::BASE_URL .'/v1/get_customer_total_points';
-
-        $requestType = static::REQUEST_METHOD_GET;
-
-        $vendorSecret = $this->configHelper->getVendorSecret();
-
-        $headers = array(
-            'Authorization: ' . 'Bearer ' .$vendorSecret,
-        );
-
-        $response = $this->doCurl($requestURL ,$requestType , $headers, $data);
-
-        return $response;
-
-    }
-
     /**
      * Add Newly created order to loyalista
      * @param null $order
@@ -88,25 +65,17 @@ class LoyalistaApiService extends BaseApiService
         $orderHelper = pluginApp(OrderHelper::class);
 
         try {
-
-            // https://developers.plentymarkets.com/en-gb/developers/main/rest-api-guides/order-data.html
-
             if ($order)
             {
-                // Plenty ID or Intance
                 $shop_reference = $order->plentyId;
-
-                // Insert Into OrderSyncedDataTable in any case token verified or not.
                 $OrderSyncedRepo = pluginApp(OrderSyncedRepositoryContract::class);
                 $orderSync = $OrderSyncedRepo->getOrderSync($order->id);
                 if(empty($orderSync)) {
                     $orderSync = $OrderSyncedRepo->createOrderSync(['orderId' => $order->id]);
                 } else if($orderSync->isSynced) {
-                    $this->getLogger('LoyalistaApiService')->error(__FUNCTION__, $orderSync);
                     return true;
                 }
 
-                // Get customer/contact
                 $customer_id = NULL;
                 foreach ($order->relations as $o_relation_item) {
                     if ($o_relation_item->referenceType == "contact"){
@@ -132,45 +101,29 @@ class LoyalistaApiService extends BaseApiService
                 $out['parent_reference_id'] = $orderHelper->getOrderReferenceId($order);
                 $out['reference_id'] = $order->id;
                 $out['shop_reference'] = $shop_reference;
-                //$out['platform_id'] = 1;
-
                 $amounts = $order->amounts;
-
                 $amount = $amounts[0];
-
                 $out['shipping_costs_gross'] = $amount->shippingCostsGross;
                 $out['shipping_costs_net'] =  $amount->shippingCostsNet;
-
                 $out['currency'] =     $amount->currency;
                 $out['exchange_rate'] = $amount->exchangeRate;
-
                 $out['gross_total'] = $amount->netTotal;
                 $out['grand_total'] = $amount->invoiceTotal;
-
-                // Tax on Products
                 $vats = $amount->vats;
                 $vat = $vats[0];
-
                 $out['tax_type'] = 'VAT';
                 $out['tax_amount'] = $vat->value;
                 $out['tax_percentage'] = $vat->vatRate;
-
-
                 $out['item_line_total_gross'] = 0.00;
                 $out['item_line_total_net'] = 0.00;
-
                 $out['billing_address'] = $orderHelper->getbillingAddress($order) ;
                 $out['shipping_address'] = $orderHelper->getShippingAddress($order);
-                // Address information
                 $out['order_details'] = $orderHelper->getOrderItems($order);
-
-
                 $coupon = $orderHelper->getCoupon($order);
                 $couponCampaignRepo = pluginApp(CouponCampaignRepositoryContract::class);
                 $out['coupon_code'] = '';
                 $out['coupon_value'] = 0;
                 $out['points_redeemed'] = 0;
-
                 if(!empty($coupon)) {
                     $campainCoupon = $couponCampaignRepo->findByCouponCode($coupon['code']);
                     if($campainCoupon && $campainCoupon->name === ConfigHelper::LOYALISTA_CAMPAIGN_NAME) {
@@ -189,9 +142,6 @@ class LoyalistaApiService extends BaseApiService
 
                 if (is_array($responses) && $responses['success']){
                     $logResponse['postOrderSync'] = $OrderSyncedRepo->markSyncedOrder($orderSync->id);;
-                    // Report save case
-                    $this->getLogger( 'LoyalistaApiService-' . $type)->error('Export Order Passed successfully', $logResponse);
-
                 }else{
                     $this->getLogger('LoyalistaApiService-' . $type)->error('Export Order Failed', $logResponse);
                 }
@@ -207,6 +157,10 @@ class LoyalistaApiService extends BaseApiService
         finally {}
     }
 
+    /**
+     * @param $order
+     * @return void
+     */
     public function refundOrder($order = NULL) {
         $orderHelper = pluginApp(OrderHelper::class);
         try {
@@ -216,33 +170,12 @@ class LoyalistaApiService extends BaseApiService
         } finally {
 
         }
-
     }
+
     /**
-     * @return void
+     * @param $loggedin_customer_id
+     * @return mixed|string
      */
-    public function getCheckoutWidgetData(){
-
-        $tokenVerified =  $this->verifyApiToken();
-
-        if (isset($tokenVerified['success']) &&  $tokenVerified['success'] == true ){
-
-        }
-
-        $requestURL = ConfigHelper::BASE_URL .'/v1/verify_customer';
-        $requestType = static::REQUEST_METHOD_POST;
-        $vendor_id = $this->configHelper->getVendorID();
-        $vendorSecret = $this->configHelper->getVendorSecret();
-
-        $headers = array(
-            'Authorization: ' . 'Bearer ' .$vendorSecret,
-        );
-
-        $responses = $this->doCurl($requestURL ,$requestType , $headers, []);
-
-    }
-
-
     public function getMyAccountWidgetData($loggedin_customer_id){
 
         $requestURL = ConfigHelper::BASE_URL .'/v1/get_user_account_data';
@@ -283,31 +216,6 @@ class LoyalistaApiService extends BaseApiService
 
             return $response;
 
-        }else{
-            $this->getLogger('Token Verification Failed')->error('Loyalista Token Expire or invalid');
-        }
-    }
-
-
-    public function getCartWidgetData($loggedin_customer_id){
-
-
-        $requestURL = ConfigHelper::BASE_URL .'/v1/get_user_cart_data';
-
-        $requestType = static::REQUEST_METHOD_GET;
-
-        $shopReference = $this->configHelper->getShopID();
-
-        $data = [
-            'shop_reference' => $shopReference,
-            'reference_id' => $loggedin_customer_id,
-        ];
-
-        $tokenVerified =  $this->verifyApiToken();
-
-        if (isset($tokenVerified['success']) && $tokenVerified['success']){
-            $response = $this->doCurl($requestURL ,$requestType , [], $data);
-            return $response;
         }else{
             $this->getLogger('Token Verification Failed')->error('Loyalista Token Expire or invalid');
         }
@@ -416,6 +324,9 @@ class LoyalistaApiService extends BaseApiService
         $this->getLogger('log_data_dump')->error($code, ['data'=> $data]);
     }
 
+    /**
+     * @return mixed|string
+     */
     public function pullConfiguration(){
 
         $requestURL = ConfigHelper::BASE_URL .'/v1/get_configurations';
@@ -430,8 +341,9 @@ class LoyalistaApiService extends BaseApiService
         return $response;
     }
 
-
-
+    /**
+     * @return mixed|string
+     */
     public function pushConfiguration()
     {
         $requestURL = ConfigHelper::BASE_URL .'/v1/update_configurations';
@@ -479,6 +391,10 @@ class LoyalistaApiService extends BaseApiService
         return $response;
     }
 
+    /**
+     * @param $reference_type
+     * @return mixed|string
+     */
     public function revertUnusedPoints($reference_type){
         $requestURL = ConfigHelper::BASE_URL .'/v1/revert_unused_points';
         $data = [
@@ -491,9 +407,6 @@ class LoyalistaApiService extends BaseApiService
             $this->getLogger(__FUNCTION__)->error($response);
         }
 
-        $this->getLogger(__FUNCTION__)->error('Api-Response', $response);
-
         return $response;
     }
-
 }

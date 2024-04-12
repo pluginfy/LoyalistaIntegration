@@ -8,12 +8,12 @@ use Plenty\Modules\Order\Coupon\Campaign\Contracts\CouponCampaignRepositoryContr
 use Plenty\Modules\Order\Coupon\Campaign\Models\CouponCampaign;
 use Plenty\Modules\Order\Coupon\Campaign\Reference\Contracts\CouponCampaignReferenceRepositoryContract;
 use Plenty\Modules\Order\Coupon\Campaign\Reference\Models\CouponCampaignReference;
-use Plenty\Plugin\Log\Loggable;
 
-
+/**
+ * Coupon Class
+ */
 class CouponHelper
 {
-    use Loggable;
     private $couponCampaignRepo;
     private $couponCampaignRefRepo;
     private $authHelper;

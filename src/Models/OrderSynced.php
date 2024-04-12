@@ -9,9 +9,7 @@ use Plenty\Modules\Plugin\DataBase\Contracts\Model;
  * @property int     $id
  * @property int     $orderId
  * @property boolean $isSynced
-
  */
-
 class OrderSynced extends Model
 {
     /**

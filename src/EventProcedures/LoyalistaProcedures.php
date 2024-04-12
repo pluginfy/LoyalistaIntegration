@@ -7,6 +7,9 @@ use Plenty\Plugin\Log\Loggable;
 use Plenty\Plugin\Log\Reportable;
 use LoyalistaIntegration\Services\API\LoyalistaApiService;
 
+/**
+ * Procedures CLass
+ */
 class LoyalistaProcedures
 {
     use Loggable;
@@ -18,14 +21,8 @@ class LoyalistaProcedures
      */
     public function exportOrder(EventProceduresTriggered $event)
     {
-        $this->report('order hit loyalista',
-            __FUNCTION__,
-            ['orderID' => 12 ],
-            ['orDId' => 18 ]);
-
         try {
             $order = $event->getOrder();
-            $this->getLogger(__FUNCTION__)->error('Hit Export', ['order'=> $order ]);
             if ($order && $order->typeId == 1)
             {
                 $api = pluginApp(LoyalistaApiService::class);
@@ -39,15 +36,14 @@ class LoyalistaProcedures
         finally {}
     }
 
-
-
+    /**
+     * @param EventProceduresTriggered $event
+     * @return void
+     */
     public function refundOrder(EventProceduresTriggered $event)
     {
         try {
             $order = $event->getOrder();
-
-            $this->getLogger(__FUNCTION__)->error('Hit revert', ['order'=> $order ]);
-
             if ($order && $order->typeId != 1)
             {
                 $api = pluginApp(LoyalistaApiService::class);
@@ -60,5 +56,4 @@ class LoyalistaProcedures
         }
         finally {}
     }
-
 }
