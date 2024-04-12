@@ -4,16 +4,15 @@ namespace LoyalistaIntegration\Repositories;
 
 use Plenty\Modules\Order\Contracts\OrderRepositoryContract;
 use Plenty\Repositories\Models\PaginatedResult;
-use Plenty\Plugin\Log\Loggable;
 
 /**
  * Class OrderRepository.
  */
 class OrderRepository
 {
-    use Loggable;
 
     private $orderRepo;
+
     /**
      * OrderRepository constructor.
      */
@@ -43,6 +42,10 @@ class OrderRepository
         return array();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getSingleOrder($id)
     {
         return $this->orderRepo->findOrderById($id);

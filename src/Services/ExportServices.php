@@ -41,10 +41,12 @@ class ExportServices
         $this->api = $api;
     }
 
+    /**
+     * @return array
+     */
     public function exportPreviousOrders()
     {
         $response = [];
-
         $shopId = $this->configHelper->getShopID();
         $orderIds = $this->configHelper->getOrderIds();
         if(!empty($orderIds)) {
@@ -73,7 +75,6 @@ class ExportServices
 
             while ($fetchOrders) {
                 $orders = $this->orderRepository->getOrders($pageNum, $filters);
-                $this->getLogger('ExportServices')->error('exportPreviousOrders-page-' . $pageNum, 'count:' . count($orders));
                 if ($orders && count($orders) > ConfigHelper::VALUE_NO) {
                     foreach ($orders as $key => $order) {
                         $this->exportOrder($order, $orderTypes, $orderStatuses, $shopId);
@@ -94,7 +95,6 @@ class ExportServices
         return $response;
     }
 
-
     /**
      * Exports order data.
      *
@@ -108,14 +108,12 @@ class ExportServices
         $orderId = $order['id'];
         $plentyID = $order['plentyId'];
         if (!in_array($order['statusId'], $orderStatuses)) {
-            $this->getLogger('ExportServices')->error('exportOrder-staus', ['order' => $order['statusId'], 'config'=> $orderStatuses]);
-
+            $this->getLogger('ExportServices')->info('exportOrder-staus', ['order' => $order['statusId'], 'config'=> $orderStatuses]);
             return false;
         }
 
         if (!in_array($order['typeId'], $orderTypes)) {
-            $this->getLogger('ExportServices')->error('exportOrder-type', ['order' => $order['typeId'], 'config'=> $orderTypes]);
-
+            $this->getLogger('ExportServices')->info('exportOrder-type', ['order' => $order['typeId'], 'config'=> $orderTypes]);
             return false;
         }
 

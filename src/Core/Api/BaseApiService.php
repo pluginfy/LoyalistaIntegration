@@ -5,6 +5,9 @@ namespace LoyalistaIntegration\Core\Api;
 use LoyalistaIntegration\Helpers\ConfigHelper;
 use Plenty\Log\Contracts\LoggerContract;
 
+/**
+ * API Base Service
+ */
 class BaseApiService
 {
 
@@ -23,18 +26,26 @@ class BaseApiService
     protected $configHelper;
 
 
+    /**
+     * @param ConfigHelper $configHelper
+     * @param LoggerContract $loggerContract
+     */
     public function __construct(ConfigHelper $configHelper, LoggerContract $loggerContract)
     {
         $this->configHelper = $configHelper;
         $this->loggerContract = $loggerContract;
     }
 
+    /**
+     * @param $requestUrl
+     * @param $requestType
+     * @param $httpHeader
+     * @param $postFields
+     * @return mixed|string
+     */
     public function doCurl($requestUrl, $requestType, $httpHeader = array(), $postFields = '')
     {
-
         $vendorSecret = $this->configHelper->getVendorSecret();
-
-
         $headers = array(
             "Content-Type: application/json",
             "Accept: application/json",
@@ -48,6 +59,7 @@ class BaseApiService
         try {
             $curl = curl_init($requestUrl);
             curl_setopt($curl, CURLOPT_URL, $requestUrl);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 5);
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $requestType);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
@@ -56,7 +68,6 @@ class BaseApiService
                 curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postFields));
             }
 
-            //for debug only!
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
@@ -65,10 +76,7 @@ class BaseApiService
             return json_decode($response, true);
 
         } catch (\Exception $exception) {
-            //$this->getLogger(__FUNCTION__)->error(self::ERROR_CODE_EXCEPTION, $exception->getMessage());
             return $exception->getMessage();
         }
-
     }
-
 }

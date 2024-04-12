@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Toheed
- * Date: 5/30/2022
- * Time: 2:26 PM
- */
 
 namespace LoyalistaIntegration\Controllers;
 
@@ -12,19 +6,17 @@ use LoyalistaIntegration\Helpers\ConfigHelper;
 use LoyalistaIntegration\Helpers\OrderHelper;
 use Plenty\Modules\Basket\Contracts\BasketItemRepositoryContract;
 use Plenty\Plugin\Controller;
-use Plenty\Plugin\Log\Loggable;
-
 use Plenty\Modules\Basket\Contracts\BasketRepositoryContract;
 
+/**
+ * Basket Controller class
+ */
 class BasketController extends Controller
 {
-
-    use Loggable;
-
+    /**
+     * @return false|string
+     */
     public function getBasketValue(){
-
-        // Only Ajax Request
-
         $basket_repo = pluginApp(BasketRepositoryContract::class);
         $basket_items_repo = pluginApp(BasketItemRepositoryContract::class);
 
@@ -43,6 +35,11 @@ class BasketController extends Controller
         return json_encode($return);
     }
 
+    /**
+     * @param $return
+     * @param $basketItems
+     * @return mixed
+     */
     private function loadExtraPoints($return, $basketItems) {
         $config_helper = pluginApp(ConfigHelper::class);
         $orderHelper = pluginApp(OrderHelper::class);
@@ -80,17 +77,15 @@ class BasketController extends Controller
     }
 
 
-
+    /**
+     * @return false|string
+     */
     public function getBasket()
     {
-
-        // Only Ajax Request
         $basket_repo = pluginApp(BasketRepositoryContract::class);
         $customer_cart = $basket_repo->load();
         $return = ['status' => 'OK', 'customer_cart' => $customer_cart];
 
         return json_encode($return);
-
     }
-
 }

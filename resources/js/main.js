@@ -25,14 +25,12 @@ function unRegisterMe(_obj) {
 
             if (data.status === "OK") {
                 location.reload();
-                console.log('done');
             } else {
                 $(_obj).attr('disabled' , false);
                 alert(data.message);
             }
         } catch (error) {
             $(_obj).attr('disabled' , false);
-            console.log(error);
         }
 
     }).fail(function (data) {
@@ -80,7 +78,6 @@ function mergeAccountButton(_obj){
             }
         } catch (error) {
             $(_obj).attr('disabled' , false);
-            console.log(error);
         }
 
     }).fail(function (data) {
@@ -246,7 +243,6 @@ async function redeemPoints(pointsToRedeem, pointToValue) {
         cache: true,
         async: false
     }).done(function (response) {
-        console.log(response)
         if (response.status === 'ERROR') {
             showResponse(response.message);
         } else {
@@ -255,7 +251,6 @@ async function redeemPoints(pointsToRedeem, pointToValue) {
 
         return response;
     }).fail(function (data) {
-        console.log(data)
         return data;
     });
 }

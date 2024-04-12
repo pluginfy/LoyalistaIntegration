@@ -12,12 +12,16 @@ use LoyalistaIntegration\Helpers\ConfigHelper;
 use LoyalistaIntegration\Helpers\CouponHelper;
 
 use Plenty\Plugin\Http\Request;
-use Plenty\Plugin\Log\Loggable;
 
+/**
+ * Checkout COntroller Class
+ */
 class CheckoutController extends Controller
 {
-    use Loggable;
-
+    /**
+     * @param Request $request
+     * @return array|false|string|string[]
+     */
     public function createCoupon(Request $request)
     {
         $basketRepo = pluginApp(BasketRepositoryContract::class);
@@ -61,8 +65,6 @@ class CheckoutController extends Controller
 
         $couponValue = floatval($point_to_redeem * $one_point_to_value);
         $campaign = $couponHelper->createNewCampaign($contact, $couponValue);
-        $this->getLogger(__FUNCTION__)->error('LoyalistaCampaign', ['campaign'=> $campaign, 'campaign_codes'=> $campaign->codes, 'campaign_references'=> $campaign->references]);
-
         if(!$campaign) {
             return ['status' => 'ERROR', 'message' => 'No coupon campaign is created!'];
         }
@@ -89,6 +91,9 @@ class CheckoutController extends Controller
         return json_encode($response);
     }
 
+    /**
+     * @return void
+     */
     public function revertUnusedPoints()
     {
         $api = pluginApp(LoyalistaApiService::class);

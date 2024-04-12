@@ -3,10 +3,6 @@ namespace LoyalistaIntegration\Contracts;
 
 use LoyalistaIntegration\Models\OrderSynced;
 
-/**
- * Class ToDoRepositoryContract
- * @package ToDoList\Contracts
- */
 interface OrderSyncedRepositoryContract
 {
 
